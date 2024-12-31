@@ -17,7 +17,7 @@ Surfrider Foundation San Luis Obispo (SLO) is a local chapter of the larger Surf
 
 ### Team
 
-The Surfrider team consists of {#} Cal Poly students. Over the course of about 9 months, we worked as a team to deploy this web application. The team members are listed below:
+The Surfrider team consists of 15 Cal Poly students. Over the course of about 9 months, we worked as a team to deploy this web application. The team members are listed below:
 
 - [Sanjana Checker](https://www.linkedin.com/in/sanjanachecker/) - Project Manager
 - [Ryan Hu](https://www.linkedin.com/in/ryan-hu/) - Tech Lead
