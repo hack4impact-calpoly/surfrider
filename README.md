@@ -1,4 +1,4 @@
-# name of non-profit
+# Surfrider
 
 A web app for visualizing the environmental, economic, and societal benefits of renewable energy adoption.
 
