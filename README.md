@@ -22,7 +22,10 @@ The Surfrider team consists of {#} Cal Poly students. Over the course of about 9
 - [Sanjana Checker](https://www.linkedin.com/in/sanjanachecker/) - Project Manager
 - [Ryan Hu](https://www.linkedin.com/in/ryan-hu/) - Tech Lead
 - [Ryan Chan](https://www.linkedin.com/in/ryan-chan7/) - Tech Lead
-- [First Last](https://www.linkedin.com/) - Designer
+- [Jake Eichenseer](https://www.linkedin.com/) - Designer
+- [Fionn Kha](https://www.linkedin.com/) - Designer
+- [Haixin H](https://www.linkedin.com/) - Designer
+- [Edrick Wong](https://www.linkedin.com/) - Designer
 - [First Last](https://www.linkedin.com/) - Software Developer
 
 ## Getting Started And Contributing
