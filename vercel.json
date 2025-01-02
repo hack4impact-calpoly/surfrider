@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/egrid",
+      "schedule": "0 17 * * 5"
+    }
+  ]
+}
