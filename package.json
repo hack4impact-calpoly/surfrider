@@ -13,7 +13,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "mathjs": "^14",
+    "mathjs": "^14.0.1",
     "mongoose": "^8",
     "next": "^14",
     "react": "^18",
