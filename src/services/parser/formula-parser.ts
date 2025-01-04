@@ -11,38 +11,24 @@ type Formula = {
   sources: string[];
   expression: string;
   unit: string;
-  setupScope: (formulaParser: FormulaParser) => void;
+  setupScope<T extends Record<string, number>>(parser: FormulaParser<T>): void;
   dependencies: string[];
 };
 
-// TODO: replace with API input type
-type Input = {
-  installedCapacity: number;
-  // TODO: replace with PowerPlantClass enum once defined
-  powerPlantClass: number;
-  // TODO: replace with eGRID Location enum once defined
-  location: number;
-  capacityFactor: number;
-  population2070: number;
-  startYear: number;
-  lifetimeYears: number;
-  yearOfStudy: number;
-};
-
-export class FormulaParser {
+export class FormulaParser<T extends Record<string, number>> {
   private formulas: Map<FormulaId, Formula>;
   private formulaAdj: Map<FormulaId, FormulaId[]>;
   private formulaInDeg: Map<FormulaId, number>;
   private parser: Parser;
 
-  constructor(input: Input) {
+  constructor(inputVariables: T) {
     this.formulas = new Map();
     this.formulaAdj = new Map();
     this.formulaInDeg = new Map();
     this.parser = parser();
 
-    Object.keys(input).forEach((key) => {
-      this.addVariable(key, input[key as keyof Input]);
+    Object.keys(inputVariables).forEach((key) => {
+      this.addVariable(key, inputVariables[key as keyof T]);
     });
   }
 
