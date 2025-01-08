@@ -3,7 +3,7 @@ import { parser, Parser } from "mathjs";
 // TODO: replace with formula schema types
 type FormulaId = string;
 
-type Formula = {
+export type Formula = {
   id: FormulaId;
   name: string;
   explanation: string;
@@ -16,8 +16,11 @@ type Formula = {
 };
 
 export class FormulaParser<T extends Record<string, number>> {
+  // map of formula id to formula object
   private formulas: Map<FormulaId, Formula>;
+  // map of formula id to list of formula ids that depend on it
   private formulaAdj: Map<FormulaId, FormulaId[]>;
+  // map of formula id to number of formulas it depends on
   private formulaInDeg: Map<FormulaId, number>;
   private parser: Parser;
 
@@ -27,9 +30,16 @@ export class FormulaParser<T extends Record<string, number>> {
     this.formulaInDeg = new Map();
     this.parser = parser();
 
+    // initialize input variables in the parser
     Object.keys(inputVariables).forEach((key) => {
       this.addVariable(key, inputVariables[key as keyof T]);
     });
+  }
+
+  private validateFormulaDependencies(): boolean {
+    return Array.from(this.formulas.values()).every((formula) =>
+      formula.dependencies.every((dependency) => this.formulas.has(dependency)),
+    );
   }
 
   private buildTopologicalOrder(): Formula[] {
@@ -68,7 +78,15 @@ export class FormulaParser<T extends Record<string, number>> {
     return formulaOrder;
   }
 
-  parse(): number {
+  evaluate(): number {
+    if (this.formulas.size === 0) {
+      throw new Error("No formulas to evaluate");
+    }
+
+    if (!this.validateFormulaDependencies()) {
+      throw new Error("Invalid formula dependencies detected");
+    }
+
     const formulaOrder = this.buildTopologicalOrder();
 
     // setup scope and evaluate formulas in topological order
@@ -79,10 +97,15 @@ export class FormulaParser<T extends Record<string, number>> {
     });
 
     // return last formula value
+    console.log(this.getAllVariables());
     return this.getVariable(formulaOrder[formulaOrder.length - 1].id);
   }
 
   addFormula(formula: Formula): void {
+    if (this.formulas.has(formula.id)) {
+      throw new Error(`Formula with id ${formula.id} already exists`);
+    }
+
     this.formulas.set(formula.id, formula);
 
     // update adjacency list and in-degrees
@@ -95,27 +118,37 @@ export class FormulaParser<T extends Record<string, number>> {
     });
   }
 
-  getFormula(id: FormulaId): Formula | undefined {
-    return this.formulas.get(id);
+  getFormula(id: FormulaId): Formula {
+    const formula = this.formulas.get(id);
+    if (!formula) {
+      throw new Error(`Formula with id ${id} not found`);
+    }
+
+    return formula;
   }
 
-  getFormulas(): Formula[] {
+  getAllFormulas(): Formula[] {
     return Array.from(this.formulas.values());
   }
 
-  addVariable(name: string, value: number): void {
+  addVariable(name: string, value: number | (() => number)): void {
+    if (!!this.parser.get(name)) {
+      throw new Error(`Variable with name ${name} already exists`);
+    }
+
     this.parser.set(name, value);
   }
 
-  addCallbackVariable(name: string, callback: () => number): void {
-    this.parser.set(name, callback);
-  }
-
   getVariable(name: string): number {
+    const value = this.parser.get(name);
+    if (!value) {
+      throw new Error(`Variable with name ${name} not found`);
+    }
+
     return this.parser.get(name);
   }
 
-  getVariables(): Map<string, number> {
+  getAllVariables(): Map<string, number> {
     return this.parser.getAllAsMap();
   }
 }
