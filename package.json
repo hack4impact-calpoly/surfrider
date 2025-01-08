@@ -9,7 +9,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
-    "test": "echo 'Install jest (or another unit test suite) to use this command.'",
+    "test": "jest --coverage",
     "prepare": "husky"
   },
   "dependencies": {
@@ -21,6 +21,10 @@
     "zod": "^3"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -29,8 +33,12 @@
     "eslint-config-prettier": "^9",
     "eslint-plugin-prettier": "^5",
     "husky": "^9",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15",
     "prettier": "^3",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
