@@ -1,4 +1,4 @@
-import { Formula } from "@/utils/formula_parser";
+import { Formula } from "@/utils/formula-parser";
 
 export const MOCK_INPUT_VARIABLES = {
   a: 3,
