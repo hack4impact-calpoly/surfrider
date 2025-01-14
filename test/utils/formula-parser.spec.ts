@@ -5,6 +5,7 @@ import {
   MOCK_FORMULAS,
   MOCK_FORMULAS_EXTENDED,
   MOCK_FORMULAS_WITH_CYCLE,
+  MOCK_FORMULAS_WITH_SCOPE_CALLBACK,
   MOCK_FORMULAS_WITH_UNKNOWN_DEPENDENCY,
   MOCK_INPUT_VARIABLES,
 } from "../mocks/formula-mocks";
@@ -134,6 +135,15 @@ describe("Formula parser", () => {
       const result = parser.evaluate();
 
       expect(result).toEqual(351);
+    });
+
+    it("should evaluate formula with scope callback", () => {
+      const parser = new FormulaParser(MOCK_INPUT_VARIABLES);
+      MOCK_FORMULAS_WITH_SCOPE_CALLBACK.forEach((formula) => parser.addFormula(formula));
+
+      const result = parser.evaluate();
+
+      expect(result).toEqual(46);
     });
 
     it("should throw if no formulas are added", () => {

@@ -48,6 +48,19 @@ export const MOCK_FORMULAS_EXTENDED = [
   },
 ] as unknown as Formula[];
 
+export const MOCK_FORMULAS_WITH_SCOPE_CALLBACK = [
+  ...MOCK_FORMULAS,
+  {
+    id: "formula_4",
+    name: "Test formula 4",
+    expression: "formula_1 + d",
+    setupScope: (addVariable: Function) => {
+      addVariable("d", 5);
+    },
+    dependencies: ["formula_1"],
+  },
+] as unknown as Formula[];
+
 export const MOCK_FORMULAS_WITH_UNKNOWN_DEPENDENCY = [
   {
     id: "formula_1",

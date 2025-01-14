@@ -11,7 +11,7 @@ export type Formula = {
   sources: string[];
   expression: string;
   unit: string;
-  setupScope<T extends Record<string, number>>(parser: FormulaParser<T>): void;
+  setupScope(addVariable: (name: string, value: number | (() => number)) => void): void;
   dependencies: string[];
 };
 
@@ -91,7 +91,7 @@ export class FormulaParser<T extends Record<string, number>> {
 
     // setup scope and evaluate formulas in topological order
     formulaOrder.forEach((formula) => {
-      formula.setupScope(this);
+      formula.setupScope(this.addVariable.bind(this));
       const value = this.parser.evaluate(formula.expression);
       this.addVariable(formula.id, value);
     });
