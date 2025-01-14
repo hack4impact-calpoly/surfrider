@@ -97,7 +97,6 @@ export class FormulaParser<T extends Record<string, number>> {
     });
 
     // return last formula value
-    console.log(this.getAllVariables());
     return this.getVariable(formulaOrder[formulaOrder.length - 1].id);
   }
 
