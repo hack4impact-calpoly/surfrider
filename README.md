@@ -26,7 +26,7 @@ The Surfrider team consists of 15 Cal Poly students. Over the course of about 9 
 - [Fionn Kha](https://www.linkedin.com/) - Designer
 - [Haixin H](https://www.linkedin.com/) - Designer
 - [Edrick Wong](https://www.linkedin.com/) - Designer
-- [First Last](https://www.linkedin.com/) - Software Developer
+- [Nickaan Jahadi](https://www.linkedin.com/in/nickaanjahadi2410/) - Software Developer
 
 ## Getting Started And Contributing
 
