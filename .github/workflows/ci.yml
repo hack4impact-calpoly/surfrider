@@ -1,4 +1,9 @@
-name: ci
+name: CI Workflow
+
+# Top-level permissions
+permissions:
+  # Allows the workflow to read the repository contents
+  contents: read
 
 # Controls when the workflow will run
 on:
