@@ -17,9 +17,7 @@ export default function LindsayMinami() {
         Button
       </Button>
       <br />
-      <p>
-        <b>Total Clicks:</b> {counter}
-      </p>
+      <p>Total Clicks: {counter}</p>
     </div>
   );
 }
