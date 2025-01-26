@@ -4,167 +4,167 @@ const EgridSchema = new Schema(
   {
     year: { type: Number, required: true },
     location: { type: String, required: true }, //US, subregion, or state
-    nameplate_capacity_mw: { type: Number }, //megawatts
-    annual_heat_input_mmbtu: { type: Number }, //metric million British thermal units
-    ozone_season_heat_input_mmbtu: { type: Number }, //metric million British thermal units
-    total_annual_heat_input_mmbtu: { type: Number }, //metric million British thermal units
-    total_ozone_season_heat_input_mmbtu: { type: Number }, //metric million British thermal units
-    annual_net_generation_mwh: { type: Number }, //megawatt hours
-    ozone_season_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nox_emissions_tons: { type: Number }, //tons
-    ozone_season_nox_emissions_tons: { type: Number }, //tons
-    annual_so2_emissions_tons: { type: Number }, //tons
-    annual_co2_emissions_tons: { type: Number }, //tons
-    annual_ch4_emissions_lbs: { type: Number }, //pounds
-    annual_n2o_emissions_lbs: { type: Number }, //pounds
-    annual_co2_equivalent_emissions_tons: { type: Number }, //tons
-    annual_hg_emissions_lbs: { type: Number }, //pounds
-    annual_nox_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    ozone_season_nox_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_so2_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_ch4_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_n2o_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_equivalent_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_hg_total_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_nox_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    ozone_season_nox_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_so2_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_ch4_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_n2o_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_equivalent_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_hg_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_nox_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    ozone_season_nox_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_so2_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_ch4_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_n2o_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_equivalent_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_hg_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_nox_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_nox_oil_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_nox_gas_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_nox_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    ozone_season_nox_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    ozone_season_nox_oil_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    ozone_season_nox_gas_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    ozone_season_nox_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_so2_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_so2_oil_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_so2_gas_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_so2_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_oil_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_gas_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_ch4_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_ch4_oil_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_ch4_gas_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_ch4_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_n2o_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_n2o_oil_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_n2o_gas_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_n2o_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_equivalent_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_equivalent_oil_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_equivalent_gas_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_equivalent_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_hg_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_hg_fossil_fuel_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_nox_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_nox_oil_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_nox_gas_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_nox_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    ozone_season_nox_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    ozone_season_nox_oil_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    ozone_season_nox_gas_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    ozone_season_nox_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_so2_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_so2_oil_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_so2_gas_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_so2_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_oil_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_gas_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_ch4_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_ch4_oil_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_ch4_gas_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_ch4_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_n2o_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_n2o_oil_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_n2o_gas_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_n2o_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_equivalent_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_equivalent_oil_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_equivalent_gas_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_co2_equivalent_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_hg_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_hg_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-    annual_nox_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    ozone_season_nox_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_so2_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_ch4_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_n2o_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_co2_equivalent_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_hg_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-    annual_coal_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_oil_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_gas_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nuclear_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_hydro_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_biomass_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_wind_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_solar_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_geothermal_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_other_fossil_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_other_unknown_purchased_fuel_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_total_nonrenewables_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_total_renewables_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_total_nonhydro_renewables_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_total_combustion_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_total_noncombustion_net_generation_mwh: { type: Number }, //megawatt hours
-    coal_generation_percent_resource_mix: { type: Number }, //percent
-    oil_generation_percent_resource_mix: { type: Number }, //percent
-    gas_generation_percent_resource_mix: { type: Number }, //percent
-    nuclear_generation_percent_resource_mix: { type: Number }, //percent
-    hydro_generation_percent_resource_mix: { type: Number }, //percent
-    biomass_generation_percent_resource_mix: { type: Number }, //percent
-    wind_generation_percent_resource_mix: { type: Number }, //percent
-    solar_generation_percent_resource_mix: { type: Number }, //percent
-    geothermal_generation_percent_resource_mix: { type: Number }, //percent
-    other_fossil_generation_percent_resource_mix: { type: Number }, //percent
-    other_unknown_purchased_fuel_generation_percent_resource_mix: { type: Number }, //percent
-    total_nonrenewables_generation_percent_resource_mix: { type: Number }, //percent
-    total_renewables_generation_percent_resource_mix: { type: Number }, //percent
-    total_nonhydro_renewables_generation_percent_resource_mix: { type: Number }, //percent
-    total_combustion_generation_percent_resource_mix: { type: Number }, //percent
-    total_noncombustion_generation_percent_resource_mix: { type: Number }, //percent
-    annual_nonbaseload_coal_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_oil_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_gas_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_nuclear_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_hydro_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_biomass_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_wind_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_solar_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_geothermal_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_other_fossil_net_generation_mwh: { type: Number }, //megawatt hours
-    annual_nonbaseload_other_unknown_purchased_fuel_net_generation_mwh: { type: Number }, //megawatt hours
-    nonbaseload_coal_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_oil_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_gas_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_nuclear_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_hydro_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_biomass_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_wind_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_solar_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_geothermal_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_other_fossil_generation_percent_resource_mix: { type: Number }, //percent
-    nonbaseload_other_unknown_purcased_fuel_generation_percent_resource_mix: { type: Number }, //percent
+    nameplateCapacityMw: { type: Number }, //megawatts
+    annualHeatInputMmbtu: { type: Number }, //metric million British thermal units
+    ozoneSeasonHeatInputMmbtu: { type: Number }, //metric million British thermal units
+    totalAnnualHeatInputMmbtu: { type: Number }, //metric million British thermal units
+    totalOzoneSeasonHeatInputMmbtu: { type: Number }, //metric million British thermal units
+    annualNetGenerationMwh: { type: Number }, //megawatt hours
+    ozoneSeasonNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNoxEmissionsTons: { type: Number }, //tons
+    ozoneSeasonNoxEmissionsTons: { type: Number }, //tons
+    annualSo2EmissionsTons: { type: Number }, //tons
+    annualCo2EmissionsTons: { type: Number }, //tons
+    annualCh4EmissionsLbs: { type: Number }, //pounds
+    annualN2oEmissionsLbs: { type: Number }, //pounds
+    annualCo2EquivalentEmissionsTons: { type: Number }, //tons
+    annualHgEmissionsLbs: { type: Number }, //pounds
+    annualNoxTotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    ozoneSeasonNoxTotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualSo2TotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2TotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCh4TotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualN2oTotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2EquivalentTotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualHgTotalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualNoxInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    ozoneSeasonNoxInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualSo2InputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2InputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCh4InputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualN2oInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2EquivalentInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualHgInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualNoxCombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    ozoneSeasonNoxCombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualSo2CombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2CombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCh4CombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualN2oCombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2EquivalentCombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualHgCombustionOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualNoxCoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualNoxOilOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualNoxGasOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualNoxFossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    ozoneSeasonNoxCoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    ozoneSeasonNoxOilOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    ozoneSeasonNoxGasOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    ozoneSeasonNoxFossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualSo2CoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualSo2OilOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualSo2GasOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualSo2FossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2CoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2OilOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2GasOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2FossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCh4CoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCh4OilOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCh4GasOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCh4FossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualN2oCoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualN2oOilOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualN2oGasOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualN2oFossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2EquivalentCoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2EquivalentOilOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2EquivalentGasOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2EquivalentFossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualHgCoalOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualHgFossilFuelOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualNoxCoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualNoxOilInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualNoxGasInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualNoxFossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    ozoneSeasonNoxCoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    ozoneSeasonNoxOilInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    ozoneSeasonNoxGasInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    ozoneSeasonNoxFossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualSo2CoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualSo2OilInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualSo2GasInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualSo2FossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2CoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2OilInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2GasInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2FossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCh4CoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCh4OilInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCh4GasInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCh4FossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualN2oCoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualN2oOilInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualN2oGasInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualN2oFossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2EquivalentCoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2EquivalentOilInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2EquivalentGasInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualCo2EquivalentFossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualHgCoalInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualHgFossilFuelInputEmissionRateLbMmbtu: { type: Number }, //pound per metric million British thermal units
+    annualNoxNonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    ozoneSeasonNoxNonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualSo2NonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2NonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCh4NonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualN2oNonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCo2EquivalentNonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualHgNonbaseloadOutputEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
+    annualCoalNetGenerationMwh: { type: Number }, //megawatt hours
+    annualOilNetGenerationMwh: { type: Number }, //megawatt hours
+    annualGasNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNuclearNetGenerationMwh: { type: Number }, //megawatt hours
+    annualHydroNetGenerationMwh: { type: Number }, //megawatt hours
+    annualBiomassNetGenerationMwh: { type: Number }, //megawatt hours
+    annualWindNetGenerationMwh: { type: Number }, //megawatt hours
+    annualSolarNetGenerationMwh: { type: Number }, //megawatt hours
+    annualGeothermalNetGenerationMwh: { type: Number }, //megawatt hours
+    annualOtherFossilNetGenerationMwh: { type: Number }, //megawatt hours
+    annualOtherUnknownPurchasedFuelNetGenerationMwh: { type: Number }, //megawatt hours
+    annualTotalNonrenewablesNetGenerationMwh: { type: Number }, //megawatt hours
+    annualTotalRenewablesNetGenerationMwh: { type: Number }, //megawatt hours
+    annualTotalNonhydroRenewablesNetGenerationMwh: { type: Number }, //megawatt hours
+    annualTotalCombustionNetGenerationMwh: { type: Number }, //megawatt hours
+    annualTotalNoncombustionNetGenerationMwh: { type: Number }, //megawatt hours
+    coalGenerationPercentResourceMix: { type: Number }, //percent
+    oilGenerationPercentResourceMix: { type: Number }, //percent
+    gasGenerationPercentResourceMix: { type: Number }, //percent
+    nuclearGenerationPercentResourceMix: { type: Number }, //percent
+    hydroGenerationPercentResourceMix: { type: Number }, //percent
+    biomassGenerationPercentResourceMix: { type: Number }, //percent
+    windGenerationPercentResourceMix: { type: Number }, //percent
+    solarGenerationPercentResourceMix: { type: Number }, //percent
+    geothermalGenerationPercentResourceMix: { type: Number }, //percent
+    otherFossilGenerationPercentResourceMix: { type: Number }, //percent
+    otherUnknownPurchasedFuelGenerationPercentResourceMix: { type: Number }, //percent
+    totalNonrenewablesGenerationPercentResourceMix: { type: Number }, //percent
+    totalRenewablesGenerationPercentResourceMix: { type: Number }, //percent
+    totalNonhydroRenewablesGenerationPercentResourceMix: { type: Number }, //percent
+    totalCombustionGenerationPercentResourceMix: { type: Number }, //percent
+    totalNoncombustionGenerationPercentResourceMix: { type: Number }, //percent
+    annualNonbaseloadCoalNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadOilNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadGasNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadNuclearNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadHydroNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadBiomassNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadWindNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadSolarNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadGeothermalNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadOtherFossilNetGenerationMwh: { type: Number }, //megawatt hours
+    annualNonbaseloadOtherUnknownPurchasedFuelNetGenerationMwh: { type: Number }, //megawatt hours
+    nonbaseloadCoalGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadOilGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadGasGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadNuclearGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadHydroGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadBiomassGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadWindGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadSolarGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadGeothermalGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadOtherFossilGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadOtherUnknownPurcasedFuelGenerationPercentResourceMix: { type: Number }, //percent
   },
   { collection: "surfrider-egrid" },
 );
