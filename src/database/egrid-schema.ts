@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const EgridSchema = new Schema({
   year: { type: Number, required: true },
-  location: { type: String, required: true, unique: true }, //US, subregion, or state
+  location: { type: String, required: true }, //US, subregion, or state
   nameplate_capacity_mw: { type: Number }, //megawatts
   annual_heat_input_mmbtu: { type: Number }, //metric million British thermal units
   ozone_season_heat_input_mmbtu: { type: Number }, //metric million British thermal units
@@ -39,7 +39,7 @@ const EgridSchema = new Schema({
   annual_so2_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
   annual_co2_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
   annual_ch4_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
-  annual_no2_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_n2o_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
   annual_co2_equivalent_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
   annual_hg_combustion_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
   annual_nox_coal_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
@@ -102,6 +102,68 @@ const EgridSchema = new Schema({
   annual_co2_equivalent_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
   annual_hg_coal_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
   annual_hg_fossil_fuel_input_emission_rate_lb_mmbtu: { type: Number }, //pound per metric million British thermal units
-});
+  annual_nox_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  ozone_season_nox_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_so2_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_co2_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_ch4_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_n2o_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_co2_equivalent_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_hg_nonbaseload_output_emission_rate_lb_mwh: { type: Number }, //pound per megawatt hour
+  annual_coal_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_oil_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_gas_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nuclear_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_hydro_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_biomass_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_wind_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_solar_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_geothermal_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_other_fossil_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_other_unknown_purchased_fuel_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_total_nonrenewables_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_total_renewables_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_total_nonhydro_renewables_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_total_combustion_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_total_noncombustion_net_generation_mwh: { type: Number }, //megawatt hours
+  coal_generation_percent_resource_mix: { type: Number }, //percent
+  oil_generation_percent_resource_mix: { type: Number }, //percent
+  gas_generation_percent_resource_mix: { type: Number }, //percent
+  nuclear_generation_percent_resource_mix: { type: Number }, //percent
+  hydro_generation_percent_resource_mix: { type: Number }, //percent
+  biomass_generation_percent_resource_mix: { type: Number }, //percent
+  wind_generation_percent_resource_mix: { type: Number }, //percent
+  solar_generation_percent_resource_mix: { type: Number }, //percent
+  geothermal_generation_percent_resource_mix: { type: Number }, //percent
+  other_fossil_generation_percent_resource_mix: { type: Number }, //percent
+  other_unknown_purchased_fuel_generation_percent_resource_mix: { type: Number }, //percent
+  total_nonrenewables_generation_percent_resource_mix: { type: Number }, //percent
+  total_renewables_generation_percent_resource_mix: { type: Number }, //percent
+  total_nonhydro_renewables_generation_percent_resource_mix: { type: Number }, //percent
+  total_combustion_generation_percent_resource_mix: { type: Number }, //percent
+  total_noncombustion_generation_percent_resource_mix: { type: Number }, //percent
+  annual_nonbaseload_coal_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_oil_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_gas_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_nuclear_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_hydro_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_biomass_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_wind_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_solar_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_geothermal_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_other_fossil_net_generation_mwh: { type: Number }, //megawatt hours
+  annual_nonbaseload_other_unknown_purchased_fuel_net_generation_mwh: { type: Number }, //megawatt hours
+  nonbaseload_coal_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_oil_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_gas_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_nuclear_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_hydro_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_biomass_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_wind_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_solar_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_geothermal_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_other_fossil_generation_percent_resource_mix: { type: Number }, //percent
+  nonbaseload_other_unknown_purcased_fuel_generation_percent_resource_mix: { type: Number }, //percent
+}, { collection: "surfrider-egrid" });
 
 export default mongoose.models.Egrid || mongoose.model("Egrid", EgridSchema);
