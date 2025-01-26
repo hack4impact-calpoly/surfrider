@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { render, screen, fireEvent } from "@testing-library/react";
 import DannyAM127 from "@/app/DannyAM127/page";
 import "@testing-library/jest-dom";
@@ -11,7 +14,6 @@ describe("DannyAM127", () => {
     expect(button).toHaveTextContent("0");
 
     fireEvent.click(button);
-
     expect(button).toHaveTextContent("1");
 
     fireEvent.click(button);
