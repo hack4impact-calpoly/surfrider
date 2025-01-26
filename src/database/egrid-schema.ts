@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const EgridSchema = new Schema(
+export const EgridSchema = new Schema(
   {
     year: { type: Number, required: true },
     location: { type: String, required: true }, //US, subregion, or state
@@ -169,4 +169,4 @@ const EgridSchema = new Schema(
   { collection: "surfrider-egrid" },
 );
 
-export default mongoose.models.Egrid || mongoose.model("Egrid", EgridSchema);
+export const Egrid = mongoose.model("Egrid", EgridSchema);
