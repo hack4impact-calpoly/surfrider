@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { PowerPlantClass, Location } from "./egrid";
 
-const CalculatorInput = z.object({
+const CalculateInput = z.object({
   installedCapacity: z.number(),
   powerPlantClass: PowerPlantClass,
   location: Location,
@@ -12,4 +12,4 @@ const CalculatorInput = z.object({
   yearOfStudy: z.number(),
 });
 
-export type CalculatorInput = z.infer<typeof CalculatorInput>;
+export type CalculateInput = z.infer<typeof CalculateInput>;
