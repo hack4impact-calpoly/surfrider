@@ -22,10 +22,15 @@ The Surfrider team consists of 15 Cal Poly students. Over the course of about 9 
 - [Sanjana Checker](https://www.linkedin.com/in/sanjanachecker/) - Project Manager
 - [Ryan Hu](https://www.linkedin.com/in/ryan-hu/) - Tech Lead
 - [Ryan Chan](https://www.linkedin.com/in/ryan-chan7/) - Tech Lead
-- [Jake Eichenseer](https://www.linkedin.com/) - Designer
-- [Fionn Kha](https://www.linkedin.com/) - Designer
-- [Haixin H](https://www.linkedin.com/) - Designer
-- [Edrick Wong](https://www.linkedin.com/) - Designer
+- [Jake Eichenseer](https://www.linkedin.com/in/jake-eichenseer/) - Designer
+- [Fionn Kha](https://www.linkedin.com/in/fionnkha/) - Designer
+- [Haixin H](https://www.linkedin.com/in/haixin-huang-116799200/) - Designer
+- [Edrick Wong](https://www.linkedin.com/in/edrick-wong-liang/) - Designer
+- [Nickaan Jahadi](https://www.linkedin.com/in/nickaanjahadi2410/) - Software Developer
+- [Ivan Torriani](https://www.linkedin.com/in/ivan-torriani-3b875a331/) - Software Developer
+- [Isha Varrier](https://www.linkedin.com/in/isha-varrier/) - Software Developer
+- [Shayan Daijavad](https://www.linkedin.com/in/shayan-daijavad-20b21a209/) - Software Developer
+- [Lindsay Minami](https://www.linkedin.com/in/lindsay-minami) - Software Developer
 - [Daniel Miranda](https://www.linkedin.com/in/daniel-miranda-98b568273/) - Software Developer
 
 ## Getting Started And Contributing
