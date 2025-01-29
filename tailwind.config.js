@@ -32,13 +32,6 @@ module.exports = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-        theme: {
-          extend: {
-            colors: {
-              lavender: "#E6E6FA", // Added
-            },
-          },
-        },
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
