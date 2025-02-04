@@ -1,3 +1,4 @@
+/** @jest-environment jsdom */
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Page from "@/app/talia/page";
