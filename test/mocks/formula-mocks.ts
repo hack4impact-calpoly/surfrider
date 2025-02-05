@@ -19,14 +19,14 @@ export const MOCK_FORMULAS = [
     name: "Test formula 2",
     expression: "a * b + c",
     setupScope: jest.fn(),
-    dependencies: [],
+    dependencies: ["a", "b", "c"],
   },
   {
     id: "formula_3",
     name: "Test formula 3",
     expression: "a + b",
     setupScope: jest.fn(),
-    dependencies: [],
+    dependencies: ["a", "b"],
   },
 ] as unknown as Formula[];
 
@@ -44,7 +44,7 @@ export const MOCK_FORMULAS_EXTENDED = [
     name: "Test formula 5",
     expression: "formula_2 * formula_3",
     setupScope: jest.fn(),
-    dependencies: [],
+    dependencies: ["formula_2", "formula_3"],
   },
 ] as unknown as Formula[];
 
@@ -77,13 +77,13 @@ export const MOCK_FORMULAS_WITH_CYCLE = [
     name: "Test formula 1",
     expression: "a + b",
     setupScope: jest.fn(),
-    dependencies: ["formula_2"],
+    dependencies: ["formula_2", "a", "b"],
   },
   {
     id: "formula_2",
     name: "Test formula 2",
     expression: "a * b + c",
     setupScope: jest.fn(),
-    dependencies: ["formula_1"],
+    dependencies: ["formula_1", "a", "b", "c"],
   },
 ] as unknown as Formula[];
