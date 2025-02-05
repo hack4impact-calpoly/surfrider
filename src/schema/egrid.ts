@@ -106,3 +106,13 @@ export const Location = z.enum([
 ]);
 
 export type Location = z.infer<typeof Location>;
+
+/*
+ * EgridRecord Schema
+ */
+export const EgridRecord = z.object({
+  year: z.number().int().min(2000).max(2100), //years: 2000 - 2100
+  location: Location,
+});
+
+export type EgridRecord = z.infer<typeof EgridRecord>;
