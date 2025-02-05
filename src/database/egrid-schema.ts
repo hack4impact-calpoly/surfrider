@@ -170,3 +170,5 @@ export const EgridSchema = new Schema(
 );
 
 export const EgridModel = mongoose.model("Egrid", EgridSchema);
+
+EgridSchema.index({ key: 1, location: 1 });
