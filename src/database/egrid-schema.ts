@@ -169,4 +169,6 @@ export const EgridSchema = new Schema(
   { collection: "surfrider-egrid" },
 );
 
+EgridSchema.index({ year: 1, location: 1 });
+
 export const EgridModel = mongoose.model("Egrid", EgridSchema);
