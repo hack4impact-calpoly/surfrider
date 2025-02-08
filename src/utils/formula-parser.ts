@@ -37,8 +37,9 @@ export class FormulaParser<T extends Record<string, number>> {
   }
 
   private validateFormulaDependencies(): boolean {
+    const inputVariables = this.getAllVariables();
     return Array.from(this.formulas.values()).every((formula) =>
-      formula.dependencies.every((dependency) => this.formulas.has(dependency)),
+      formula.dependencies.every((dependency) => this.formulas.has(dependency) || inputVariables.has(dependency)),
     );
   }
 
@@ -109,6 +110,12 @@ export class FormulaParser<T extends Record<string, number>> {
 
     // update adjacency list and in-degrees
     formula.dependencies.forEach((dependency) => {
+      // at this point, getAllVariables only includes the input variables, as we don't add formulas as variables until evaluation
+      // If the dependency is an input variable, don't include it in our adjacency graph
+      if (this.getAllVariables().has(dependency)) {
+        return;
+      }
+
       if (!this.formulaAdj.has(dependency)) {
         this.formulaAdj.set(dependency, []);
       }
