@@ -11,7 +11,6 @@ export const PowerPlantClass = z.enum([
   "PortfolioEE",
   "UniformEE",
 ]);
-
 export type PowerPlantClass = z.infer<typeof PowerPlantClass>;
 
 /**
@@ -20,7 +19,6 @@ export type PowerPlantClass = z.infer<typeof PowerPlantClass>;
 export const Location = z.enum([
   // Country
   "US",
-
   // Subregion
   "AKGD",
   "AKMS",
@@ -49,7 +47,6 @@ export const Location = z.enum([
   "SRSO",
   "SRTV",
   "SRVC",
-
   // State
   "AK",
   "AL",
@@ -104,15 +101,208 @@ export const Location = z.enum([
   "WV",
   "WY",
 ]);
-
 export type Location = z.infer<typeof Location>;
 
-/*
- * EgridRecord Schema
+/**
+ * Key fields that uniquely identify an eGRID record
  */
-export const EgridRecord = z.object({
-  year: z.number().int().min(2000).max(2100), //years: 2000 - 2100
+export const EgridRecordKey = z.object({
+  year: z.number().int().min(2000).max(2100), // years: 2000 - 2100
   location: Location,
 });
 
+/**
+ * Data fields for an eGRID record
+ */
+export const EgridRecordData = z.object({
+  // Capacity and Heat Input
+  nameplateCapacityMw: z.number().optional(),
+  annualHeatInputMmbtu: z.number().optional(),
+  ozoneSeasonHeatInputMmbtu: z.number().optional(),
+  totalAnnualHeatInputMmbtu: z.number().optional(),
+  totalOzoneSeasonHeatInputMmbtu: z.number().optional(),
+
+  // Generation
+  annualNetGenerationMwh: z.number().optional(),
+  ozoneSeasonNetGenerationMwh: z.number().optional(),
+
+  // Emissions
+  annualNoxEmissionsTons: z.number().optional(),
+  ozoneSeasonNoxEmissionsTons: z.number().optional(),
+  annualSo2EmissionsTons: z.number().optional(),
+  annualCo2EmissionsTons: z.number().optional(),
+  annualCh4EmissionsLbs: z.number().optional(),
+  annualN2oEmissionsLbs: z.number().optional(),
+  annualCo2EquivalentEmissionsTons: z.number().optional(),
+  annualHgEmissionsLbs: z.number().optional(),
+
+  // Total Output Emission Rates
+  annualNoxTotalOutputEmissionRateLbMwh: z.number().optional(),
+  ozoneSeasonNoxTotalOutputEmissionRateLbMwh: z.number().optional(),
+  annualSo2TotalOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2TotalOutputEmissionRateLbMwh: z.number().optional(),
+  annualCh4TotalOutputEmissionRateLbMwh: z.number().optional(),
+  annualN2oTotalOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2EquivalentTotalOutputEmissionRateLbMwh: z.number().optional(),
+  annualHgTotalOutputEmissionRateLbMwh: z.number().optional(),
+
+  // Input Emission Rates
+  annualNoxInputEmissionRateLbMmbtu: z.number().optional(),
+  ozoneSeasonNoxInputEmissionRateLbMmbtu: z.number().optional(),
+  annualSo2InputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2InputEmissionRateLbMmbtu: z.number().optional(),
+  annualCh4InputEmissionRateLbMmbtu: z.number().optional(),
+  annualN2oInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2EquivalentInputEmissionRateLbMmbtu: z.number().optional(),
+  annualHgInputEmissionRateLbMmbtu: z.number().optional(),
+
+  // Combustion Output Emission Rates
+  annualNoxCombustionOutputEmissionRateLbMwh: z.number().optional(),
+  ozoneSeasonNoxCombustionOutputEmissionRateLbMwh: z.number().optional(),
+  annualSo2CombustionOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2CombustionOutputEmissionRateLbMwh: z.number().optional(),
+  annualCh4CombustionOutputEmissionRateLbMwh: z.number().optional(),
+  annualN2oCombustionOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2EquivalentCombustionOutputEmissionRateLbMwh: z.number().optional(),
+  annualHgCombustionOutputEmissionRateLbMwh: z.number().optional(),
+
+  // Fuel-specific Output Emission Rates
+  annualNoxCoalOutputEmissionRateLbMwh: z.number().optional(),
+  annualNoxOilOutputEmissionRateLbMwh: z.number().optional(),
+  annualNoxGasOutputEmissionRateLbMwh: z.number().optional(),
+  annualNoxFossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+  ozoneSeasonNoxCoalOutputEmissionRateLbMwh: z.number().optional(),
+  ozoneSeasonNoxOilOutputEmissionRateLbMwh: z.number().optional(),
+  ozoneSeasonNoxGasOutputEmissionRateLbMwh: z.number().optional(),
+  ozoneSeasonNoxFossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+  annualSo2CoalOutputEmissionRateLbMwh: z.number().optional(),
+  annualSo2OilOutputEmissionRateLbMwh: z.number().optional(),
+  annualSo2GasOutputEmissionRateLbMwh: z.number().optional(),
+  annualSo2FossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2CoalOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2OilOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2GasOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2FossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+  annualCh4CoalOutputEmissionRateLbMwh: z.number().optional(),
+  annualCh4OilOutputEmissionRateLbMwh: z.number().optional(),
+  annualCh4GasOutputEmissionRateLbMwh: z.number().optional(),
+  annualCh4FossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+  annualN2oCoalOutputEmissionRateLbMwh: z.number().optional(),
+  annualN2oOilOutputEmissionRateLbMwh: z.number().optional(),
+  annualN2oGasOutputEmissionRateLbMwh: z.number().optional(),
+  annualN2oFossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2EquivalentCoalOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2EquivalentOilOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2EquivalentGasOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2EquivalentFossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+  annualHgCoalOutputEmissionRateLbMwh: z.number().optional(),
+  annualHgFossilFuelOutputEmissionRateLbMwh: z.number().optional(),
+
+  // Fuel-specific Input Emission Rates
+  annualNoxCoalInputEmissionRateLbMmbtu: z.number().optional(),
+  annualNoxOilInputEmissionRateLbMmbtu: z.number().optional(),
+  annualNoxGasInputEmissionRateLbMmbtu: z.number().optional(),
+  annualNoxFossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+  ozoneSeasonNoxCoalInputEmissionRateLbMmbtu: z.number().optional(),
+  ozoneSeasonNoxOilInputEmissionRateLbMmbtu: z.number().optional(),
+  ozoneSeasonNoxGasInputEmissionRateLbMmbtu: z.number().optional(),
+  ozoneSeasonNoxFossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+  annualSo2CoalInputEmissionRateLbMmbtu: z.number().optional(),
+  annualSo2OilInputEmissionRateLbMmbtu: z.number().optional(),
+  annualSo2GasInputEmissionRateLbMmbtu: z.number().optional(),
+  annualSo2FossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2CoalInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2OilInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2GasInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2FossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCh4CoalInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCh4OilInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCh4GasInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCh4FossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+  annualN2oCoalInputEmissionRateLbMmbtu: z.number().optional(),
+  annualN2oOilInputEmissionRateLbMmbtu: z.number().optional(),
+  annualN2oGasInputEmissionRateLbMmbtu: z.number().optional(),
+  annualN2oFossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2EquivalentCoalInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2EquivalentOilInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2EquivalentGasInputEmissionRateLbMmbtu: z.number().optional(),
+  annualCo2EquivalentFossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+  annualHgCoalInputEmissionRateLbMmbtu: z.number().optional(),
+  annualHgFossilFuelInputEmissionRateLbMmbtu: z.number().optional(),
+
+  // Nonbaseload Output Emission Rates
+  annualNoxNonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+  ozoneSeasonNoxNonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+  annualSo2NonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2NonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+  annualCh4NonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+  annualN2oNonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+  annualCo2EquivalentNonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+  annualHgNonbaseloadOutputEmissionRateLbMwh: z.number().optional(),
+
+  // Generation by Fuel Type
+  annualCoalNetGenerationMwh: z.number().optional(),
+  annualOilNetGenerationMwh: z.number().optional(),
+  annualGasNetGenerationMwh: z.number().optional(),
+  annualNuclearNetGenerationMwh: z.number().optional(),
+  annualHydroNetGenerationMwh: z.number().optional(),
+  annualBiomassNetGenerationMwh: z.number().optional(),
+  annualWindNetGenerationMwh: z.number().optional(),
+  annualSolarNetGenerationMwh: z.number().optional(),
+  annualGeothermalNetGenerationMwh: z.number().optional(),
+  annualOtherFossilNetGenerationMwh: z.number().optional(),
+  annualOtherUnknownPurchasedFuelNetGenerationMwh: z.number().optional(),
+  annualTotalNonrenewablesNetGenerationMwh: z.number().optional(),
+  annualTotalRenewablesNetGenerationMwh: z.number().optional(),
+  annualTotalNonhydroRenewablesNetGenerationMwh: z.number().optional(),
+  annualTotalCombustionNetGenerationMwh: z.number().optional(),
+  annualTotalNoncombustionNetGenerationMwh: z.number().optional(),
+
+  // Resource Mix Percentages
+  coalGenerationPercentResourceMix: z.number().optional(),
+  oilGenerationPercentResourceMix: z.number().optional(),
+  gasGenerationPercentResourceMix: z.number().optional(),
+  nuclearGenerationPercentResourceMix: z.number().optional(),
+  hydroGenerationPercentResourceMix: z.number().optional(),
+  biomassGenerationPercentResourceMix: z.number().optional(),
+  windGenerationPercentResourceMix: z.number().optional(),
+  solarGenerationPercentResourceMix: z.number().optional(),
+  otherFossilGenerationPercentResourceMix: z.number().optional(),
+  totalNonrenewablesGenerationPercentResourceMix: z.number().optional(),
+  totalRenewablesGenerationPercentResourceMix: z.number().optional(),
+  totalNonhydroRenewablesGenerationPercentResourceMix: z.number().optional(),
+  totalCombustionGenerationPercentResourceMix: z.number().optional(),
+  totalNoncombustionGenerationPercentResourceMix: z.number().optional(),
+  annualNonbaseloadCoalNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadOilNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadGasNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadNuclearNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadHydroNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadBiomassNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadWindNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadSolarNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadGeothermalNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadOtherFossilNetGenerationMwh: z.number().optional(),
+  annualNonbaseloadOtherUnknownPurchasedFuelNetGenerationMwh: z.number().optional(),
+  nonbaseloadCoalGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadOilGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadGasGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadNuclearGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadHydroGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadBiomassGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadWindGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadSolarGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadGeothermalGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadOtherFossilGenerationPercentResourceMix: z.number().optional(),
+  nonbaseloadOtherUnknownPurcasedFuelGenerationPercentResourceMix: z.number().optional(),
+});
+
+/**
+ * Complete eGRID record schema that combines key and data fields
+ */
+export const EgridRecord = EgridRecordKey.merge(EgridRecordData);
+
+/**
+ * Type for complete eGRID record
+ */
 export type EgridRecord = z.infer<typeof EgridRecord>;
