@@ -3,6 +3,11 @@
     {
       "path": "/api/egrid",
       "schedule": "0 17 * * 5"
+    },
+
+    {
+      "path": "/api/avert",
+      "schedule": "0 17 * * 5"
     }
   ]
 }
