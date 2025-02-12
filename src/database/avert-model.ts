@@ -17,4 +17,6 @@ export const AvertSchema = new Schema(
   { collection: "surfrider-avert" },
 );
 
+AvertSchema.index({ year: 1, location: 1, powerPlantClass: 1 }, { unique: true });
+
 export const AvertModel = mongoose.model("Avert", AvertSchema);
