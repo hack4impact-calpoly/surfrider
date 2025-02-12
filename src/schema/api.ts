@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { PowerPlantClass, Location } from "./egrid";
+import { PowerPlantClass, Location } from "@/schema/egrid";
 
-const CalculateInput = z.object({
+export const CalculateInput = z.object({
   installedCapacity: z.number(),
   powerPlantClass: PowerPlantClass,
   location: Location,

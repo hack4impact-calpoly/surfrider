@@ -1,7 +1,7 @@
 // src/services/egrid-service.ts
 import { z } from "zod";
-import { EgridRecord, Location } from "../schema/egrid";
-import { EgridModel } from "../database/egrid-schema";
+import { EgridRecord, Location } from "@/schema/egrid";
+import { EgridModel } from "@/database/egrid-model";
 
 /**
  * Custom error class for eGRID service errors

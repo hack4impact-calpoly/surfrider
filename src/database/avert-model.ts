@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
-import { PowerPlantClass } from "../schema/egrid";
+import { PowerPlantClass, Location } from "@/schema/egrid";
 
 export const AvertSchema = new Schema(
   {
     year: { type: Number, required: true },
-    location: { type: String, required: true }, //US, subregion, or state
+    location: { type: String, enum: Location.options, required: true }, //US, subregion, or state
     powerPlantClass: { type: String, enum: PowerPlantClass.options, required: true },
     avoidedCo2EmissionRateLbMwh: { type: Number }, //pound per megawatt hour
     avoidedNoxEmissionRateLbMwh: { type: Number }, //pound per megawatt hour
