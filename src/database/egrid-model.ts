@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { Location } from "@/schema/egrid";
+import { EgridRecord, Location } from "@/schema/egrid";
 
-export const EgridSchema = new Schema(
+const EgridSchema = new Schema<EgridRecord>(
   {
     year: { type: Number, required: true },
     location: { type: String, enum: Location.options, required: true }, //US, subregion, or state
