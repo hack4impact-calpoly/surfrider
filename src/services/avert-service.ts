@@ -16,20 +16,19 @@ export const transformAvertData = (fileBuffer: Buffer): unknown => {
   const workbook = XLSX.read(fileBuffer, { type: "buffer" });
 
   //extract sheets from workbook
-  //const capacityFactorSheet = workbook.Sheets["Capacity factors"];
+  const capacityFactorSheet = workbook.Sheets["Capacity factors"];
   const emissionRatesSheet = workbook.Sheets["2023"];
 
   //extract capacity factors and emission rates
-  //const capacityFactors = extractCapacityFactors(capacityFactorSheet);
+  const capacityFactors = extractCapacityFactors(capacityFactorSheet);
   const emissionRates = extractEmissionRates(emissionRatesSheet);
 
   //combine data
-  //const transformedData = combineData(capacityFactors, emissionRates);
+  const transformedData = combineData(capacityFactors, emissionRates, 2023);
 
-  return emissionRates;
+  return transformedData;
 };
 
-/*
 const extractCapacityFactors = (sheet: XLSX.WorkSheet) => {
   //convert to array format
   const jsonData: (string | number)[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
@@ -45,16 +44,18 @@ const extractCapacityFactors = (sheet: XLSX.WorkSheet) => {
     }
 
     //create entry for location and extract capacity factor values from respective columns
-    capacityData[location] = {
-      OnshoreWind: row[1], //column B
-      OffshoreWind: row[2], //column C
-      UtilityPV: row[3], //column D
-      DistributedPV: row[4], //column E
-    };
+    if (location !== "") {
+      capacityData[location] = {
+        OnshoreWind: row[1], //column B
+        OffshoreWind: row[2], //column C
+        UtilityPV: row[3], //column D
+        DistributedPV: row[4], //column E
+      };
+    }
   });
 
   return capacityData;
-}; */
+};
 
 const extractEmissionRates = (sheet: XLSX.WorkSheet) => {
   //convert sheet to an array
@@ -128,3 +129,49 @@ function getEmissionType(header: string): string {
   if (header.includes("Avoided NH3 Rate")) return "avoidedNh3EmissionRateLbMwh";
   return "";
 }
+
+const combineData = (capacityFactors: XLSX.WorkSheet, emissionRates: XLSX.WorkSheet, year: number) => {
+  const finalDocuments: Record<string, unknown>[] = [];
+
+  //iterate over all locations found in either dataset
+  const allLocations = new Set([...Object.keys(capacityFactors), ...Object.keys(emissionRates)]);
+
+  allLocations.forEach((location) => {
+    //extract power plant classes from capacityFactors
+    const capacityPlantClasses = capacityFactors[location] ? Object.keys(capacityFactors[location]) : [];
+
+    //extract emission types and their power plant classes
+    const emissionTypes = emissionRates[location] ? Object.keys(emissionRates[location]) : [];
+    const emissionPlantClasses = new Set<string>();
+
+    emissionTypes.forEach((emissionType) => {
+      if (emissionRates[location][emissionType]) {
+        Object.keys(emissionRates[location][emissionType]).forEach((plantClass) => {
+          emissionPlantClasses.add(plantClass);
+        });
+      }
+    });
+
+    //merge power plant classes from both datasets
+    const allPlantClasses = new Set([...capacityPlantClasses, ...Array.from(emissionPlantClasses)]);
+
+    //iterate through each power plant class and construct the final document
+    allPlantClasses.forEach((powerPlantClass) => {
+      const doc: Record<string, unknown> = {
+        year,
+        location,
+        powerPlantClass,
+        capacityFactorPercent: capacityFactors[location]?.[powerPlantClass] ?? "-",
+      };
+
+      //populate emission rates based on emission type
+      emissionTypes.forEach((emissionType) => {
+        doc[emissionType] = emissionRates[location]?.[emissionType]?.[powerPlantClass] ?? "-";
+      });
+
+      finalDocuments.push(doc);
+    });
+  });
+
+  return finalDocuments;
+};
