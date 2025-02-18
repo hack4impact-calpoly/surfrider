@@ -2,10 +2,10 @@ import { z } from "zod";
 import { PowerPlantClass, Location } from "@/schema/egrid";
 
 export const AvertRecord = z.object({
-  year: z.number(),
-  location: z.enum(Location.options), //US, subregion, or state
-  powerPlantClass: z.enum(PowerPlantClass.options),
-  avoidedCo2EmissionRateLbMwh: z.number(), //pound per megawatt hour
+  year: z.number().optional(),
+  location: Location.optional(),
+  powerPlantClass: PowerPlantClass.optional(),
+  avoidedCo2EmissionRateLbMwh: z.number().optional(), //pound per megawatt hour
   avoidedNoxEmissionRateLbMwh: z.number(), //pound per megawatt hour
   avoidedSo2EmissionRateLbMwh: z.number(), //pound per megawatt hour
   avoidedPm2_5EmissionRateLbMwh: z.number(), //pound per megawatt hour

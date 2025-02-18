@@ -1,13 +1,17 @@
 import { AvertRecord } from "@/schema/avert";
 import { AvertModel } from "@/database/avert-model";
 import { Location, PowerPlantClass } from "@/schema/egrid";
+import { Error } from "@/schema/error";
 
 export async function addAvertRecord(record: AvertRecord): Promise<void> {
   try {
     await AvertModel.create(record);
   } catch (error) {
-    console.error("Error adding Avert record:", error); // using this so that error is used.
-    throw new Error("Failed to add Avert record");
+    console.error("", error); // still need this for eslint requirements
+    throw {
+      code: "SERVICE_ERROR",
+      message: "Service Error with Avert",
+    } as Error;
   }
 }
 
