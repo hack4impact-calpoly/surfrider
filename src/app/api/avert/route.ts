@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchAvertData, transformAvertData } from "@/services/avert-service";
+import { fetchAvertData, transformAvertData } from "@/services/avert-fetch";
 
 export async function GET() {
   const fileBuffer = await fetchAvertData();
