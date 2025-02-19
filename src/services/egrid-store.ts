@@ -2,26 +2,14 @@
 import { z } from "zod";
 import { EgridRecord, Location } from "@/schema/egrid";
 import { EgridModel } from "@/database/egrid-model";
-
-/**
- * Custom error class for eGRID service errors
- */
-export class EgridServiceError extends Error {
-  constructor(
-    message: string,
-    public cause?: unknown,
-  ) {
-    super(message);
-    this.name = "EgridServiceError";
-  }
-}
+import { Error } from "@/schema/error";
 
 /**
  * Add a new eGRID record to the database
  * @param egridRecord The record to add
- * @throws EgridServiceError if validation fails or database operation fails
+ * @returns Error if validation fails or database operation fails
  */
-export async function addEgridRecord(egridRecord: EgridRecord): Promise<void> {
+export async function addEgridRecord(egridRecord: EgridRecord): Promise<void | Error> {
   try {
     // Validate the input using Zod schema
     const validatedRecord = EgridRecord.parse(egridRecord);
@@ -33,9 +21,10 @@ export async function addEgridRecord(egridRecord: EgridRecord): Promise<void> {
     }).lean();
 
     if (existingRecord) {
-      throw new EgridServiceError(
-        `Record already exists for year ${validatedRecord.year} and location ${validatedRecord.location}`,
-      );
+      return {
+        code: "SERVICE_ERROR",
+        message: `Record already exists for year ${validatedRecord.year} and location ${validatedRecord.location}`,
+      };
     }
 
     // Create and save new record
@@ -43,15 +32,21 @@ export async function addEgridRecord(egridRecord: EgridRecord): Promise<void> {
     await record.save();
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw new EgridServiceError(`Validation failed: ${error.errors.map((e) => e.message).join(", ")}`, error);
+      return {
+        code: "SERVICE_ERROR",
+        message: `Validation failed: ${error.errors.map((e) => e.message).join("; ")}`,
+      };
     }
-    if (error instanceof EgridServiceError) {
+
+    if (Error.safeParse(error).success) {
+      // If error already follows the new Error schema, propagate it
       throw error;
     }
-    throw new EgridServiceError(
-      `Failed to add eGRID record: ${error instanceof Error ? error.message : String(error)}`,
-      error,
-    );
+
+    return {
+      code: "SERVICE_ERROR",
+      message: `Failed to add eGRID record: ${error && typeof error === "object" && "message" in error ? error.message : String(error)}`,
+    };
   }
 }
 
@@ -60,9 +55,9 @@ export async function addEgridRecord(egridRecord: EgridRecord): Promise<void> {
  * @param year The year to query for
  * @param location The location code to query for
  * @returns The matching eGRID record
- * @throws EgridServiceError if record not found or database operation fails
+ * @returns Error if record not found or database operation fails
  */
-export async function getEgridRecordByYearAndLocation(year: number, location: Location): Promise<EgridRecord> {
+export async function getEgridRecordByYearAndLocation(year: number, location: Location): Promise<EgridRecord | Error> {
   try {
     // Validate input parameters
     const validYear = EgridRecord.shape.year.parse(year);
@@ -75,22 +70,30 @@ export async function getEgridRecordByYearAndLocation(year: number, location: Lo
     }).lean();
 
     if (!result) {
-      throw new EgridServiceError(`No eGRID record found for year ${year} and location ${location}`);
+      return {
+        code: "SERVICE_ERROR",
+        message: `No eGRID record found for year ${year} and location ${location}`,
+      };
     }
 
     // Validate and return the result
     return EgridRecord.parse(result);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw new EgridServiceError(`Validation failed: ${error.errors.map((e) => e.message).join(", ")}`, error);
+      return {
+        code: "SERVICE_ERROR",
+        message: `Validation failed: ${error.errors.map((e) => e.message).join("; ")}`,
+      };
     }
-    if (error instanceof EgridServiceError) {
+    if (Error.safeParse(error).success) {
+      // If error already follows the new Error schema, propagate it
       throw error;
     }
-    throw new EgridServiceError(
-      `Failed to fetch eGRID record: ${error instanceof Error ? error.message : String(error)}`,
-      error,
-    );
+
+    return {
+      code: "SERVICE_ERROR",
+      message: `Failed to fetch eGRID record: ${error && typeof error === "object" && "message" in error ? error.message : String(error)}`,
+    };
   }
 }
 
@@ -99,8 +102,9 @@ export async function getEgridRecordByYearAndLocation(year: number, location: Lo
  * @param year The year to check
  * @param location The location to check
  * @returns True if the record exists, false otherwise
+ * @returns Error if record not found or database operation fails
  */
-export async function doesRecordExist(year: number, location: Location): Promise<boolean> {
+export async function doesRecordExist(year: number, location: Location): Promise<boolean | Error> {
   try {
     const result = await EgridModel.exists({
       year,
@@ -108,9 +112,9 @@ export async function doesRecordExist(year: number, location: Location): Promise
     });
     return result !== null;
   } catch (error) {
-    throw new EgridServiceError(
-      `Failed to check record existence: ${error instanceof Error ? error.message : String(error)}`,
-      error,
-    );
+    return {
+      code: "SERVICE_ERROR",
+      message: `Failed to check record existence: ${error && typeof error === "object" && "message" in error ? error.message : String(error)}`,
+    };
   }
 }
