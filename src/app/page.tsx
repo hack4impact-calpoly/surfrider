@@ -1,7 +1,11 @@
+import CalculatorForm from "@/components/ui/calculator-form";
+
 export default function Home() {
   return (
     <main>
-      <h1>Home</h1>
+      <div>
+        <CalculatorForm />
+      </div>
     </main>
   );
 }

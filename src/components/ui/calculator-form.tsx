@@ -1,32 +1,21 @@
 "use client";
 
 import * as React from "react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { CalculateInput } from "@/schema/api";
+import { Location, PowerPlantClass } from "@/schema/egrid";
 
-//form schema
-const formSchema = z.object({
-  installedCapacity: z.number(),
-  powerPlantClass: z.string(),
-  location: z.string(),
-  capacityFactor: z.coerce.number(),
-  population2070: z.coerce.number(),
-  startYear: z.coerce.number(),
-  lifeTimeYears: z.coerce.number(),
-  yearOfStudy: z.coerce.number(),
-});
-
-const powerPlantOptions = ["OffshoreWind", "UtilityPV", "DistributedPV", "PortfolioEE", "UniformEE"];
-const locationOptions = ["USA", "Europe", "Asia", "Other"];
+const powerPlantOptions = PowerPlantClass.options;
+const locationOptions = Location.options;
 
 export default function CalculatorForm() {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(CalculateInput),
     defaultValues: {
       installedCapacity: 0,
       powerPlantClass: "",
@@ -40,26 +29,26 @@ export default function CalculatorForm() {
   });
 
   const onSubmit = (values: unknown) => {
+    // TODO: Implement API request to /api/calculate
     console.log("Submitted", values);
   };
 
-  //not 100% positive on how to follow figma
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 p-6 border rounded-lg shadow-lg bg-white max-w-lg mx-auto"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 border rounded-lg shadow-lg bg-white max-w-5xl mx-auto items-start"
       >
-        <h2 className="text-xl font-semibold text-gray-700 text-center">Energy Calculator</h2>
+        <h2 className="text-xl font-semibold text-gray-700 text-center col-span-full">Energy Calculator</h2>
 
         <FormField
           control={form.control}
           name="installedCapacity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Installed Capacity (MW)</FormLabel>
+              <FormLabel>Installed Capacity (kW)</FormLabel>
               <FormControl>
-                <Input type="number" step="1" {...field} className="input-field" />
+                <Input type="number" step="1" {...field} className="input-field placeholder:text-gray-400 text-black" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -71,10 +60,10 @@ export default function CalculatorForm() {
           name="powerPlantClass"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Power Plant Class</FormLabel>
+              <FormLabel>Power Plant Classification</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select Power Plant Class" />
+                  <SelectValue placeholder="Select Classification" />
                 </SelectTrigger>
                 <SelectContent>
                   {powerPlantOptions.map((option) => (
@@ -117,7 +106,7 @@ export default function CalculatorForm() {
           name="capacityFactor"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Capacity Factor (%)</FormLabel>
+              <FormLabel>Capacity Factor</FormLabel>
               <FormControl>
                 <Input type="number" step="0.01" {...field} className="input-field" />
               </FormControl>
@@ -125,7 +114,6 @@ export default function CalculatorForm() {
             </FormItem>
           )}
         />
-        {">"}
 
         <FormField
           control={form.control}
@@ -160,7 +148,7 @@ export default function CalculatorForm() {
           name="lifeTimeYears"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Lifetime (Years)</FormLabel>
+              <FormLabel>Lifetime (years)</FormLabel>
               <FormControl>
                 <Input type="number" step="1" {...field} className="input-field" />
               </FormControl>
@@ -183,9 +171,11 @@ export default function CalculatorForm() {
           )}
         />
 
-        <Button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700">
-          Submit
-        </Button>
+        <div className="flex self-end">
+          <Button type="submit" className="w-full">
+            Calculate
+          </Button>
+        </div>
       </form>
     </Form>
   );
