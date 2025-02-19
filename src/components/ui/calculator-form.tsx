@@ -21,7 +21,7 @@ const formSchema = z.object({
   yearOfStudy: z.coerce.number(),
 });
 
-const powerPlantOptions = ["Offshore Wind", "Solar PV", "Hydropower", "Nuclear", "Coal", "Natural Gas"];
+const powerPlantOptions = ["OffshoreWind", "UtilityPV", "DistributedPV", "PortfolioEE", "UniformEE"];
 const locationOptions = ["USA", "Europe", "Asia", "Other"];
 
 export default function CalculatorForm() {
