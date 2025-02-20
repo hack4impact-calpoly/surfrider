@@ -299,12 +299,6 @@ export const EgridRecordData = z.object({
   nonbaseloadOtherUnknownPurcasedFuelGenerationPercentResourceMix: z.number().optional(),
 });
 
-/**
- * Complete eGRID record schema that combines key and data fields
- */
 export const EgridRecord = EgridRecordKey.merge(EgridRecordData);
 
-/**
- * Type for complete eGRID record
- */
 export type EgridRecord = z.infer<typeof EgridRecord>;

@@ -1,21 +1,20 @@
 import { AvertRecord } from "@/schema/avert";
 import { AvertModel } from "@/database/avert-model";
 import { Location, PowerPlantClass } from "@/schema/egrid";
-import { Error } from "@/schema/error";
+import { Error as CustomError } from "@/schema/error";
 
 export async function addAvertRecord(record: AvertRecord): Promise<void> {
   try {
     await AvertModel.create(record);
-  } catch (error) {
-    console.error("", error); // still need this for eslint requirements
+  } catch (err) {
+    console.error("", err);
     throw {
       code: "SERVICE_ERROR",
       message: "Service Error with Avert",
-    } as Error;
+    } as CustomError;
   }
 }
 
-// thanks chatgpt #transparency
 export async function getAvertRecordByKey(
   year: number,
   location: Location,
@@ -24,7 +23,7 @@ export async function getAvertRecordByKey(
   try {
     const doc = await AvertModel.findOne({ year, location, powerPlantClass }).exec();
     if (!doc) {
-      return Promise.reject(new Error("Avert record not found"));
+      return Promise.reject(new globalThis.Error("Avert record not found"));
     }
     const plainObj = doc.toObject();
     return AvertRecord.parse(plainObj);
