@@ -7,6 +7,8 @@ export const AvertRecordKey = z.object({
   powerPlantClass: PowerPlantClass,
 });
 
+export type AvertRecordKey = z.infer<typeof AvertRecordKey>;
+
 export const AvertRecordData = z.object({
   avoidedCo2EmissionRateLbMwh: z.number().optional(),
   avoidedNoxEmissionRateLbMwh: z.number().optional(),
@@ -16,6 +18,8 @@ export const AvertRecordData = z.object({
   avoidedVocEmissionRateLbMwh: z.number().optional(),
   capacityFactorPercent: z.number().optional(),
 });
+
+export type AvertRecordData = z.infer<typeof AvertRecordData>;
 
 // modeling egrid.ts
 export const AvertRecord = AvertRecordKey.merge(AvertRecordData);
