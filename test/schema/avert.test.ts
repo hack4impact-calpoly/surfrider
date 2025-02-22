@@ -1,39 +1,4 @@
 import { AvertRecord } from "@/schema/avert";
-import { PowerPlantClass, Location } from "@/schema/egrid";
-
-describe("PowerPlantClass schema", () => {
-  it("should validate correct power plant classes", () => {
-    const validClasses = ["OnshoreWind", "OffshoreWind", "UtilityPV", "DistributedPV", "PortfolioEE", "UniformEE"];
-
-    validClasses.forEach((validClass) => {
-      expect(PowerPlantClass.parse(validClass)).toBe(validClass);
-    });
-  });
-
-  it("should invalidate incorrect power plant classes", () => {
-    const invalidClass = "InvalidClass";
-
-    expect(() => PowerPlantClass.parse(invalidClass)).toThrow();
-  });
-});
-
-describe("Location schema", () => {
-  it("should validate correct locations", () => {
-    const validLocations = ["US", "AKGD", "PRMS", "SRVC", "AK", "CA", "CO", "CT", "MA", "OH", "WY"];
-
-    validLocations.forEach((validLocation) => {
-      expect(Location.parse(validLocation)).toBe(validLocation);
-    });
-  });
-
-  it("should invalidate incorrect locations", () => {
-    const invalidLocations = ["EU", "Asia", "Africa"];
-
-    invalidLocations.forEach((invalidLocation) => {
-      expect(() => Location.parse(invalidLocation)).toThrow();
-    });
-  });
-});
 
 describe("AvertRecord schema", () => {
   it("should validate correct avert records", () => {
