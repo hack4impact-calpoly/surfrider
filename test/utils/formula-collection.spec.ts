@@ -9,6 +9,7 @@ import {
   electricityConsumedCO2Emissions,
   effectivekWhConsumed,
   effectivekWhReduced,
+  numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
 } from "@/utils/formula-collection";
 
 /*
@@ -140,6 +141,33 @@ describe("formula 3 evaluation", () => {
     const result = parser.evaluate();
 
     const expected = 6259815.53;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 11: Number of incandescent bulbs switched to light-emitting diode bulbs in operation for a year emissions saved Equivalent Emissions
+ */
+describe("formula 11 evaluation", () => {
+  it("should evaluate formula 11", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(
+      numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+    );
+
+    const result = parser.evaluate();
+
+    const expected = 428083381.49;
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));

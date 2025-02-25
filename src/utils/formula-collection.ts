@@ -239,3 +239,69 @@ export const electricityConsumedCO2Emissions: Formula = {
 /*
     Impact Calculator Equation 10: Tanker trucks filled with gasoline Equivalent Emissions
  */
+
+/*
+    Impact Calculator Equation 11: Number of incandescent bulbs switched to light-emitting diode bulbs in operation for a year emissions saved Equivalent Emissions
+ */
+export const numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions: Formula =
+  {
+    id: "numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions",
+    name: "Number of incandescent bulbs switched to light-emitting diode bulbs in operation for a year emissions saved Equivalent Emissions",
+    explanation:
+      "Annual energy consumed by a light bulb is calculated by multiplying the power (43 watts) by the average daily use (3 hours/day) by the number of days per year (365)." +
+      "Carbon dioxide emissions reduced per light bulb switched from an incandescent bulb to a light-emitting diode bulb are calculated by multiplying annual energy savings by the national weighted average carbon dioxide marginal emission rate for delivered electricity.",
+    assumptions: [
+      "A 9 watt light-emitting diode (LED) bulb produces the same light output as a 43 watt incandescent light bulb (EPA 2019)",
+      "average daily use of 3 hours per day",
+      "The national weighted average carbon dioxide marginal emission rate for delivered electricity in 2019 was 1,562.4 lbs CO₂ per megawatt-hour, which accounts for losses during transmission and distribution (EPA 2020)",
+      "Does not account for emissions of bulb production or waste",
+      "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+    ],
+    sources: [
+      "https://www.epa.gov/avert/download-avert",
+      "EPA (2019). Savings Calculator for ENERGY STAR Qualified Light Bulbs. U.S. Environmental Protection Agency, Washington, DC.",
+    ],
+    expression:
+      "(energyType == 0 ? effectivekWhConsumed" +
+      " : effectivekWhReduced) * (energyType == 0 ? (electricityConsumedCO2Emissions / effectivekWhConsumed)" +
+      " : (electricityReductionsCO2Emissions / effectivekWhReduced)) / (((43 - 9) * 3 * 365 * 1 / 1000) * 1562.4 * 1 / 1000 * 1 / 2204.6)",
+    unit: "Bulbs replaced operating for a year saved equivalent emissions",
+    setupScope: (() => {}) as (...args: unknown[]) => void,
+    dependencies: [
+      "effectivekWhConsumed",
+      "effectivekWhReduced",
+      "electricityConsumedCO2Emissions",
+      "electricityReductionsCO2Emissions",
+    ],
+  };
+
+/*
+    Impact Calculator Equation 12: Home yearly electricity use Equivalent Emissions
+ */
+/*
+    Impact Calculator Equation 13: Home yearly total energy use Equivalent Emissions
+ */
+/*
+    Impact Calculator Equation 14: Number of urban tree seedlings grown for 10 years equivalent Carbon fixation
+ */
+/*
+    Impact Calculator Equation 15: Acres of U.S. forests Equivalent CO₂ sequestering for one year
+ */
+/*
+    Impact Calculator Equation 16: Acres of U.S. forests Equivalent CO₂ sequestering for one year
+ */
+/*
+    Impact Calculator Equation 17: Propane cylinders used for home barbecues
+ */
+/*
+    Impact Calculator Equation 18: Railcars of coal burned
+ */
+/*
+    Impact Calculator Equation 19: Pounds of coal burned
+ */
+/*
+    Impact Calculator Equation 20: Tons of waste recycled instead of landfilled
+ */
+/*
+    Impact Calculator Equation 21: Number of garbage trucks of waste recycled instead of landfilled
+ */
