@@ -130,17 +130,27 @@ export const CO2PerkWhReduced: Formula = {
   dependencies: ["regionalPortfolioEEAvoidedCO2", "nationalPortfolioEEAvoidedCO2", "poundsOfCO2PerMWh"],
 };
 
-// I took some liberties with this formula because the spreadsheet version seems to be a little unfinished, but it should still capture the original info
-// Basically, if the user specified energyType is Consumed energy, this will output the energy that was Reduced
-// If the user specified any other kind of energy (reduced energy), it will convert to the energy that was Consumed
-export const conversionBetweenElectricityConsumedAndReduced: Formula = {
-  id: "conversionBetweenElectricityConsumedAndReduced",
+export const effectivekWhReduced: Formula = {
+  id: "effectivekWhReduced",
   name: "Conversion between Electricity Consumed and Reduced",
   explanation: "Calculates the relationship between consumed and reduced emissions from RE sources",
   assumptions: ["Inherited assumptions from CO₂ Emissions from Electricity Consumption and Reduction"],
   sources: ["Inherited sources from the below two equations"],
   expression:
-    "energyType == 0 ? annualPowerGeneration * (CO2PerkWhConsumed / CO2PerkWhReduced) : annualPowerGeneration / (CO2PerkWhConsumed / CO2PerkWhReduced)",
+    "energyType == 0 ? annualPowerGeneration * (CO2PerkWhConsumed / CO2PerkWhReduced) : annualPowerGeneration",
+  unit: "",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "CO2PerkWhConsumed", "CO2PerkWhReduced"],
+};
+
+export const effectivekWhConsumed: Formula = {
+  id: "effectivekWhConsumed",
+  name: "Conversion between Electricity Consumed and Reduced",
+  explanation: "Calculates the relationship between consumed and reduced emissions from RE sources",
+  assumptions: ["Inherited assumptions from CO₂ Emissions from Electricity Consumption and Reduction"],
+  sources: ["Inherited sources from the below two equations"],
+  expression:
+    "energyType == 0 ? annualPowerGeneration : annualPowerGeneration / (CO2PerkWhConsumed / CO2PerkWhReduced)",
   unit: "",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["annualPowerGeneration", "CO2PerkWhConsumed", "CO2PerkWhReduced"],
@@ -165,14 +175,14 @@ export const electricityReductionsCO2Emissions: Formula = {
   expression:
     "(energyType == 0 and regional ? regionalPortfolioEEAvoidedCO2" +
     " : energyType == 0 ? nationalPortfolioEEAvoidedCO2 " +
-    " : poundsOfCO2PerMWh) * 1 / 2204.60 * 0.001 * conversionBetweenElectricityConsumedAndReduced",
+    " : poundsOfCO2PerMWh) * 1 / 2204.60 * 0.001 * effectivekWhReduced",
   unit: "Metric tons Carbon Dioxide",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
     "regionalPortfolioEEAvoidedCO2",
     "nationalPortfolioEEAvoidedCO2",
     "poundsOfCO2PerMWh",
-    "conversionBetweenElectricityConsumedAndReduced",
+    "effectivekWhReduced",
   ],
 };
 
@@ -196,14 +206,14 @@ export const electricityConsumedCO2Emissions: Formula = {
     "https://www.epa.gov/egrid",
   ],
   expression:
-    "(regional ? regionalCaliforniaEmissionRateFromElectricityConsumed : nationalEmissionRateFromElectricityConsumed) * 1 / 2204.60 * 0.001 * conversionBetweenElectricityConsumedAndReduced",
+    "(regional ? regionalCaliforniaEmissionRateFromElectricityConsumed : nationalEmissionRateFromElectricityConsumed) * 1 / 2204.60 * 0.001 * effectivekWhConsumed",
   unit: "Metric tons Carbon Dioxide",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
     "regionalPortfolioEEAvoidedCO2",
     "nationalPortfolioEEAvoidedCO2",
     "poundsOfCO2PerMWh",
-    "conversionBetweenElectricityConsumedAndReduced",
+    "effectivekWhConsumed",
   ],
 };
 
