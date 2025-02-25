@@ -4,6 +4,11 @@ import { MongooseError } from "mongoose";
 import { NextApiResponse } from "next";
 import { z } from "zod";
 
+const res = {
+  status: jest.fn().mockReturnThis(),
+  json: jest.fn(),
+} as unknown as NextApiResponse;
+
 describe("AppError", () => {
   it("should create an instance of AppError", () => {
     const error = new AppError(AppErrorCode.enum.CLIENT_ERROR, "Client error occurred");
@@ -75,13 +80,8 @@ describe("transformError", () => {
 });
 
 describe("apiErrorHandler", () => {
-  let res: NextApiResponse;
-
   beforeEach(() => {
-    res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    } as unknown as NextApiResponse;
+    jest.clearAllMocks();
   });
 
   it("should handle CLIENT_ERROR", () => {
