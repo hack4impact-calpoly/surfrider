@@ -262,22 +262,41 @@ export const numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperati
       "EPA (2019). Savings Calculator for ENERGY STAR Qualified Light Bulbs. U.S. Environmental Protection Agency, Washington, DC.",
     ],
     expression:
-      "(energyType == 0 ? effectivekWhConsumed" +
-      " : effectivekWhReduced) * (energyType == 0 ? (electricityConsumedCO2Emissions / effectivekWhConsumed)" +
-      " : (electricityReductionsCO2Emissions / effectivekWhReduced)) / (((43 - 9) * 3 * 365 * 1 / 1000) * 1562.4 * 1 / 1000 * 1 / 2204.6)",
+      "(energyType == 0 ? electricityConsumedCO2Emissions" +
+      " : electricityReductionsCO2Emissions) / (((43 - 9) * 3 * 365 / 1000) * 1562.4 / 1000 / 2204.6)",
     unit: "Bulbs replaced operating for a year saved equivalent emissions",
     setupScope: (() => {}) as (...args: unknown[]) => void,
-    dependencies: [
-      "effectivekWhConsumed",
-      "effectivekWhReduced",
-      "electricityConsumedCO2Emissions",
-      "electricityReductionsCO2Emissions",
-    ],
+    dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
   };
 
 /*
     Impact Calculator Equation 12: Home yearly electricity use Equivalent Emissions
  */
+export const homeYearlyElectricityUseEquivalentEmissions: Formula = {
+  id: "homeYearlyElectricityUseEquivalentEmissions",
+  name: "Home yearly electricity use Equivalent Emissions",
+  explanation:
+    "Annual home electricity consumption was multiplied by the carbon dioxide emission rate (per unit of electricity delivered) to determine annual carbon dioxide emissions per home.",
+  assumptions: [
+    "In 2019, 120.9 million homes in the United States consumed 1,437 billion kilowatt-hours (kWh) of electricity (EIA 2020a).",
+    "On average, each home consumed 11,880 kWh of delivered electricity (EIA 2020a).",
+    "The national average carbon dioxide output rate for electricity generated in 2019 was 884.2 lbs CO₂ per megawatt-hour (EPA 2021), ",
+    "assuming transmission and distribution losses of 7.3% (EIA 2020b; EPA 2021).1, above translates to about 953.7 lbs CO₂ per megawatt-hour for delivered electricity, ",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.eia.gov/outlooks/aeo/data/browser/#/?id=4-AEO2020&sourcekey=0",
+    "https://www.eia.gov/outlooks/aeo/data/browser/#/?id=8-AEO2020&cases=ref2020&sourcekey=0",
+    "https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid",
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-annexes.pdf",
+  ],
+  expression:
+    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    " : electricityReductionsCO2Emissions) / (11880 * 884.2 / (1 - 0.073) / 1000 / 2204.6)",
+  unit: "Homes of yearly equivalent emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
 /*
     Impact Calculator Equation 13: Home yearly total energy use Equivalent Emissions
  */
