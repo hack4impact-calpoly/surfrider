@@ -5,9 +5,10 @@ import {
   CO2PerkWhConsumed,
   CO2PerkWhReduced,
   poundsOfCO2PerMWh,
-  conversionBetweenElectricityConsumedAndReduced,
   electricityReductionsCO2Emissions,
   electricityConsumedCO2Emissions,
+  effectivekWhConsumed,
+  effectivekWhReduced,
 } from "@/utils/formula-collection";
 
 /*
@@ -64,14 +65,32 @@ describe("CO2PerkWhReduced evaluation", () => {
     expect(result).toBeCloseTo(948.119, 1);
   });
 });
-describe("formula 1 evaluation", () => {
-  it("should evaluate formula 1", () => {
+describe("effectivekWhReduced evaluation", () => {
+  it("should evaluate effectivekWhReduced", () => {
     const parser = new FormulaParser(AVERT_AND_EGRID);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
     parser.addFormula(poundsOfCO2PerMWh);
-    parser.addFormula(conversionBetweenElectricityConsumedAndReduced);
+    parser.addFormula(effectivekWhReduced);
+
+    const result = parser.evaluate();
+
+    // Can't get number to match exactly, probably intermediate rounding errors or precision issues.
+    const expected = 26278423200.0;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+describe("effectivekWhConsumed evaluation", () => {
+  it("should evaluate effectivekWhConsumed", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
 
     const result = parser.evaluate();
 
@@ -86,7 +105,6 @@ describe("formula 1 evaluation", () => {
 /*
     Impact Calculator Equation 2: Electricity Reductions (kilowatt-hours) CO2 Emissions
  */
-// This should fail if energyType is anything other than 0 (Consumed) because Formula 1 doesn't calculate reductions for reduced energy
 describe("formula 2 evaluation", () => {
   it("should evaluate formula 2", () => {
     const parser = new FormulaParser(AVERT_AND_EGRID);
@@ -94,12 +112,12 @@ describe("formula 2 evaluation", () => {
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
     parser.addFormula(poundsOfCO2PerMWh);
-    parser.addFormula(conversionBetweenElectricityConsumedAndReduced);
+    parser.addFormula(effectivekWhReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
 
     const result = parser.evaluate();
 
-    const expected = 5434720.25;
+    const expected = 11301401.27;
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
@@ -109,7 +127,6 @@ describe("formula 2 evaluation", () => {
 /*
     Impact Calculator Equation 3: Electricity consumed (kilowatt-hours) CO₂ Emissions
  */
-// This should fail if energyType is 0 (Consumed) because Formula 1 doesn't calculate consumption for consumed energy
 describe("formula 3 evaluation", () => {
   it("should evaluate formula 3", () => {
     const parser = new FormulaParser(AVERT_AND_EGRID);
@@ -117,7 +134,7 @@ describe("formula 3 evaluation", () => {
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
     parser.addFormula(poundsOfCO2PerMWh);
-    parser.addFormula(conversionBetweenElectricityConsumedAndReduced);
+    parser.addFormula(effectivekWhConsumed);
     parser.addFormula(electricityConsumedCO2Emissions);
 
     const result = parser.evaluate();
