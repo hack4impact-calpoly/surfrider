@@ -297,9 +297,44 @@ export const homeYearlyElectricityUseEquivalentEmissions: Formula = {
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
 };
+
 /*
     Impact Calculator Equation 13: Home yearly total energy use Equivalent Emissions
  */
+export const homeYearlyTotalEnergyUseEquivalentEmissions: Formula = {
+  id: "homeYearlyTotalEnergyUseEquivalentEmissions",
+  name: "Home yearly total energy use Equivalent Emissions",
+  explanation:
+    "Total home electricity, natural gas, distillate fuel oil, and propane consumption figures were converted from their various units to metric tons of CO₂ and added together to obtain total CO₂ emissions per home.",
+  assumptions: [
+    "In 2019, there were 120.9 million homes in the United States (EIA 2020a).",
+    "On average, each home consumed 11,880 kWh of delivered electricity (EIA 2020a).",
+    "Nationwide household consumption of natural gas, propane, and fuel oil totaled 5.23, 0.46, and 0.45 quadrillion Btu, respectively, in 2019 (EIA 2020a).",
+    "Averaged across households in the United States, this amounts to 41,590 cubic feet of natural gas, 42 gallons of propane, and 25.6 gallons of fuel oil per home.",
+    "The national average carbon dioxide output rate for electricity generated in 2019 was 884.2 lbs CO₂ per megawatt-hour (EPA 2021), ",
+    "assuming transmission and distribution losses of 7.3% (EIA 2020b; EPA 2021).1, above translates to about 953.7 lbs CO₂ per megawatt-hour for delivered electricity, ",
+    "The average carbon dioxide coefficient of natural gas is 0.0550 kg CO₂ per cubic foot (EIA 2022). The fraction oxidized to CO₂ is 100 percent (IPCC 2006).",
+    "The average carbon dioxide coefficient of distillate fuel oil is 426.10 kg CO₂ per 42-gallon barrel (EPA 2022). The fraction oxidized to CO₂ is 100 percent (IPCC 2006).",
+    "The average carbon dioxide coefficient of propane is 235.0 kg CO₂ per 42-gallon barrel (EPA 2022). The fraction oxidized is 100 percent (IPCC 2006).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.eia.gov/outlooks/aeo/excel/aeotab_4.xlsx",
+    "https://www.eia.gov/outlooks/aeo/excel/aeotab_8.xlsx",
+    "https://www.eia.gov/totalenergy/data/monthly/pdf/sec12_5.pdf",
+    "https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid",
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-annexes.pdf",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    " : electricityReductionsCO2Emissions) / ((11880 * 884.2 / (1 - 0.073) / 1000 / 2204.6)" +
+    " + (41590 * .0550 / 1000) + (235 / 1000) + (27 / 42 * 426.1 / 1000))",
+  unit: "Homes total energy use per year equivalent emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 14: Number of urban tree seedlings grown for 10 years equivalent Carbon fixation
  */

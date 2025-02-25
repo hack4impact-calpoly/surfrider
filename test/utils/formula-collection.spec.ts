@@ -11,6 +11,7 @@ import {
   effectivekWhReduced,
   numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
   homeYearlyElectricityUseEquivalentEmissions,
+  homeYearlyTotalEnergyUseEquivalentEmissions,
 } from "@/utils/formula-collection";
 
 /*
@@ -194,6 +195,31 @@ describe("formula 12 evaluation", () => {
     const result = parser.evaluate();
 
     const expected = 2199144.05;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 13: Home yearly total energy use Equivalent Emissions
+ */
+describe("formula 13 evaluation", () => {
+  it("should evaluate formula 13", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(homeYearlyTotalEnergyUseEquivalentEmissions);
+
+    const result = parser.evaluate();
+
+    const expected = 1425145.18;
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
