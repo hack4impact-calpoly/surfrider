@@ -9,6 +9,10 @@ import {
   electricityConsumedCO2Emissions,
   effectivekWhConsumed,
   effectivekWhReduced,
+  CO2PerkWhElectricityConsumed,
+  CO2PerkWhElectricityReduced,
+  gallonsOfGasolineBurnedEquivalentCO2Emissions,
+  gallonsOfDieselConsumedEquivalentCO2Emissions,
 } from "@/utils/formula-collection";
 
 /*
@@ -113,6 +117,7 @@ describe("formula 2 evaluation", () => {
     parser.addFormula(CO2PerkWhReduced);
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
 
     const result = parser.evaluate();
@@ -135,6 +140,7 @@ describe("formula 3 evaluation", () => {
     parser.addFormula(CO2PerkWhReduced);
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
     parser.addFormula(electricityConsumedCO2Emissions);
 
     const result = parser.evaluate();
@@ -145,3 +151,67 @@ describe("formula 3 evaluation", () => {
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
   });
 });
+
+/*
+    Impact Calculator Equation 4: Gallons of gasoline Burned Equivalent CO₂ Emissions
+ */
+describe("formula 4 evaluation", () => {
+  it("should evaluate formula 4", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(gallonsOfGasolineBurnedEquivalentCO2Emissions);
+
+    const result = parser.evaluate();
+
+    const expected = 1271677874.56;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+/*
+    Impact Calculator Equation 5: Gallons of diesel consumed Equivalent CO₂ Emissions
+ */
+describe("formula 5 evaluation", () => {
+  it("should evaluate formula 5", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(gallonsOfDieselConsumedEquivalentCO2Emissions);
+
+    const result = parser.evaluate();
+
+    const expected = 1110157295.8;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+/*
+    Impact Calculator Equation 6: Gasoline-powered passenger vehicles per year Equivalent CO₂ Emissions
+ */
+/*
+    Impact Calculator Equation 7: Miles driven by the average gasoline-powered passenger vehicle Equivalent CO₂ Emissions
+ */
+/*
+    Impact Calculator Equation 8: Therms and Mcf of natural gas Equivalent CO₂ Emissions
+ */
+/*
+    Impact Calculator Equation 9: Barrels of oil consumed Equivalent CO₂ Emissions
+ */
+/*
+    Impact Calculator Equation 10: Tanker trucks filled with gasoline Equivalent Emissions
+ */

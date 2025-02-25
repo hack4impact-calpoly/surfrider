@@ -159,6 +159,28 @@ export const effectivekWhConsumed: Formula = {
 /*
     Impact Calculator Equation 2: Electricity Reductions (kilowatt-hours) CO2 Emissions
  */
+
+export const CO2PerkWhElectricityReduced: Formula = {
+  id: "CO2PerkWhElectricityReduced",
+  name: "CO2 per kWh of electricity reduced",
+  explanation: "Calculates the metric tons of CO2 emissions displaced per kWh of reduced energy",
+  assumptions: ["Same as electricityReductionsCO2Emissions"],
+  sources: ["Same as electricityReductionsCO2Emissions"],
+  expression:
+    "(energyType == 0 and regional ? regionalPortfolioEEAvoidedCO2" +
+    " : energyType == 0 ? nationalPortfolioEEAvoidedCO2 " +
+    " : poundsOfCO2PerMWh) * 1 / 2204.60 * 0.001",
+  unit: "metric tons CO2/kWh",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "regional",
+    "regionalPortfolioEEAvoidedCO2",
+    "nationalPortfolioEEAvoidedCO2",
+    "poundsOfCO2PerMWh",
+  ],
+};
+
 export const electricityReductionsCO2Emissions: Formula = {
   id: "electricityReductionsCO2Emissions",
   name: "Electricity reductions (kilowatt-hours) CO2 Emissions",
@@ -172,23 +194,33 @@ export const electricityReductionsCO2Emissions: Formula = {
     "AVERT, U.S. national weighted average CO₂ marginal emission rate, year 2019 data",
   ],
   sources: ["https://www.epa.gov/avert"],
-  expression:
-    "(energyType == 0 and regional ? regionalPortfolioEEAvoidedCO2" +
-    " : energyType == 0 ? nationalPortfolioEEAvoidedCO2 " +
-    " : poundsOfCO2PerMWh) * 1 / 2204.60 * 0.001 * effectivekWhReduced",
+  expression: "CO2PerkWhElectricityReduced * effectivekWhReduced",
   unit: "Metric tons Carbon Dioxide",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: [
-    "regionalPortfolioEEAvoidedCO2",
-    "nationalPortfolioEEAvoidedCO2",
-    "poundsOfCO2PerMWh",
-    "effectivekWhReduced",
-  ],
+  dependencies: ["CO2PerkWhElectricityReduced", "effectivekWhReduced"],
 };
 
 /*
     Impact Calculator Equation 3: Electricity consumed (kilowatt-hours) CO₂ Emissions
  */
+
+export const CO2PerkWhElectricityConsumed: Formula = {
+  id: "CO2PerkWhElectricityConsumed",
+  name: "CO2 per kWh of electricity consumed",
+  explanation: "Calculates the metric tons of CO2 produced per kWh",
+  assumptions: ["Same as electricityConsumedCO2Emissions"],
+  sources: ["Same as electricityConsumedCO2Emissions"],
+  expression:
+    "(regional ? regionalCaliforniaEmissionRateFromElectricityConsumed : nationalEmissionRateFromElectricityConsumed) * 1 / 2204.60 * 0.001",
+  unit: "metric tons CO2/kWh",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "regional",
+    "regionalCaliforniaEmissionRateFromElectricityConsumed",
+    "nationalEmissionRateFromElectricityConsumed",
+  ],
+};
+
 export const electricityConsumedCO2Emissions: Formula = {
   id: "electricityConsumedCO2Emissions",
   name: "Electricity consumed (kilowatt-hours) CO₂ Emissions",
@@ -205,25 +237,71 @@ export const electricityConsumedCO2Emissions: Formula = {
     "https://www.eia.gov/outlooks/aeo/data/browser/#/?id=8-AEO2020&cases=ref2020&sourcekey=0",
     "https://www.epa.gov/egrid",
   ],
-  expression:
-    "(regional ? regionalCaliforniaEmissionRateFromElectricityConsumed : nationalEmissionRateFromElectricityConsumed) * 1 / 2204.60 * 0.001 * effectivekWhConsumed",
+  expression: "CO2PerkWhElectricityConsumed * effectivekWhConsumed",
   unit: "Metric tons Carbon Dioxide",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: [
-    "regionalPortfolioEEAvoidedCO2",
-    "nationalPortfolioEEAvoidedCO2",
-    "poundsOfCO2PerMWh",
-    "effectivekWhConsumed",
-  ],
+  dependencies: ["CO2PerkWhElectricityConsumed", "effectivekWhConsumed"],
 };
 
 /*
     Impact Calculator Equation 4: Gallons of gasoline Burned Equivalent CO₂ Emissions
  */
+export const gallonsOfGasolineBurnedEquivalentCO2Emissions: Formula = {
+  id: "gallonsOfGasolineBurnedEquivalentCO2Emissions",
+  name: "Gallons of Gasoline Burned Equivalent CO2 Emissions",
+  explanation:
+    "to obtain the number of grams of CO₂ emitted per gallon of gasoline combusted, the heat content of the fuel per gallon can be multiplied by the kg CO₂ per heat content of the fuel.",
+  assumptions: [
+    "conversion factor of 8,887 grams of CO₂ emissions per gallon of gasoline consumed (Federal Register 2010).",
+    "all the carbon in the gasoline is converted to CO₂ (IPCC 2006)",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.govinfo.gov/content/pkg/FR-2010-05-07/pdf/2010-8159.pdf",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / 0.008887",
+  unit: "Gallons of Gasoline Equivalent CO2 Emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
 
 /*
     Impact Calculator Equation 5: Gallons of diesel consumed Equivalent CO₂ Emissions
  */
+export const gallonsOfDieselConsumedEquivalentCO2Emissions: Formula = {
+  id: "gallonsOfDieselConsumedEquivalentCO2Emission",
+  name: "Gallons of Diesel Consumed Equivalent CO2 Emissions",
+  explanation:
+    "To obtain the number of grams of CO₂ emitted per gallon of diesel combusted, the heat content of the fuel per gallon can be multiplied by the kg CO₂ per heat content of the fuel.",
+  assumptions: [
+    "10,180 grams of CO₂ emissions per gallon of diesel consumed (Federal Register 2010)",
+    "all the carbon in the diesel is converted to CO₂ (IPCC 2006).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.govinfo.gov/content/pkg/FR-2010-05-07/pdf/2010-8159.pdf",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / 0.01018",
+  unit: "Gallons of Diesel Equivalent CO2 Emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
 /*
     Impact Calculator Equation 6: Gasoline-powered passenger vehicles per year Equivalent CO₂ Emissions
  */
