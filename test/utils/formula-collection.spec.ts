@@ -13,6 +13,12 @@ import {
   CO2PerkWhElectricityReduced,
   gallonsOfGasolineBurnedEquivalentCO2Emissions,
   gallonsOfDieselConsumedEquivalentCO2Emissions,
+  gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions,
+  milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions,
+  thermsOfNaturalGasEquivalentCO2Emissions,
+  mcfOfNaturalGasEquivalentCO2Emissions,
+  barrelsOfOilConsumedEquivalentCO2Emissions,
+  tankerTrucksFilledWithGasolineEquivalentEmissions,
 } from "@/utils/formula-collection";
 
 /*
@@ -203,15 +209,148 @@ describe("formula 5 evaluation", () => {
 /*
     Impact Calculator Equation 6: Gasoline-powered passenger vehicles per year Equivalent CO₂ Emissions
  */
+describe("formula 6 evaluation", () => {
+  it("should evaluate formula 6", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions);
+
+    const result = parser.evaluate();
+
+    const expected = 2517015.87;
+    // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
+    const percentError = 0.005;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
 /*
     Impact Calculator Equation 7: Miles driven by the average gasoline-powered passenger vehicle Equivalent CO₂ Emissions
  */
+describe("formula 7 evaluation", () => {
+  it("should evaluate formula 7", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions);
+
+    const result = parser.evaluate();
+
+    const expected = 28977951977.55;
+    // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
+    const percentError = 0.005;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
 /*
     Impact Calculator Equation 8: Therms and Mcf of natural gas Equivalent CO₂ Emissions
  */
+describe("thermsOfNaturalGasEquivalentCO2Emissions evaluation", () => {
+  it("should evaluate thermsOfNaturalGasEquivalentCO2Emissions", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(thermsOfNaturalGasEquivalentCO2Emissions);
+
+    const result = parser.evaluate();
+
+    const expected = 2132339862.5;
+    // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
+    const percentError = 0.005;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+describe("mcfOfNaturalGasEquivalentCO2Emissions evaluation", () => {
+  it("should evaluate mcfOfNaturalGasEquivalentCO2Emissions", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(mcfOfNaturalGasEquivalentCO2Emissions);
+
+    const result = parser.evaluate();
+
+    const expected = 205107101.11;
+    // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
+    const percentError = 0.005;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
 /*
     Impact Calculator Equation 9: Barrels of oil consumed Equivalent CO₂ Emissions
  */
+describe("formula 9 evaluation", () => {
+  it("should evaluate formula 9", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(barrelsOfOilConsumedEquivalentCO2Emissions);
+
+    const result = parser.evaluate();
+
+    const expected = 26282328.54;
+    // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
+    const percentError = 0.006;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
 /*
     Impact Calculator Equation 10: Tanker trucks filled with gasoline Equivalent Emissions
  */
+describe("formula 10 evaluation", () => {
+  it("should evaluate formula 10", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(tankerTrucksFilledWithGasolineEquivalentEmissions);
+
+    const result = parser.evaluate();
+
+    const expected = 149608.17;
+    // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
+    const percentError = 0.005;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});

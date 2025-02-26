@@ -305,15 +305,186 @@ export const gallonsOfDieselConsumedEquivalentCO2Emissions: Formula = {
 /*
     Impact Calculator Equation 6: Gasoline-powered passenger vehicles per year Equivalent CO₂ Emissions
  */
+export const gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions: Formula = {
+  id: "gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions",
+  name: "Gasoline-powered passenger vehicles per year Equivalent CO2 Emissions",
+  explanation:
+    "To determine annual greenhouse gas emissions per passenger vehicle, the following methodology was used: VMT was divided by average gas mileage to determine gallons of gasoline consumed per vehicle per year." +
+    "Gallons of gasoline consumed was multiplied by carbon dioxide per gallon of gasoline to determine carbon dioxide emitted per vehicle per year." +
+    "Carbon dioxide emissions were then divided by the ratio of carbon dioxide emissions to total vehicle greenhouse gas emissions to account for vehicle methane and nitrous oxide emissions.",
+  assumptions: [
+    "Passenger vehicles are defined as 2-axle 4-tire vehicles, including passenger cars, vans, pickup trucks, and sport/utility vehicles",
+    "In 2020, the weighted average combined fuel economy of cars and light trucks was 22.9 miles per gallon (FHWA 2021). ",
+    "The average vehicle miles traveled (VMT) in 2019 was 11,520 miles per year (FHWA 2021)",
+    "In 2019, the ratio of carbon dioxide emissions to total greenhouse gas emissions (including carbon dioxide, methane, and nitrous oxide, all expressed as carbon dioxide equivalents) for passenger vehicles was 0.993 (EPA 2022).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-chapter-3-energy.pdf",
+    "https://www.fhwa.dot.gov/policyinformation/statistics/2020/vm1.cfm",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.00889 * 11520 * 1 / 22.9 * 1 / 0.993)",
+  unit: "Gasoline-powered passenger vehicles per year Equivalent CO₂ Emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
 /*
     Impact Calculator Equation 7: Miles driven by the average gasoline-powered passenger vehicle Equivalent CO₂ Emissions
  */
+export const milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions: Formula = {
+  id: "milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions",
+  name: "Miles driven by the average gasoline-powered passenger vehicle Equivalent CO2 Emissions",
+  explanation:
+    "To determine annual greenhouse gas emissions per mile: carbon dioxide emissions per gallon of gasoline were divided by the average fuel economy of vehicles to determine carbon dioxide emitted per mile traveled by a typical passenger vehicle." +
+    "Carbon dioxide emissions were then divided by the ratio of carbon dioxide emissions to total vehicle greenhouse gas emissions to account for vehicle methane and nitrous oxide emissions.",
+  assumptions: [
+    "Passenger vehicles are defined as 2-axle 4-tire vehicles, including passenger cars, vans, pickup trucks, and sport/utility vehicles.",
+    "In 2020, the weighted average combined fuel economy of cars and light trucks was 22.9 miles per gallon (FHWA 2021).",
+    "In 2020, the ratio of carbon dioxide emissions to total greenhouse gas emissions (including carbon dioxide, methane, and nitrous oxide, all expressed as carbon dioxide equivalents) for passenger vehicles was 0.993 (EPA 2022).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-chapter-3-energy.pdf",
+    "https://www.fhwa.dot.gov/policyinformation/statistics/2020/vm1.cfm",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.00889 * 1 / 22.9 * 1 / 0.993)",
+  unit: "Miles driven by the average gasoline-powered passenger vehicle Equivalent CO₂ Emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
 /*
     Impact Calculator Equation 8: Therms and Mcf of natural gas Equivalent CO₂ Emissions
  */
+export const thermsOfNaturalGasEquivalentCO2Emissions: Formula = {
+  id: "thermsOfNaturalGasEquivalentCO2Emissions",
+  name: "Therms of natural gas Equivalent CO2 Emissions",
+  explanation:
+    "Carbon dioxide emissions per therm are determined by converting million British thermal units (mmbtu) to therms, then multiplying the carbon coefficient times the fraction oxidized times the ratio of the molecular weight of carbon dioxide to carbon (44/12)." +
+    "it represents the CO₂ equivalency of CO₂ released for natural gas burned as a fuel, not natural gas released to the atmosphere. Direct methane emissions released to the atmosphere (without burning) are about 25 times more powerful than CO₂ in terms of their warming effect on the atmosphere.",
+  assumptions: [
+    "0.1 mmbtu equals one therm (EIA 2021). The average carbon coefficient of pipeline natural gas burned in 2020 is 14.43 kg carbon per mmbtu (EPA 2022). The fraction oxidized to CO₂ is assumed to be 100 percent (IPCC 2006).",
+    "Carbon dioxide emissions per therm can be converted to carbon dioxide emissions per thousand cubic feet (Mcf) using the average heat content of natural gas in 2020, 10.38 therms/Mcf (EIA 2021).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.eia.gov/totalenergy/data/monthly/archive/00352011.pdf",
+    "https://www.eia.gov/tools/faqs/faq.php?id=45&t=8",
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-annexes.pdf",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.1 * 14.43 * (44 / 12) * 1 / 1000)",
+  unit: "therm of natural gas burned as fuel Equivalent emissions ",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
+export const mcfOfNaturalGasEquivalentCO2Emissions: Formula = {
+  id: "mcfOfNaturalGasEquivalentCO2Emissions",
+  name: "Mcf of natural gas Equivalent CO2 Emissions",
+  explanation:
+    "Carbon dioxide emissions per therm are determined by converting million British thermal units (mmbtu) to therms, then multiplying the carbon coefficient times the fraction oxidized times the ratio of the molecular weight of carbon dioxide to carbon (44/12)." +
+    "it represents the CO₂ equivalency of CO₂ released for natural gas burned as a fuel, not natural gas released to the atmosphere. Direct methane emissions released to the atmosphere (without burning) are about 25 times more powerful than CO₂ in terms of their warming effect on the atmosphere.",
+  assumptions: [
+    "0.1 mmbtu equals one therm (EIA 2021). The average carbon coefficient of pipeline natural gas burned in 2020 is 14.43 kg carbon per mmbtu (EPA 2022). The fraction oxidized to CO₂ is assumed to be 100 percent (IPCC 2006).",
+    "Carbon dioxide emissions per therm can be converted to carbon dioxide emissions per thousand cubic feet (Mcf) using the average heat content of natural gas in 2020, 10.38 therms/Mcf (EIA 2021).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.eia.gov/totalenergy/data/monthly/archive/00352011.pdf",
+    "https://www.eia.gov/tools/faqs/faq.php?id=45&t=8",
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-annexes.pdf",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / ((0.1 * 14.43 * (44 / 12) * 1 / 1000) * 10.38)",
+  unit: "Mcf of natural gas burned as fuel Equivalent emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
 /*
     Impact Calculator Equation 9: Barrels of oil consumed Equivalent CO₂ Emissions
  */
+export const barrelsOfOilConsumedEquivalentCO2Emissions: Formula = {
+  id: "barrelsOfOilConsumedEquivalentCO2Emissions",
+  name: "Barrels of oil consumed Equivalent CO2 Emissions",
+  explanation:
+    "Carbon dioxide emissions per barrel of crude oil are determined by multiplying heat content times the carbon coefficient times the fraction oxidized times the ratio of the molecular weight of carbon dioxide to that of carbon (44/12).",
+  assumptions: [
+    "The average heat content of crude oil is 5.80 mmbtu per barrel (EPA 2022).",
+    "The average carbon coefficient of crude oil is 20.33 kg carbon per mmbtu (EPA 2022).",
+    "The fraction oxidized is assumed to be 100 percent (IPCC 2006).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-annexes.pdf",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (5.8 * 20.33 * (44 / 12) * 1 / 1000)",
+  unit: "Barrels of oil burned equivalent emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
 /*
     Impact Calculator Equation 10: Tanker trucks filled with gasoline Equivalent Emissions
  */
+export const tankerTrucksFilledWithGasolineEquivalentEmissions: Formula = {
+  id: "tankerTrucksFilledWithGasolineEquivalentEmissions",
+  name: "Tanker trucks filled with gasoline Equivalent Emissions",
+  explanation: "Calculates how many tanker trucks worth of gasoline burned would produce equivalent emissions",
+  assumptions: [
+    "A barrel equals 42 gallons",
+    "A typical gasoline tanker truck contains 8,500 gallons.",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction.",
+  ],
+  sources: [
+    "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-annexes.pdf",
+    "https://www.govinfo.gov/content/pkg/FR-2010-05-07/pdf/2010-8159.pdf",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (8.89 * 0.001 * 8500)",
+  unit: "Tanker Trucks of gas burned equivalent emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "energyType",
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
