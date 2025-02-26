@@ -363,6 +363,32 @@ export const numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation: 
 /*
     Impact Calculator Equation 15: Acres of U.S. forests Equivalent CO₂ sequestering for one year
  */
+export const acresOfUSForestsEquivalentCO2SequesteringForOneYear: Formula = {
+  id: "acresOfUSForestsEquivalentCO2SequesteringForOneYear",
+  name: "Acres of U.S. forests Equivalent CO₂ sequestering for one year",
+  explanation:
+    "Growing forests accumulate and store carbon. Through the process of photosynthesis, trees remove CO₂ from the atmosphere and store it as cellulose, lignin, and other compounds. The rate of accumulation of carbon in a forested landscape is equal to overall tree growth minus removals (i.e., harvest for the production of paper and wood and tree loss from natural disturbances) minus decomposition. In most U.S. forests, growth exceeds removals and decomposition, so the amount of carbon stored nationally in forested lands is increasing overall, though at a decreasing rate." +
+    "To estimate carbon sequestered (in metric tons of CO₂) by additional 'average' forestry acres in one year, multiply the number of additional acres by -0.84 metric ton CO₂ acre/year.",
+  assumptions: [
+    "Forests are defined herein as managed forests that have been classified as forests for over 20 years (i.e., excluding forests converted to/from other land-use types).",
+    "The Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2020 (EPA 2022) provides data on the net change in forest carbon stocks and forest area.",
+    "USDA Forest Service estimates of carbon stocks in 2020 minus carbon stocks in 2019. This calculation includes carbon stocks in the aboveground biomass, belowground biomass, dead wood, litter, and soil organic and mineral carbon pools. C gains attributed to harvested wood products are not included in this calculation.",
+    "Applying data developed by the USDA Forest Service for the Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2020 yields a result of 206 metric tons of carbon per hectare (or 83 metric tons of carbon per acre) for the carbon stock density of U.S. forests in 2020, with an annual net change in carbon stock per area in 2020 of 0.57 metric tons of carbon sequestered per hectare per year (or 0.23 metric tons of carbon sequestered per acre per year).",
+    "From 2010 to 2020, the average annual sequestration of carbon per area was 0.57 metric tons C/hectare/year (or 0.21 metric tons C/acre/year) in the United States, with a minimum value of 0.52 metric tons C/hectare/year (or 0.21 metric tons C/acre/year) in 2015, and a maximum value of 0.61 metric tons C/hectare/year (or 0.25 metric tons C/acre/year) in 2016. These values include carbon in the five forest pools: aboveground biomass, belowground biomass, dead wood, litter, and soil organic and mineral carbon, and are based on state-level Forest Inventory and Analysis (FIA) data. Forest carbon stocks and carbon stock change are based on the stock difference methodology and algorithms described by Smith, Heath, and Nichols (2010).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+    "this is an estimate for “average” U.S. forests from 2019 to 2020; i.e., the annual net change in carbon stock for U.S. forests as a whole between 2019 and 2020. Significant geographical variations underlie the national estimates, and the values calculated here might not be representative of individual regions, states, or changes in the species composition of additional acres of forest.",
+  ],
+  sources: [
+    "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2020",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html",
+    "Smith, J., Heath, L., & Nichols, M. (2010). U.S. Forest Carbon Calculation Tool User's Guide: Forestland Carbon Stocks and Net Annual Stock Change. General Technical Report NRS-13 revised, U.S. Department of Agriculture Forest Service, Northern Research Station.",
+  ],
+  expression: "(energyType == 0 ? electricityConsumedCO2Emissions" + " : electricityReductionsCO2Emissions) / .84",
+  unit: "Average Forestry Acres per year to sequester",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 16: Acres of U.S. forests Equivalent CO₂ sequestering for one year
  */
