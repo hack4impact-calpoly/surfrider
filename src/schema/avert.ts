@@ -1,9 +1,33 @@
 import { z } from "zod";
-import { PowerPlantClass, EgridLocation } from "@/schema/egrid";
+import { PowerPlantClass } from "@/schema/egrid";
+
+/**
+ * eGRID country, subregion, and state codes
+ */
+export const AvertLocation = z.enum([
+  // Country
+  "US",
+  // Regions
+  "California",
+  "Carolinas",
+  "Central",
+  "Florida",
+  "Mid-Atlantic",
+  "Midwest",
+  "New England",
+  "New York",
+  "Northwest",
+  "Rocky Mountains",
+  "Southeast",
+  "Southwest",
+  "Tennessee",
+  "Texas",
+]);
+export type AvertLocation = z.infer<typeof AvertLocation>;
 
 export const AvertRecordKey = z.object({
   year: z.number().int().min(2000).max(2100),
-  location: EgridLocation,
+  location: AvertLocation,
   powerPlantClass: PowerPlantClass,
 });
 
