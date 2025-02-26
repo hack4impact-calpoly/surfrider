@@ -338,6 +338,28 @@ export const homeYearlyTotalEnergyUseEquivalentEmissions: Formula = {
 /*
     Impact Calculator Equation 14: Number of urban tree seedlings grown for 10 years equivalent Carbon fixation
  */
+export const numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation: Formula = {
+  id: "numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation",
+  name: "Number of urban tree seedlings grown for 10 years equivalent Carbon fixation",
+  explanation:
+    "To convert to units of metric tons CO₂ per tree, multiply by the ratio of the molecular weight of carbon dioxide to that of carbon (44/12) and the ratio of metric tons per pound (1/2,204.6)",
+  assumptions: [
+    "The medium growth coniferous and deciduous trees are raised in a nursery for one year until they become 1 inch in diameter at 4.5 feet above the ground (the size of tree purchased in a 15-gallon container).",
+    "The nursery-grown trees are then planted in a suburban/urban setting; the trees are not densely planted.",
+    "“survival factors” developed by U.S. DOE (1998). For example, after 5 years (one year in the nursery and 4 in the urban setting), the probability of survival is 68 percent; after 10 years, the probability declines to 59 percent.",
+    "The estimates of carbon sequestered by coniferous and deciduous trees were then weighted by the percent share of coniferous versus deciduous trees in cities across the United States.",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.fs.usda.gov/treesearch/pubs/52933",
+    "https://www3.epa.gov/climatechange/Downloads/method-calculating-carbon-sequestration-trees-urban-and-suburban-settings.pdf",
+  ],
+  expression: "(energyType == 0 ? electricityConsumedCO2Emissions" + " : electricityReductionsCO2Emissions) / .06",
+  unit: "Urban Tree Seedlings Grown for Ten Years worth of Emission Fixation",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 15: Acres of U.S. forests Equivalent CO₂ sequestering for one year
  */

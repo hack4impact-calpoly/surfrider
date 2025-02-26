@@ -12,6 +12,7 @@ import {
   numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
   homeYearlyElectricityUseEquivalentEmissions,
   homeYearlyTotalEnergyUseEquivalentEmissions,
+  numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation,
 } from "@/utils/formula-collection";
 
 /*
@@ -220,6 +221,31 @@ describe("formula 13 evaluation", () => {
     const result = parser.evaluate();
 
     const expected = 1425145.18;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 14: Number of urban tree seedlings grown for 10 years equivalent Carbon fixation
+ */
+describe("formula 14 evaluation", () => {
+  it("should evaluate formula 14", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation);
+
+    const result = parser.evaluate();
+
+    const expected = 188356687.85;
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
