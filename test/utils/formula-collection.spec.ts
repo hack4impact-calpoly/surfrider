@@ -22,9 +22,7 @@ import {
 } from "@/utils/formula-collection";
 
 /*
-  My assumption for most of these tests is that energyType is 2 and regional is 1.
-  However, formula 2 requires energyType to be 0 because I am making the assumption that formula 1 is intended to calculate
-  reductions for consumed energy and consumption for reduced energy. This may not be correct and should be checked. Formula 1 is hard to interpret.
+  My assumption for most of these tests is that energyType is 2 and regional is 1. This will need to be reworked once AVERT_AND_EGRID is no longer fixed.
  */
 
 /*
