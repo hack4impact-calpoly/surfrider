@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { PowerPlantClass, Location } from "@/schema/egrid";
+import { PowerPlantClass, EgridLocation } from "@/schema/egrid";
 
 export const AvertRecordKey = z.object({
   year: z.number().int().min(2000).max(2100),
-  location: Location,
+  location: EgridLocation,
   powerPlantClass: PowerPlantClass,
 });
 

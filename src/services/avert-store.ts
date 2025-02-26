@@ -1,6 +1,6 @@
 import { AvertRecord } from "@/schema/avert";
 import { AvertModel } from "@/database/avert-model";
-import { Location, PowerPlantClass } from "@/schema/egrid";
+import { EgridLocation, PowerPlantClass } from "@/schema/egrid";
 import { Error as CustomError } from "@/schema/error";
 import { z } from "zod";
 
@@ -45,7 +45,7 @@ export async function addAvertRecord(record: AvertRecord): Promise<void | Custom
 
 export async function getAvertRecordByKey(
   year: number,
-  location: Location,
+  location: EgridLocation,
   powerPlantClass: PowerPlantClass,
 ): Promise<AvertRecord | CustomError> {
   try {

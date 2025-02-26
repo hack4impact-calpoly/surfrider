@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CalculateInput } from "@/schema/api";
-import { Location, PowerPlantClass } from "@/schema/egrid";
+import { EgridLocation, PowerPlantClass } from "@/schema/egrid";
 
 const powerPlantOptions = PowerPlantClass.options;
-const locationOptions = Location.options;
+const locationOptions = EgridLocation.options;
 
 export default function CalculatorForm() {
   const form = useForm({
