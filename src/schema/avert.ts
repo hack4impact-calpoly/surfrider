@@ -2,7 +2,7 @@ import { z } from "zod";
 import { PowerPlantClass } from "@/schema/egrid";
 
 /**
- * eGRID country, subregion, and state codes
+ * AVERT country, region
  */
 export const AvertLocation = z.enum([
   // Country
