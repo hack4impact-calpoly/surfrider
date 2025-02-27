@@ -421,7 +421,7 @@ export const acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions
     "https://www.ipcc-nggip.iges.or.jp/public/wetlands/index.html",
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html",
   ],
-  expression: "(energyType == 0 ? electricityConsumedCO2Emissions" + " : electricityReductionsCO2Emissions) / 5.139", //might be the wrong value
+  expression: "(energyType == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 5.139", //might be the wrong value
   unit: "Acres prevented from conversion to cropland in the year of conversion Equivalent",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
@@ -430,6 +430,28 @@ export const acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions
 /*
     Impact Calculator Equation 17: Propane cylinders used for home barbecues
  */
+export const propaneCylindersUsedForHomeBarbecues: Formula = {
+  id: "propaneCylindersUsedForHomeBarbecues",
+  name: "Propane cylinders used for home barbecues",
+  explanation:
+    "Carbon dioxide emissions per pound of propane were determined by multiplying the weight of propane in a cylinder times the carbon content percentage times the fraction oxidized times the ratio of the molecular weight of carbon dioxide to that of carbon (44/12).",
+  assumptions: [
+    "Propane is 81.8 percent carbon (EPA 2022). The fraction oxidized is assumed to be 100 percent (IPCC 2006).",
+    "Propane cylinders vary with respect to size; for the purpose of this equivalency calculation, a typical cylinder for home use was assumed to contain 16 pounds of propane.",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2020",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    " : electricityReductionsCO2Emissions) / (16 * .818 * .4536 * 44 / 12 / 1000)",
+  unit: "Homes of yearly equivalent emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 18: Railcars of coal burned
  */
