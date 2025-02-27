@@ -455,6 +455,31 @@ export const propaneCylindersUsedForHomeBarbecues: Formula = {
 /*
     Impact Calculator Equation 18: Railcars of coal burned
  */
+export const railcarsOfCoalBurned: Formula = {
+  id: "railcarsOfCoalBurned",
+  name: "Railcars of coal burned",
+  explanation:
+    "Carbon dioxide emissions per ton of coal were determined by multiplying heat content times the carbon coefficient times the fraction oxidized times the ratio of the molecular weight of carbon dioxide to that of carbon (44/12).",
+  assumptions: [
+    "The average heat content of coal consumed by the electric power sector in the U.S. in 2020 was 20.84 mmbtu per metric ton (EIA 2020).",
+    "The average carbon coefficient of coal combusted for electricity generation in 2020 was 26.12 kilograms carbon per mmbtu (EPA 2022). The fraction oxidized is assumed to be 100 percent (IPCC 2006).",
+    "The amount of coal in an average railcar was assumed to be 100.19 short tons, or 90.89 metric tons (Hancock 2001).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.eia.gov/totalenergy/data/monthly/pdf/sec12_6.pdf",
+    "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2020",
+    "Hancock (2001). Hancock, Kathleen and Sreekanth, Ande. Conversion of Weight of Freight to Number of Railcars. Transportation Research Board, Paper 01-2056, 2001.",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+  ],
+  expression:
+    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    " : electricityReductionsCO2Emissions) / (20.84 * 26.12 * 44 / 12 * 90.89 / 1000)",
+  unit: "Railcars",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 19: Pounds of coal burned
  */

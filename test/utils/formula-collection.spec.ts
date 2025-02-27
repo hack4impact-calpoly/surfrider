@@ -16,6 +16,7 @@ import {
   acresOfUSForestsEquivalentCO2SequesteringForOneYear,
   acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions,
   propaneCylindersUsedForHomeBarbecues,
+  railcarsOfCoalBurned,
 } from "@/utils/formula-collection";
 
 /*
@@ -324,6 +325,31 @@ describe("formula 17 evaluation", () => {
     const result = parser.evaluate();
 
     const expected = 519098764.673; //manually calculated; potential rounding error
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 18: Railcars of coal burned
+ */
+describe("formula 18 evaluation", () => {
+  it("should evaluate formula 18", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(railcarsOfCoalBurned);
+
+    const result = parser.evaluate();
+
+    const expected = 62335.36;
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
