@@ -483,9 +483,67 @@ export const railcarsOfCoalBurned: Formula = {
 /*
     Impact Calculator Equation 19: Pounds of coal burned
  */
+export const poundsOfCoalBurned: Formula = {
+  id: "poundsOfCoalBurned",
+  name: "Pounds of coal burned",
+  explanation:
+    "Carbon dioxide emissions per ton of coal were determined by multiplying heat content times the carbon coefficient times the fraction oxidized times the ratio of the molecular weight of carbon dioxide to that of carbon (44/12).",
+  assumptions: [
+    "The average heat content of coal consumed by the electric power sector in the U.S. in 2020 was 20.84 mmbtu per metric ton (EIA 2021).",
+    "The average carbon coefficient of coal combusted for electricity generation in 2020 was 25.76 kilograms carbon per mmbtu (EPA 2022). The fraction oxidized is assumed to be 100 percent (IPCC 2006).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "EIA (2021). Monthly Energy Review December 2020, Table A5: Approximate Heat Content of Coal and Coal Coke. (PDF) (272 pp, 3.04 MB, About PDF)",
+    "EPA (2022). Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2020. Annex 2 (Methodology for estimating CO₂ emissions from fossil fuel combustion), Table A-28 'Carbon Content Coefficients for Coal' Pg. A-93, U.S. Environmental Protection Agency, Washington, DC. U.S. EPA #430-R-22-003 (PDF) (790 pp, 14 MB, About PDF).",
+    "IPCC (2006). 2006 IPCC Guidelines for National Greenhouse Gas Inventories. Volume 2 (Energy). Intergovernmental Panel on Climate Change, Geneva, Switzerland.",
+  ],
+  expression:
+    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    " : electricityReductionsCO2Emissions) / (20.84 * 25.76 * 44 / 12 / 2204.6 / 1000)",
+  unit: "lb Coal",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 20: Tons of waste recycled instead of landfilled
  */
+export const tonsOfWasteRecycledInsteadOfLandfilled: Formula = {
+  id: "tonsOfWasteRecycledInsteadOfLandfilled",
+  name: "Tons of waste recycled instead of landfilled",
+  explanation: "",
+  assumptions: [
+    "emission factors from EPA’s Waste Reduction Model (WARM) were used (EPA 2020).",
+    "According to WARM, the net emission reduction from recycling mixed recyclables (e.g., paper, metals, plastics), compared with a baseline in which the materials are landfilled (i.e., accounting for the avoided emissions from landfilling), is  2.89 metric tons of carbon dioxide equivalent per short ton.",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: ["EPA (2020). Waste Reduction Model (WARM), Version 15. U.S. Environmental Protection Agency."],
+  expression: "(energyType == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 2.89",
+  unit: "Homes of yearly equivalent emissions",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 21: Number of garbage trucks of waste recycled instead of landfilled
  */
+export const numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled: Formula = {
+  id: "numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled",
+  name: "Number of garbage trucks of waste recycled instead of landfilled",
+  explanation:
+    "Carbon dioxide emissions reduced per garbage truck full of waste were determined by multiplying emissions avoided from recycling instead of landfilling 1 ton of waste by the amount of waste in an average garbage truck. ",
+  assumptions: [
+    "The carbon dioxide equivalent emissions avoided from recycling instead of landfilling 1 ton of waste are 2.89 metric tons CO₂ equivalent per ton, as calculated in the “Tons of waste recycled instead of landfilled” section above",
+    "The amount of waste in an average garbage truck was assumed to be 7 tons (EPA 2002).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.epa.gov/warm/versions-waste-reduction-model-warm#15",
+    "https://www.epa.gov/sites/production/files/2016-03/documents/r02002.pdf",
+  ],
+  expression: "(energyType == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / (2.89 * 7)",
+  unit: "Garbage truck recycled",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};

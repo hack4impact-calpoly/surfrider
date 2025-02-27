@@ -17,6 +17,9 @@ import {
   acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions,
   propaneCylindersUsedForHomeBarbecues,
   railcarsOfCoalBurned,
+  poundsOfCoalBurned,
+  tonsOfWasteRecycledInsteadOfLandfilled,
+  numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
 } from "@/utils/formula-collection";
 
 /*
@@ -350,6 +353,81 @@ describe("formula 18 evaluation", () => {
     const result = parser.evaluate();
 
     const expected = 62335.36;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 19: Pounds of coal burned
+ */
+describe("formula 19 evaluation", () => {
+  it("should evaluate formula 19", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(poundsOfCoalBurned);
+
+    const result = parser.evaluate();
+
+    const expected = 12655544536.67;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 20: Tons of waste recycled instead of landfilled
+ */
+describe("formula 20 evaluation", () => {
+  it("should evaluate formula 20", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(tonsOfWasteRecycledInsteadOfLandfilled);
+
+    const result = parser.evaluate();
+
+    const expected = 3910519.47;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 21: Number of garbage trucks of waste recycled instead of landfilled
+ */
+describe("formula 21 evaluation", () => {
+  it("should evaluate formula 21", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled);
+
+    const result = parser.evaluate();
+
+    const expected = 558645.64;
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
