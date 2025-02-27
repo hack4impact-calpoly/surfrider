@@ -1,10 +1,10 @@
 import { AvertRecord } from "@/schema/avert";
 import { AvertModel } from "@/database/avert-model";
 import { Location, PowerPlantClass } from "@/schema/egrid";
-import { Error as CustomError } from "@/schema/error";
-import { z } from "zod";
+import { AppError, transformError } from "@/utils/errors";
+import { AppErrorCode } from "@/schema/error";
 
-export async function addAvertRecord(record: AvertRecord): Promise<void | CustomError> {
+export async function addAvertRecord(record: AvertRecord): Promise<void> {
   try {
     const validatedRecord = AvertRecord.parse(record);
 
@@ -15,31 +15,18 @@ export async function addAvertRecord(record: AvertRecord): Promise<void | Custom
     }).lean();
 
     if (existingRecord) {
-      return Promise.reject({
-        code: "SERVICE_ERROR",
-        message: `Record already exists for year ${validatedRecord.year}, location ${validatedRecord.location}, and power plant class ${validatedRecord.powerPlantClass}`,
-      } as CustomError);
+      return Promise.reject(
+        new AppError(
+          AppErrorCode.enum.SERVICE_ERROR,
+          `Record already exists for year ${validatedRecord.year}, location ${validatedRecord.location}, and power plant class ${validatedRecord.powerPlantClass}`,
+        ),
+      );
     }
 
     const newRecord = new AvertModel(validatedRecord);
     await newRecord.save();
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return {
-        code: "SERVICE_ERROR",
-        message: `Validation failed: ${error.errors.map((e) => e.message).join("; ")}`,
-      };
-    }
-
-    if (CustomError.safeParse(error).success) {
-      // If error already follows the new Error schema, propagate it
-      throw error;
-    }
-
-    return {
-      code: "SERVICE_ERROR",
-      message: `Failed to add AVERT record: ${error && typeof error === "object" && "message" in error ? error.message : String(error)}`,
-    };
+    return Promise.reject(transformError(error, AppErrorCode.enum.SERVICE_ERROR, "Failed to add AVERT record"));
   }
 }
 
@@ -47,7 +34,7 @@ export async function getAvertRecordByKey(
   year: number,
   location: Location,
   powerPlantClass: PowerPlantClass,
-): Promise<AvertRecord | CustomError> {
+): Promise<AvertRecord> {
   try {
     const validYear = AvertRecord.shape.year.parse(year);
     const validLocation = AvertRecord.shape.location.parse(location);
@@ -60,28 +47,16 @@ export async function getAvertRecordByKey(
     }).lean();
 
     if (!result) {
-      return Promise.reject({
-        code: "SERVICE_ERROR",
-        message: `No AVERT record found for year ${year}, location ${location}, and power plant class ${powerPlantClass}`,
-      } as CustomError);
+      return Promise.reject(
+        new AppError(
+          AppErrorCode.enum.SERVICE_ERROR,
+          `No AVERT record found for year ${year}, location ${location}, and power plant class ${powerPlantClass}`,
+        ),
+      );
     }
 
     return AvertRecord.parse(result);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return {
-        code: "SERVICE_ERROR",
-        message: `Validation failed: ${error.errors.map((e) => e.message).join("; ")}`,
-      };
-    }
-    if (CustomError.safeParse(error).success) {
-      // If error already follows the new Error schema, propagate it
-      throw error;
-    }
-
-    return {
-      code: "SERVICE_ERROR",
-      message: `Failed to fetch AVERT record: ${error && typeof error === "object" && "message" in error ? error.message : String(error)}`,
-    };
+    return Promise.reject(transformError(error, AppErrorCode.enum.SERVICE_ERROR, "Failed to fetch AVERT record"));
   }
 }
