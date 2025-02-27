@@ -354,7 +354,9 @@ export const numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation: 
     "https://www.fs.usda.gov/treesearch/pubs/52933",
     "https://www3.epa.gov/climatechange/Downloads/method-calculating-carbon-sequestration-trees-urban-and-suburban-settings.pdf",
   ],
-  expression: "(energyType == 0 ? electricityConsumedCO2Emissions" + " : electricityReductionsCO2Emissions) / .06",
+  expression:
+    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    " : electricityReductionsCO2Emissions) / (((.11 * 23.2) + (.89 * 36)) * (44 / 12) / 2204.6)",
   unit: "Urban Tree Seedlings Grown for Ten Years worth of Emission Fixation",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
@@ -383,7 +385,9 @@ export const acresOfUSForestsEquivalentCO2SequesteringForOneYear: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html",
     "Smith, J., Heath, L., & Nichols, M. (2010). U.S. Forest Carbon Calculation Tool User's Guide: Forestland Carbon Stocks and Net Annual Stock Change. General Technical Report NRS-13 revised, U.S. Department of Agriculture Forest Service, Northern Research Station.",
   ],
-  expression: "(energyType == 0 ? electricityConsumedCO2Emissions" + " : electricityReductionsCO2Emissions) / .84",
+  expression:
+    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    " : electricityReductionsCO2Emissions) / (((((58156 - 58007) * 106) / (282.061 * 103)) / 2.471) * (44 / 12))",
   unit: "Average Forestry Acres per year to sequester",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
