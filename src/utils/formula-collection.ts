@@ -394,8 +394,39 @@ export const acresOfUSForestsEquivalentCO2SequesteringForOneYear: Formula = {
 };
 
 /*
-    Impact Calculator Equation 16: Acres of U.S. forests Equivalent CO₂ sequestering for one year
+    Impact Calculator Equation 16: Acres of U.S. forest preserved from conversion to cropland Equivalent Emissions
  */
+export const acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions: Formula = {
+  id: "acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions",
+  name: "Acres of U.S. forest preserved from conversion to cropland Equivalent Emissions",
+  explanation:
+    "This many acres of US forest would have to be prevented from being converted to cropland to combat those emissions. To estimate CO₂ not emitted when an acre of forest is preserved from conversion to cropland, simply multiply the number of acres of forest not converted by -150.79 mt CO₂/acre/year. Note that this represents CO₂ avoided in the year of conversion. ",
+  assumptions: [
+    "Forests are defined herein as managed forests that have been classified as forests for over 20 years",
+    "Based on data developed by the USDA Forest Service for the Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2020, the carbon stock density of U.S. forests in 2020 was 206 metric tons of carbon per hectare (or 83 metric tons of carbon per acre) (EPA 2022). This estimate is composed of the five carbon pools: aboveground biomass (55 metric tons C/hectare), belowground biomass (11 metric tons C/hectare), dead wood (10 metric tons C/hectare), litter (14 metric tons C/hectare), and soil carbon, which includes mineral soils (90 metric tons C/hectare) and organic soils (26 metric tons C/hectare).",
+    "The Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2020 estimates soil carbon stock changes using U.S.-specific equations, IPCC guidelines, and data from the USDA Natural Resource Inventory and the DayCent biogeochemical model (EPA 2022). When calculating carbon stock changes in biomass due to conversion from forestland to cropland, the IPCC guidelines indicate that the average carbon stock change is equal to the carbon stock change due to removal of biomass from the outgoing land use (i.e., forestland) plus the carbon stocks from one year of growth in the incoming land use (i.e., cropland), or the carbon in biomass immediately after the conversion minus the carbon in biomass prior to the conversion plus the carbon stocks from one year of growth in the incoming land use (i.e., cropland) (IPCC 2006). The carbon stock in annual cropland biomass after one year is 5 metric tons C per hectare, and the carbon content of dry aboveground biomass is 45 percent (IPCC 2006). Therefore, the carbon stock in cropland after one year of growth is estimated to be 2.25 metric tons C per hectare (or 0.91 metric tons C per acre).",
+    "The averaged reference soil carbon stock (for high-activity clay, low-activity clay, sandy soils, and histosols for all climate regions in the United States) is 40.83 metric tons C/hectare (EPA 2022). Carbon stock change in soils is time-dependent, with a default time period for transition between equilibrium soil carbon values of 20 years for soils in cropland systems (IPCC 2006). Consequently, it is assumed that the change in equilibrium soil carbon will be annualized over 20 years to represent the annual flux in mineral and organic soils.",
+    "Organic soils also emit CO₂ when drained. Emissions from drained organic soils in forestland and drained organic soils in cropland vary based on the drainage depth and climate (IPCC 2006). The Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2020 estimates emissions from drained organic soils using U.S.-specific emission factors for cropland and IPCC (2014) default emission factors for forestland (EPA 2022).",
+    "The annual change in emissions from one hectare of drained organic soils can be calculated as the difference between the emission factors for forest soils and cropland soils. The emission factors for drained organic soil on temperate forestland are 2.60 metric tons C/hectare/year and 0.31 metric tons C/hectare/year (EPA 2022, IPCC 2014), and the average emission factor for drained organic soil on cropland for all climate regions is 13.17 metric tons C/hectare/year (EPA 2022).",
+    "The IPCC (2006) guidelines indicate that there are insufficient data to provide a default approach or parameters to estimate carbon stock change from dead organic matter pools or belowground carbon stocks in perennial cropland (IPCC 2006).",
+    "Immediately after conversion from forestland to cropland, the carbon stock of aboveground biomass is assumed to be zero, as the land is cleared of all vegetation before planting crops",
+    "Annual Change in Biomass Carbon Stocks on Land Converted to Other Land-Use Category: ∆CB = ∆CG + CConversion - ∆CL = -87.59 metric tons C/hectare/year of biomass carbon stocks are lost when forestland is converted to cropland in the year of conversion.",
+    "Annual Change in Organic Carbon Stocks in Mineral  and Organic Soils: ∆CSoil = (SOC0 - SOC(0-T))/D = (41.13 - 116)/20 = -3.78 metric tons C/hectare/year of soil C lost.",
+    "The change in emissions from drained organic soils per hectare is estimated as the difference between emission factors for drained organic forest soils and drained organic cropland soils. Annual Change in Emissions from Drained Organic Soils:",
+    "Consequently, the change in carbon density from converting forestland to cropland would be -87.59 metric tons of C/hectare/year of biomass plus -3.78 metric tons C/hectare/year of soil C, minus 10.26 metric tons C/hectare/year from drained organic soils, equaling a total loss of 101.62 metric tons C/hectare/year (or -41.13 metric tons C/acre/year) in the year of conversion. To convert to carbon dioxide, multiply by the ratio of the molecular weight of carbon dioxide to that of carbon (44/12), to yield a value of -372.62 metric tons CO₂/hectare/year (or -150.79 metric tons CO₂/acre/year) in the year of conversion.",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2020",
+    "https://www.ipcc-nggip.iges.or.jp/public/wetlands/index.html",
+    "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html",
+  ],
+  expression: "(energyType == 0 ? electricityConsumedCO2Emissions" + " : electricityReductionsCO2Emissions) / 5.139", //might be the wrong value
+  unit: "Acres prevented from conversion to cropland in the year of conversion Equivalent",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+
 /*
     Impact Calculator Equation 17: Propane cylinders used for home barbecues
  */

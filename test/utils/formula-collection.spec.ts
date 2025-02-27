@@ -14,6 +14,7 @@ import {
   homeYearlyTotalEnergyUseEquivalentEmissions,
   numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation,
   acresOfUSForestsEquivalentCO2SequesteringForOneYear,
+  acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions,
 } from "@/utils/formula-collection";
 
 /*
@@ -272,6 +273,31 @@ describe("formula 15 evaluation", () => {
     const result = parser.evaluate();
 
     const expected = 14007389.505; //manually calculated; potential rounding error
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
+/*
+    Impact Calculator Equation 16: Acres of U.S. forest preserved from conversion to cropland Equivalent Emissions
+ */
+describe("formula 16 evaluation", () => {
+  it("should evaluate formula 16", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions);
+
+    const result = parser.evaluate();
+
+    const expected = 2199144.05; //could be incorrect, refer to hardcoded value in expression
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
