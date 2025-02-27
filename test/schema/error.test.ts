@@ -1,14 +1,15 @@
-import { Error, ErrorCode } from "@/schema/error";
+import { AppErrorType, AppErrorCode } from "@/schema/error";
 
 describe("ErrorCode schema", () => {
   it("should validate valid error codes", () => {
-    expect(ErrorCode.parse("CLIENT_ERROR")).toBe("CLIENT_ERROR");
-    expect(ErrorCode.parse("API_ERROR")).toBe("API_ERROR");
-    expect(ErrorCode.parse("SERVICE_ERROR")).toBe("SERVICE_ERROR");
+    expect(AppErrorCode.parse("CLIENT_ERROR")).toBe("CLIENT_ERROR");
+    expect(AppErrorCode.parse("API_ERROR")).toBe("API_ERROR");
+    expect(AppErrorCode.parse("SERVICE_ERROR")).toBe("SERVICE_ERROR");
+    expect(AppErrorCode.parse("OTHER_ERROR")).toBe("OTHER_ERROR");
   });
 
   it("should invalidate invalid error codes", () => {
-    expect(() => ErrorCode.parse("INVALID_ERROR")).toThrow();
+    expect(() => AppErrorCode.parse("INVALID_ERROR")).toThrow();
   });
 });
 
@@ -17,9 +18,10 @@ describe("Error schema", () => {
     const validError = {
       code: "CLIENT_ERROR",
       message: "A client error occurred",
+      context: { key: "value" },
     };
 
-    expect(Error.parse(validError)).toEqual(validError);
+    expect(AppErrorType.parse(validError)).toEqual(validError);
   });
 
   it("should invalidate an error object with an invalid code", () => {
@@ -28,7 +30,7 @@ describe("Error schema", () => {
       message: "An invalid error occurred",
     };
 
-    expect(() => Error.parse(invalidError)).toThrow();
+    expect(() => AppErrorType.parse(invalidError)).toThrow();
   });
 
   it("should invalidate an error object with a missing message", () => {
@@ -36,7 +38,7 @@ describe("Error schema", () => {
       code: "CLIENT_ERROR",
     };
 
-    expect(() => Error.parse(invalidError)).toThrow();
+    expect(() => AppErrorType.parse(invalidError)).toThrow();
   });
 
   it("should invalidate an error object with a non-string message", () => {
@@ -45,6 +47,6 @@ describe("Error schema", () => {
       message: 123,
     };
 
-    expect(() => Error.parse(invalidError)).toThrow();
+    expect(() => AppErrorType.parse(invalidError)).toThrow();
   });
 });
