@@ -9,6 +9,10 @@ import { Error } from "@/schema/error";
  * @param egridRecord The record to add
  * @returns Error if validation fails or database operation fails
  */
+
+export function transformEgridRecord(record: unknown): EgridRecord {
+  return EgridRecord.parse(record);
+}
 export async function addEgridRecord(egridRecord: EgridRecord): Promise<void | Error> {
   try {
     // Validate the input using Zod schema
