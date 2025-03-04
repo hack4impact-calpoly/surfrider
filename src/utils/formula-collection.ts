@@ -54,7 +54,8 @@ export const annualPowerGeneration: Formula = {
 export const CO2PerkWhConsumed: Formula = {
   id: "CO2PerkWhConsumed",
   name: "CO2 per kilowatt-hour consumed",
-  explanation: "",
+  explanation:
+    "Given an energy source, calculates the number of pounds of CO2 emitted by each kWh consumed by the energy source (based on EGRID data)",
   assumptions: [""],
   sources: [""],
   expression:
@@ -77,7 +78,7 @@ export const CO2PerkWhConsumed: Formula = {
 export const poundsOfCO2PerMWh: Formula = {
   id: "poundsOfCO2PerMWh",
   name: "Pounds of CO2/MWh Emission Rate",
-  explanation: "",
+  explanation: "Calculates the number of pounds of CO2 emissions per MWh of a given energy source",
   assumptions: [""],
   sources: [""],
   expression:
@@ -118,7 +119,7 @@ export const poundsOfCO2PerMWh: Formula = {
 export const CO2PerkWhReduced: Formula = {
   id: "CO2PerkWhReduced",
   name: "CO2 per kilowatt-hour reduced",
-  explanation: "",
+  explanation: "Calculates the number of pounds of CO2 emissions that are reduced by the given energy source",
   assumptions: [""],
   sources: [""],
   expression:
