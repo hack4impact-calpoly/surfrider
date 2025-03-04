@@ -21,6 +21,11 @@ import {
   tankerTrucksFilledWithGasolineEquivalentEmissions,
 } from "@/utils/formula-collection";
 
+const expectPercentError = (result: number, expected: number, percentError: number) => {
+  expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+  expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+};
+
 /*
   My assumption for most of these tests is that energyType is 2 and regional is 1. This will need to be reworked once AVERT_AND_EGRID is no longer fixed.
  */
@@ -85,10 +90,7 @@ describe("effectivekWhReduced evaluation", () => {
     const result = parser.evaluate();
 
     // Can't get number to match exactly, probably intermediate rounding errors or precision issues.
-    const expected = 26278423200.0;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 26278423200.0, 0.001);
   });
 });
 describe("effectivekWhConsumed evaluation", () => {
@@ -103,10 +105,7 @@ describe("effectivekWhConsumed evaluation", () => {
     const result = parser.evaluate();
 
     // Can't get number to match exactly, probably intermediate rounding errors or precision issues.
-    const expected = 30267994303.08;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 30267994303.08, 0.001);
   });
 });
 
@@ -126,10 +125,7 @@ describe("formula 2 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 11301401.27;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 11301401.27, 0.001);
   });
 });
 
@@ -149,10 +145,7 @@ describe("formula 3 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 6259815.53;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 6259815.53, 0.001);
   });
 });
 
@@ -174,10 +167,7 @@ describe("formula 4 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 1271677874.56;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 1271677874.56, 0.001);
   });
 });
 /*
@@ -198,10 +188,7 @@ describe("formula 5 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 1110157295.8;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 1110157295.8, 0.001);
   });
 });
 /*
@@ -222,11 +209,8 @@ describe("formula 6 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 2517015.87;
     // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
-    const percentError = 0.005;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 2517015.87, 0.005);
   });
 });
 /*
@@ -247,11 +231,8 @@ describe("formula 7 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 28977951977.55;
     // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
-    const percentError = 0.005;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 28977951977.55, 0.005);
   });
 });
 /*
@@ -272,11 +253,8 @@ describe("thermsOfNaturalGasEquivalentCO2Emissions evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 2132339862.5;
     // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
-    const percentError = 0.005;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 2132339862.5, 0.005);
   });
 });
 
@@ -295,11 +273,8 @@ describe("mcfOfNaturalGasEquivalentCO2Emissions evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 205107101.11;
     // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
-    const percentError = 0.005;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 205107101.11, 0.005);
   });
 });
 /*
@@ -320,11 +295,8 @@ describe("formula 9 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 26282328.54;
     // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
-    const percentError = 0.006;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 26282328.54, 0.006);
   });
 });
 /*
@@ -345,10 +317,7 @@ describe("formula 10 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 149608.17;
     // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
-    const percentError = 0.005;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 149608.17, 0.005);
   });
 });
