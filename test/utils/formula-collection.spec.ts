@@ -19,6 +19,18 @@ import {
   mcfOfNaturalGasEquivalentCO2Emissions,
   barrelsOfOilConsumedEquivalentCO2Emissions,
   tankerTrucksFilledWithGasolineEquivalentEmissions,
+  numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+  metricTonsOfCO2PerHomePerYear,
+  homeYearlyElectricityUseEquivalentEmissions,
+  homeYearlyTotalEnergyUseEquivalentEmissions,
+  numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation,
+  acresOfUSForestsEquivalentCO2SequesteringForOneYear,
+  acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions,
+  propaneCylindersUsedForHomeBarbecues,
+  railcarsOfCoalBurned,
+  poundsOfCoalBurned,
+  tonsOfWasteRecycledInsteadOfLandfilled,
+  numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
 } from "@/utils/formula-collection";
 
 const expectPercentError = (result: number, expected: number, percentError: number) => {
@@ -319,5 +331,290 @@ describe("formula 10 evaluation", () => {
 
     // They rounded in the "equation" section of the spreadsheet, so percent error is a little higher
     expectPercentError(result, 149608.17, 0.005);
+  });
+});
+/*
+    Impact Calculator Equation 11: Number of incandescent bulbs switched to light-emitting diode bulbs in operation for a year emissions saved Equivalent Emissions
+ */
+describe("formula 11 evaluation", () => {
+  it("should evaluate formula 11", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(
+      numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+    );
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 428083381.49, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 12: Home yearly electricity use Equivalent Emissions
+ */
+
+// intermediate formula for yearly home emissions
+describe("intermediate formula evaluation", () => {
+  it("should evaluate intermediate formula", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 5.1399, 0.001);
+  });
+});
+
+describe("formula 12 evaluation", () => {
+  it("should evaluate formula 12", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
+    parser.addFormula(homeYearlyElectricityUseEquivalentEmissions);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 2199144.05, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 13: Home yearly total energy use Equivalent Emissions
+ */
+describe("formula 13 evaluation", () => {
+  it("should evaluate formula 13", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
+    parser.addFormula(homeYearlyTotalEnergyUseEquivalentEmissions);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 1425145.18, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 14: Number of urban tree seedlings grown for 10 years equivalent Carbon fixation
+ */
+describe("formula 14 evaluation", () => {
+  it("should evaluate formula 14", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation);
+
+    const result = parser.evaluate();
+
+    // manually calculated; potential rounding error
+    expectPercentError(result, 186792290.785, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 15: Acres of U.S. forests Equivalent CO₂ sequestering for one year
+ */
+describe("formula 15 evaluation", () => {
+  it("should evaluate formula 15", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(acresOfUSForestsEquivalentCO2SequesteringForOneYear);
+
+    const result = parser.evaluate();
+
+    // manually calculated; potential rounding error
+    expectPercentError(result, 14007389.505, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 16: Acres of U.S. forest preserved from conversion to cropland Equivalent Emissions
+ */
+describe("formula 16 evaluation", () => {
+  it("should evaluate formula 16", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions);
+
+    const result = parser.evaluate();
+
+    // could be incorrect, refer to hardcoded value in expression
+    expectPercentError(result, 2199144.05, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 17: Propane cylinders used for home barbecues
+ */
+describe("formula 17 evaluation", () => {
+  it("should evaluate formula 17", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(propaneCylindersUsedForHomeBarbecues);
+
+    const result = parser.evaluate();
+
+    // manually calculated; potential rounding error
+    expectPercentError(result, 519098764.673, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 18: Railcars of coal burned
+ */
+describe("formula 18 evaluation", () => {
+  it("should evaluate formula 18", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(railcarsOfCoalBurned);
+
+    const result = parser.evaluate();
+
+    // manually calculated; potential rounding error
+    expectPercentError(result, 62335.36, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 19: Pounds of coal burned
+ */
+describe("formula 19 evaluation", () => {
+  it("should evaluate formula 19", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(poundsOfCoalBurned);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 12655544536.67, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 20: Tons of waste recycled instead of landfilled
+ */
+describe("formula 20 evaluation", () => {
+  it("should evaluate formula 20", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(tonsOfWasteRecycledInsteadOfLandfilled);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 3910519.47, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 21: Number of garbage trucks of waste recycled instead of landfilled
+ */
+describe("formula 21 evaluation", () => {
+  it("should evaluate formula 21", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 558645.64, 0.001);
   });
 });
