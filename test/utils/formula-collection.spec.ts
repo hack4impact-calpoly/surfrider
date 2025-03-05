@@ -155,7 +155,7 @@ describe("formula 3 evaluation", () => {
     parser.addFormula(electricityConsumedCO2Emissions);
 
     const result = parser.evaluate();
-    
+
     expectPercentError(result, 6259815.53, 0.001);
   });
 });
@@ -186,6 +186,7 @@ describe("formula 4 evaluation", () => {
  */
 describe("formula 5 evaluation", () => {
   it("should evaluate formula 5", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -206,6 +207,7 @@ describe("formula 5 evaluation", () => {
  */
 describe("formula 6 evaluation", () => {
   it("should evaluate formula 6", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -342,6 +344,8 @@ describe("formula 11 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(
@@ -369,6 +373,8 @@ describe("formula 12 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(homeYearlyElectricityUseEquivalentEmissions);
@@ -394,6 +400,8 @@ describe("formula 13 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(homeYearlyTotalEnergyUseEquivalentEmissions);
@@ -419,6 +427,8 @@ describe("formula 14 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation);
@@ -444,6 +454,8 @@ describe("formula 15 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(acresOfUSForestsEquivalentCO2SequesteringForOneYear);
@@ -469,6 +481,8 @@ describe("formula 16 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions);
@@ -494,6 +508,8 @@ describe("formula 17 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(propaneCylindersUsedForHomeBarbecues);
@@ -519,6 +535,8 @@ describe("formula 18 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(railcarsOfCoalBurned);
@@ -544,6 +562,8 @@ describe("formula 19 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(poundsOfCoalBurned);
@@ -569,6 +589,8 @@ describe("formula 20 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(tonsOfWasteRecycledInsteadOfLandfilled);
@@ -594,6 +616,8 @@ describe("formula 21 evaluation", () => {
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(effectivekWhReduced);
     parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
     parser.addFormula(numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled);
