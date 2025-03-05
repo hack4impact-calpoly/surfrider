@@ -355,10 +355,7 @@ describe("formula 11 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 428083381.49;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 428083381.49, 0.001);
   });
 });
 
@@ -366,7 +363,7 @@ describe("formula 11 evaluation", () => {
     Impact Calculator Equation 12: Home yearly electricity use Equivalent Emissions
  */
 
-//intermediate formula for yearly home emissions
+// intermediate formula for yearly home emissions
 describe("intermediate formula evaluation", () => {
   it("should evaluate intermediate formula", () => {
     const parser = new FormulaParser(AVERT_AND_EGRID);
@@ -374,10 +371,7 @@ describe("intermediate formula evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 5.1399;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 5.1399, 0.001);
   });
 });
 
@@ -399,10 +393,7 @@ describe("formula 12 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 2199144.05;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 2199144.05, 0.001);
   });
 });
 
@@ -427,10 +418,7 @@ describe("formula 13 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 1425145.18;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 1425145.18, 0.001);
   });
 });
 
@@ -454,10 +442,8 @@ describe("formula 14 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 186792290.785; //manually calculated; potential rounding error
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    // manually calculated; potential rounding error
+    expectPercentError(result, 186792290.785, 0.001);
   });
 });
 
@@ -481,10 +467,8 @@ describe("formula 15 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 14007389.505; //manually calculated; potential rounding error
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    // manually calculated; potential rounding error
+    expectPercentError(result, 14007389.505, 0.001);
   });
 });
 
@@ -508,10 +492,8 @@ describe("formula 16 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 2199144.05; //could be incorrect, refer to hardcoded value in expression
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    // could be incorrect, refer to hardcoded value in expression
+    expectPercentError(result, 2199144.05, 0.001);
   });
 });
 
@@ -535,10 +517,8 @@ describe("formula 17 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 519098764.673; //manually calculated; potential rounding error
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    // manually calculated; potential rounding error
+    expectPercentError(result, 519098764.673, 0.001);
   });
 });
 
@@ -562,10 +542,8 @@ describe("formula 18 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 62335.36;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    // manually calculated; potential rounding error
+    expectPercentError(result, 62335.36, 0.001);
   });
 });
 
@@ -589,10 +567,7 @@ describe("formula 19 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 12655544536.67;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 12655544536.67, 0.001);
   });
 });
 
@@ -616,10 +591,7 @@ describe("formula 20 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 3910519.47;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 3910519.47, 0.001);
   });
 });
 
@@ -643,9 +615,6 @@ describe("formula 21 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 558645.64;
-    const percentError = 0.001;
-    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
-    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+    expectPercentError(result, 558645.64, 0.001);
   });
 });
