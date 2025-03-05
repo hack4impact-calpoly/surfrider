@@ -2,7 +2,6 @@
 import { z } from "zod";
 import { EgridRecord, Location } from "@/schema/egrid";
 import { EgridModel } from "@/database/egrid-model";
-import { Error } from "@/schema/error";
 
 /**
  * Add a new eGRID record to the database
