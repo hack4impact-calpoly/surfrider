@@ -522,6 +522,20 @@ export const numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperati
 /*
     Impact Calculator Equation 12: Home yearly electricity use Equivalent Emissions
  */
+
+// intermediate formula for yearly home emissions
+export const metricTonsOfCO2PerHomePerYear: Formula = {
+  id: "metricTonsOfCO2PerHomePerYear",
+  name: "Metric tons of CO2 per home per year",
+  explanation: "",
+  assumptions: [""],
+  sources: [""],
+  expression: "11880 * 884.2 / (1 - 0.073) / 1000 / 2204.6",
+  unit: "metric tons CO2/home/year",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [],
+};
+
 export const homeYearlyElectricityUseEquivalentEmissions: Formula = {
   id: "homeYearlyElectricityUseEquivalentEmissions",
   name: "Home yearly electricity use Equivalent Emissions",
@@ -542,10 +556,14 @@ export const homeYearlyElectricityUseEquivalentEmissions: Formula = {
   ],
   expression:
     "(energyType == 0 ? electricityConsumedCO2Emissions" +
-    " : electricityReductionsCO2Emissions) / (11880 * 884.2 / (1 - 0.073) / 1000 / 2204.6)",
+    " : electricityReductionsCO2Emissions) / metricTonsOfCO2PerHomePerYear",
   unit: "Homes of yearly equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+  dependencies: [
+    "electricityConsumedCO2Emissions",
+    "electricityReductionsCO2Emissions",
+    "metricTonsOfCO2PerHomePerYear",
+  ],
 };
 
 /*
@@ -578,11 +596,15 @@ export const homeYearlyTotalEnergyUseEquivalentEmissions: Formula = {
   ],
   expression:
     "(energyType == 0 ? electricityConsumedCO2Emissions" +
-    " : electricityReductionsCO2Emissions) / ((11880 * 884.2 / (1 - 0.073) / 1000 / 2204.6)" +
+    " : electricityReductionsCO2Emissions) / (metricTonsOfCO2PerHomePerYear" +
     " + (41590 * .0550 / 1000) + (235 / 1000) + (27 / 42 * 426.1 / 1000))",
   unit: "Homes total energy use per year equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+  dependencies: [
+    "electricityConsumedCO2Emissions",
+    "electricityReductionsCO2Emissions",
+    "metricTonsOfCO2PerHomePerYear",
+  ],
 };
 
 /*

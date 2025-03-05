@@ -20,6 +20,7 @@ import {
   barrelsOfOilConsumedEquivalentCO2Emissions,
   tankerTrucksFilledWithGasolineEquivalentEmissions,
   numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+  metricTonsOfCO2PerHomePerYear,
   homeYearlyElectricityUseEquivalentEmissions,
   homeYearlyTotalEnergyUseEquivalentEmissions,
   numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation,
@@ -364,6 +365,22 @@ describe("formula 11 evaluation", () => {
 /*
     Impact Calculator Equation 12: Home yearly electricity use Equivalent Emissions
  */
+
+//intermediate formula for yearly home emissions
+describe("intermediate formula evaluation", () => {
+  it("should evaluate intermediate formula", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
+
+    const result = parser.evaluate();
+
+    const expected = 5.1399;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
 describe("formula 12 evaluation", () => {
   it("should evaluate formula 12", () => {
     const parser = new FormulaParser(AVERT_AND_EGRID);
@@ -377,6 +394,7 @@ describe("formula 12 evaluation", () => {
     parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
     parser.addFormula(homeYearlyElectricityUseEquivalentEmissions);
 
     const result = parser.evaluate();
@@ -404,6 +422,7 @@ describe("formula 13 evaluation", () => {
     parser.addFormula(CO2PerkWhElectricityReduced);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
     parser.addFormula(homeYearlyTotalEnergyUseEquivalentEmissions);
 
     const result = parser.evaluate();
