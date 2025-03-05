@@ -10,6 +10,7 @@ import {
   effectivekWhConsumed,
   effectivekWhReduced,
   numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+  metricTonsOfCO2PerHomePerYear,
   homeYearlyElectricityUseEquivalentEmissions,
   homeYearlyTotalEnergyUseEquivalentEmissions,
   numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation,
@@ -184,6 +185,21 @@ describe("formula 11 evaluation", () => {
   });
 });
 
+//intermediate formula for yearly home emissions
+describe("intermediate formula evaluation", () => {
+  it("should evaluate intermediate formula", () => {
+    const parser = new FormulaParser(AVERT_AND_EGRID);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
+
+    const result = parser.evaluate();
+
+    const expected = 5.1399;
+    const percentError = 0.001;
+    expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
+    expect(result).toBeLessThanOrEqual(expected * (1 + percentError));
+  });
+});
+
 /*
     Impact Calculator Equation 12: Home yearly electricity use Equivalent Emissions
  */
@@ -198,6 +214,7 @@ describe("formula 12 evaluation", () => {
     parser.addFormula(effectivekWhConsumed);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
     parser.addFormula(homeYearlyElectricityUseEquivalentEmissions);
 
     const result = parser.evaluate();
@@ -223,6 +240,7 @@ describe("formula 13 evaluation", () => {
     parser.addFormula(effectivekWhConsumed);
     parser.addFormula(electricityReductionsCO2Emissions);
     parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(metricTonsOfCO2PerHomePerYear);
     parser.addFormula(homeYearlyTotalEnergyUseEquivalentEmissions);
 
     const result = parser.evaluate();
