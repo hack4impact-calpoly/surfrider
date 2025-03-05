@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchEgridData, transformEgridData } from "@/services/egrid-service";
+import { fetchEgridData, transformEgridData } from "@/services/egrid-fetch";
 
 /**
  * Route to fetch the egrid data
