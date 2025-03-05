@@ -252,7 +252,7 @@ describe("formula 14 evaluation", () => {
 
     const result = parser.evaluate();
 
-    const expected = 196433478.611; //manually calculated; potential rounding error
+    const expected = 186792290.785; //manually calculated; potential rounding error
     const percentError = 0.001;
     expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
     expect(result).toBeLessThanOrEqual(expected * (1 + percentError));

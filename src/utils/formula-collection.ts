@@ -356,7 +356,7 @@ export const numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation: 
   ],
   expression:
     "(energyType == 0 ? electricityConsumedCO2Emissions" +
-    " : electricityReductionsCO2Emissions) / (((.11 * 23.2) + (.89 * 36)) * (44 / 12) / 2204.6)",
+    " : electricityReductionsCO2Emissions) / (((.11 * 23.2) + (.89 * 38)) * (44 / 12) / 2204.6)",
   unit: "Urban Tree Seedlings Grown for Ten Years worth of Emission Fixation",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
