@@ -527,7 +527,7 @@ export const numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperati
 export const metricTonsOfCO2PerHomePerYear: Formula = {
   id: "metricTonsOfCO2PerHomePerYear",
   name: "Metric tons of CO2 per home per year",
-  explanation: "",
+  explanation: "Calculates the yearly home metric tons of CO2 emissions",
   assumptions: [""],
   sources: [""],
   expression: "11880 * 884.2 / (1 - 0.073) / 1000 / 2204.6",
