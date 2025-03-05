@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { fetchEgridData, transformEgridData } from "@/services/egrid-fetch";
 import { addEgridRecord, transformEgridRecord } from "@/services/egrid-store";
 
-export async function POST() {
+export const GET = async () => {
   try {
     const fileBuffer = await fetchEgridData();
     const transformedData = transformEgridData(fileBuffer);
@@ -41,7 +41,8 @@ export async function POST() {
           },
         });
       }
-    } // End of for-loop; semicolon added to explicitly terminate the block.
+    }
+
     return NextResponse.json({
       success: true,
       message: "All records uploaded successfully.",
@@ -58,14 +59,4 @@ export async function POST() {
       { status: 500 },
     );
   }
-}
-
-/**
- * Route to fetch the eGRID data.
- * TODO: Implement additional authorization to restrict access (e.g., to a scheduled cron job)
- */
-export const GET = async () => {
-  const fileBuffer = await fetchEgridData();
-  const transformedData = transformEgridData(fileBuffer);
-  return NextResponse.json({ success: true, data: transformedData });
 };

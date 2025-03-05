@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as XLSX from "xlsx";
+import { transformEgridRecord } from "./egrid-store";
 
 const EGRID_URL = "https://www.epa.gov/system/files/documents/2024-01/egrid2022_data.xlsx";
 export const fetchEgridData = async (): Promise<Buffer> => {
@@ -24,7 +25,7 @@ export const transformEgridData = (fileBuffer: Buffer): unknown => {
       data = data.slice(1);
     }
 
-    transformedData[sheetName] = data;
+    transformedData[sheetName] = data.map((record) => transformEgridRecord(record));
   });
 
   return transformedData;
