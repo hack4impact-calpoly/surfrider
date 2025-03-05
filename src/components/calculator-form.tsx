@@ -29,7 +29,7 @@ export default function CalculatorForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 border rounded-lg shadow-lg bg-white max-w-5xl mx-auto items-start"
       >
-        <h2 className="text-xl font-semibold text-gray-700 text-center col-span-full">Energy Calculator</h2>
+        <h2 className="text-xl font-semibold text-slate-900 text-center col-span-full">Energy Calculator</h2>
 
         <FormField
           control={form.control}
@@ -38,7 +38,7 @@ export default function CalculatorForm() {
             <FormItem>
               <FormLabel>Installed Capacity (kW)</FormLabel>
               <FormControl>
-                <Input type="number" step="1" {...field} className="input-field placeholder:text-gray-400 text-black" />
+                <Input type="number" step="1" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -52,7 +52,7 @@ export default function CalculatorForm() {
             <FormItem>
               <FormLabel>Power Plant Classification</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger>
+                <SelectTrigger className="text-gray-300">
                   <SelectValue placeholder="Select Classification" />
                 </SelectTrigger>
                 <SelectContent>
@@ -75,7 +75,7 @@ export default function CalculatorForm() {
             <FormItem>
               <FormLabel>Location</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger>
+                <SelectTrigger className="text-gray-300">
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
                 <SelectContent>
