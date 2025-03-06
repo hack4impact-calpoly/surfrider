@@ -1,13 +1,12 @@
 import { AppErrorCode } from "@/schema/error";
 import { apiErrorHandler, AppError, transformError } from "@/utils/errors";
+import { mocked } from "jest-mock";
 import { MongooseError } from "mongoose";
-import { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
-const res = {
-  status: jest.fn().mockReturnThis(),
-  json: jest.fn(),
-} as unknown as NextApiResponse;
+jest.mock("next/server");
+const mockedNextResponse = mocked(NextResponse);
 
 describe("AppError", () => {
   it("should create an instance of AppError", () => {
@@ -86,23 +85,19 @@ describe("apiErrorHandler", () => {
 
   it("should handle CLIENT_ERROR", () => {
     const error = new AppError(AppErrorCode.enum.CLIENT_ERROR, "Client error occurred");
-    apiErrorHandler(error, res);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      code: AppErrorCode.enum.CLIENT_ERROR,
-      message: "Client error occurred",
-      context: undefined,
-    });
+    apiErrorHandler(error);
+    expect(mockedNextResponse.json).toHaveBeenCalledWith(
+      { code: AppErrorCode.enum.CLIENT_ERROR, message: "Client error occurred", context: undefined },
+      { status: 400 },
+    );
   });
 
   it("should handle other errors as 500", () => {
     const error = new Error("Server error occurred");
-    apiErrorHandler(error, res);
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({
-      code: AppErrorCode.enum.OTHER_ERROR,
-      message: "Server error occurred",
-      context: { error },
-    });
+    apiErrorHandler(error);
+    expect(mockedNextResponse.json).toHaveBeenCalledWith(
+      { code: AppErrorCode.enum.OTHER_ERROR, message: "Server error occurred", context: { error } },
+      { status: 500 },
+    );
   });
 });
