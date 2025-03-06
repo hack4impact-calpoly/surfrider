@@ -1,6 +1,6 @@
 import { AppErrorCode, AppErrorType } from "@/schema/error";
 import { MongooseError } from "mongoose";
-import { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export class AppError extends Error {
@@ -38,12 +38,12 @@ export const transformError = (
   return new AppError(defaultCode, defaultMessage, { error });
 };
 
-export const apiErrorHandler = (error: unknown, res: NextApiResponse) => {
+export const apiErrorHandler = (error: unknown): NextResponse<AppErrorType> => {
   const { code, message, context } = transformError(error);
   switch (code) {
     case AppErrorCode.enum.CLIENT_ERROR:
-      return res.status(400).json({ code, message, context } as AppErrorType);
+      return NextResponse.json({ code, message, context } as AppErrorType, { status: 400 });
     default:
-      return res.status(500).json({ code, message, context } as AppErrorType);
+      return NextResponse.json({ code, message, context } as AppErrorType, { status: 500 });
   }
 };

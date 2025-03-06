@@ -1,10 +1,9 @@
 import { FormulaParser } from "@/utils/formula-parser";
 import { apiErrorHandler } from "@/utils/errors";
 import { CalculateInput } from "@/schema/api";
-import { NextResponse } from "next/server";
-import { NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const inputData = CalculateInput.parse(body);
@@ -17,6 +16,6 @@ export async function POST(req: Request, res: NextApiResponse) {
 
     return NextResponse.json(result);
   } catch (error) {
-    return apiErrorHandler(error, res);
+    return apiErrorHandler(error);
   }
 }
