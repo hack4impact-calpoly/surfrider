@@ -1,4 +1,4 @@
-import { Formula } from "@/utils/formula-parser";
+import { Formula } from "@/schema/formula";
 
 export const MOCK_INPUT_VARIABLES = {
   a: 3,
@@ -54,7 +54,7 @@ export const MOCK_FORMULAS_WITH_SCOPE_CALLBACK = [
     id: "formula_4",
     name: "Test formula 4",
     expression: "formula_1 + d",
-    setupScope: (addVariable: Function) => {
+    setupScope: (addVariable: (name: string, value: number) => void) => {
       addVariable("d", 5);
     },
     dependencies: ["formula_1"],
