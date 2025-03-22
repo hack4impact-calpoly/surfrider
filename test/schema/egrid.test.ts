@@ -1,4 +1,4 @@
-import { EgridRecord, EgridRecordData, EgridRecordKey, Location, PowerPlantClass } from "@/schema/egrid";
+import { EgridRecord, EgridRecordData, EgridRecordKey, EgridLocation, PowerPlantClass } from "@/schema/egrid";
 
 describe("PowerPlantClass schema", () => {
   it("should validate correct power plant classes", () => {
@@ -21,7 +21,7 @@ describe("Location schema", () => {
     const validLocations = ["US", "AKGD", "PRMS", "SRVC", "AK", "CA", "CO", "CT", "MA", "OH", "WY"];
 
     validLocations.forEach((validLocation) => {
-      expect(Location.parse(validLocation)).toBe(validLocation);
+      expect(EgridLocation.parse(validLocation)).toBe(validLocation);
     });
   });
 
@@ -29,7 +29,7 @@ describe("Location schema", () => {
     const invalidLocations = ["EU", "Asia", "Africa"];
 
     invalidLocations.forEach((invalidLocation) => {
-      expect(() => Location.parse(invalidLocation)).toThrow();
+      expect(() => EgridLocation.parse(invalidLocation)).toThrow();
     });
   });
 });

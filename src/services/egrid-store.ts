@@ -1,6 +1,6 @@
 // src/services/egrid-service.ts
+import { EgridRecord, EgridLocation } from "@/schema/egrid";
 import { EgridModel } from "@/database/egrid-model";
-import { EgridRecord, Location } from "@/schema/egrid";
 import { AppErrorCode } from "@/schema/error";
 import { AppError, transformError } from "@/utils/errors";
 
@@ -44,7 +44,7 @@ export async function addEgridRecord(egridRecord: EgridRecord): Promise<void> {
  * @returns The matching eGRID record
  * @returns Error if record not found or database operation fails
  */
-export async function getEgridRecordByKey(year: number, location: Location): Promise<EgridRecord> {
+export async function getEgridRecordByKey(year: number, location: EgridLocation): Promise<EgridRecord> {
   try {
     // Validate input parameters
     const validYear = EgridRecord.shape.year.parse(year);
@@ -79,7 +79,7 @@ export async function getEgridRecordByKey(year: number, location: Location): Pro
  * @returns True if the record exists, false otherwise
  * @returns Error if record not found or database operation fails
  */
-export async function doesRecordExist(year: number, location: Location): Promise<boolean> {
+export async function doesRecordExist(year: number, location: EgridLocation): Promise<boolean> {
   try {
     const result = await EgridModel.exists({
       year,

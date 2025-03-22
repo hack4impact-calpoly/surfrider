@@ -16,7 +16,7 @@ export type PowerPlantClass = z.infer<typeof PowerPlantClass>;
 /**
  * eGRID country, subregion, and state codes
  */
-export const Location = z.enum([
+export const EgridLocation = z.enum([
   // Country
   "US",
   // Subregion
@@ -101,14 +101,14 @@ export const Location = z.enum([
   "WV",
   "WY",
 ]);
-export type Location = z.infer<typeof Location>;
+export type EgridLocation = z.infer<typeof EgridLocation>;
 
 /**
  * Key fields that uniquely identify an eGRID record
  */
 export const EgridRecordKey = z.object({
   year: z.number().int().min(2000).max(2100), // years: 2000 - 2100
-  location: Location,
+  location: EgridLocation,
 });
 
 /**

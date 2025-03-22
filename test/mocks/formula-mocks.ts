@@ -54,7 +54,7 @@ export const MOCK_FORMULAS_WITH_SCOPE_CALLBACK = [
     id: "formula_4",
     name: "Test formula 4",
     expression: "formula_1 + d",
-    setupScope: (addVariable: Function) => {
+    setupScope: (addVariable: (name: string, value: number) => void) => {
       addVariable("d", 5);
     },
     dependencies: ["formula_1"],

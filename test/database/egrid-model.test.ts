@@ -1,11 +1,11 @@
 import { EgridModel } from "@/database/egrid-model";
-import { Location } from "@/schema/egrid";
+import { EgridLocation } from "@/schema/egrid";
 
 describe("EgridModel schema validation", () => {
   it("should validate a correct egrid document", () => {
     const egrid = new EgridModel({
       year: 2024,
-      location: Location.options[0], // Using a valid location
+      location: EgridLocation.options[2], // Using a valid location
       nameplateCapacityMw: 100.5,
       annualHeatInputMmbtu: 10.2,
       ozoneSeasonHeatInputMmbtu: 5.1,

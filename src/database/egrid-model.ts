@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
-import { EgridRecord, Location } from "@/schema/egrid";
+import { EgridRecord, EgridLocation } from "@/schema/egrid";
 
 const EgridSchema = new Schema<EgridRecord>(
   {
     year: { type: Number, required: true },
-    location: { type: String, enum: Location.options, required: true }, //US, subregion, or state
+    location: { type: String, enum: EgridLocation.options, required: true }, //US, subregion, or state
     nameplateCapacityMw: { type: Number }, //megawatts
     annualHeatInputMmbtu: { type: Number }, //metric million British thermal units
     ozoneSeasonHeatInputMmbtu: { type: Number }, //metric million British thermal units
