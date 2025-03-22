@@ -6,7 +6,7 @@ describe("AvertModel schema validation", () => {
   it("should validate a correct avert document", () => {
     const avert = new AvertModel({
       year: 2024,
-      location: AvertLocation.options[0], // Using a valid location
+      location: AvertLocation.options[2], // Using a valid location
       powerPlantClass: PowerPlantClass.options[0], // Using a valid power plant class
       avoidedCo2EmissionRateLbMwh: 100.5,
       avoidedNoxEmissionRateLbMwh: 10.2,
@@ -29,7 +29,7 @@ describe("AvertModel schema validation", () => {
   it("should fail validation for an invalid powerPlantClass", () => {
     const avert = new AvertModel({
       year: 2024,
-      location: AvertLocation.options[0], // Valid location
+      location: AvertLocation.options[2], // Valid location
       powerPlantClass: "InvalidClass", // Not in enum
     });
 
