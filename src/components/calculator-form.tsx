@@ -9,33 +9,9 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Button } from "@/components/ui/button";
 import { CalculateInput } from "@/schema/api";
 import { Location, PowerPlantClass } from "@/schema/egrid";
-import { z } from "zod";
 
 const powerPlantOptions = PowerPlantClass.options;
 const locationOptions = Location.options;
-
-const currentYear = new Date().getFullYear();
-
-export const CalculateInputSchema = z.object({
-  installedCapacity: z.number().min(0, { message: "Installed capacity must be at least 0" }).default(0),
-  powerPlantClass: z.string().min(1, { message: "Please select a classification" }).default(""),
-  location: z.string().min(1, { message: "Location selection required" }).default(""),
-  capacityFactor: z
-    .number()
-    .min(0, { message: "Capacity factor must be at least 0" })
-    .max(1, { message: "Capacity factor cannot exceed 1" })
-    .default(0),
-  population2070: z.number().min(0, { message: "Population must be at least 0" }).default(0),
-  startYear: z
-    .number()
-    .min(currentYear, { message: `Start year must be at least ${currentYear}` })
-    .default(currentYear),
-  lifeTimeYears: z.number().min(1, { message: "Lifetime must be at least 1 year" }).default(30),
-  yearOfStudy: z
-    .number()
-    .min(currentYear, { message: `Year of study must be at least ${currentYear}` })
-    .default(currentYear),
-});
 
 export default function CalculatorForm() {
   const form = useForm({
