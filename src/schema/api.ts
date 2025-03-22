@@ -13,15 +13,9 @@ export const CalculateInput = z.object({
     .max(1, { message: "Capacity factor cannot exceed 1" })
     .default(0),
   population2070: z.number().min(0, { message: "Population must be at least 0" }).default(0),
-  startYear: z
-    .number()
-    .min(currentYear, { message: `Start year must be at least ${currentYear}` })
-    .default(currentYear),
+  startYear: z.number().default(currentYear),
   lifeTimeYears: z.number().min(1, { message: "Lifetime must be at least 1 year" }).default(30),
-  yearOfStudy: z
-    .number()
-    .min(currentYear, { message: `Year of study must be at least ${currentYear}` })
-    .default(currentYear),
+  yearOfStudy: z.number().default(currentYear),
 });
 
 export type CalculateInput = z.infer<typeof CalculateInput>;
