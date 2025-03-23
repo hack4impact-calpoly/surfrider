@@ -1,3 +1,4 @@
+import { AvertRecord } from "@/schema/avert";
 import axios from "axios";
 import * as XLSX from "xlsx";
 
@@ -11,7 +12,7 @@ export const fetchAvertData = async (): Promise<Buffer> => {
   return response.data;
 };
 
-export const transformAvertData = (fileBuffer: Buffer): unknown => {
+export const transformAvertData = (fileBuffer: Buffer): AvertRecord[] => {
   //load the workbook
   const workbook = XLSX.read(fileBuffer, { type: "buffer" });
 
@@ -25,8 +26,12 @@ export const transformAvertData = (fileBuffer: Buffer): unknown => {
 
   //combine data
   const transformedData = combineData(capacityFactors, emissionRates, 2023);
+  //convert to AvertRecord objects
+  const avertRecords = transformedData.map((record) => {
+    return AvertRecord.parse(record); //will throw error if record doesn't match schema
+  });
 
-  return transformedData;
+  return avertRecords;
 };
 
 const extractCapacityFactors = (sheet: XLSX.WorkSheet) => {
