@@ -51,10 +51,10 @@ const extractCapacityFactors = (sheet: XLSX.WorkSheet) => {
     //create entry for location and extract capacity factor values from respective columns
     if (location !== "") {
       capacityData[location] = {
-        OnshoreWind: row[1], //column B
-        OffshoreWind: row[2], //column C
-        UtilityPV: row[3], //column D
-        DistributedPV: row[4], //column E
+        OnshoreWind: sanitizeValue(row[1]), //column B
+        OffshoreWind: sanitizeValue(row[2]), //column C
+        UtilityPV: sanitizeValue(row[3]), //column D
+        DistributedPV: sanitizeValue(row[4]), //column E
       };
     }
   });
@@ -113,14 +113,12 @@ function processEmissionData(
 
   //populate data
   emissionRatesData[location][emissionType] = {
-    OnshoreWind: row[colStart + 1],
-    OffshoreWind: row[colStart + 2],
-    UtilityPV: row[colStart + 3],
-    DistributedPV: row[colStart + 4],
-    UtilityPVPlusStorage: row[colStart + 5],
-    DistributedPVPlusStorage: row[colStart + 6],
-    PortfolioEE: row[colStart + 7],
-    UniformEE: row[colStart + 8],
+    OnshoreWind: sanitizeValue(row[colStart + 1]),
+    OffshoreWind: sanitizeValue(row[colStart + 2]),
+    UtilityPV: sanitizeValue(row[colStart + 3]),
+    DistributedPV: sanitizeValue(row[colStart + 4]),
+    PortfolioEE: sanitizeValue(row[colStart + 7]),
+    UniformEE: sanitizeValue(row[colStart + 8]),
   };
 }
 
@@ -166,12 +164,12 @@ const combineData = (capacityFactors: XLSX.WorkSheet, emissionRates: XLSX.WorkSh
         year,
         location,
         powerPlantClass,
-        capacityFactorPercent: capacityFactors[location]?.[powerPlantClass] ?? "-",
+        capacityFactorPercent: capacityFactors[location]?.[powerPlantClass] ?? 0,
       };
 
       //populate emission rates based on emission type
       emissionTypes.forEach((emissionType) => {
-        doc[emissionType] = emissionRates[location]?.[emissionType]?.[powerPlantClass] ?? "-";
+        doc[emissionType] = emissionRates[location]?.[emissionType]?.[powerPlantClass] ?? 0;
       });
 
       finalDocuments.push(doc);
@@ -180,3 +178,10 @@ const combineData = (capacityFactors: XLSX.WorkSheet, emissionRates: XLSX.WorkSh
 
   return finalDocuments;
 };
+
+function sanitizeValue(value: string | number | undefined): number {
+  if (value === "-" || value === undefined || value === null) return 0;
+  if (typeof value === "number") return value;
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? 0 : parsed;
+}
