@@ -3,6 +3,7 @@ import { EgridRecord, EgridLocation } from "@/schema/egrid";
 import { EgridModel } from "@/database/egrid-model";
 import { AppErrorCode } from "@/schema/error";
 import { AppError, transformError } from "@/utils/errors";
+import connectDB from "@/database/db";
 
 /**
  * Add a new eGRID record to the database
@@ -11,27 +12,21 @@ import { AppError, transformError } from "@/utils/errors";
  */
 export async function addEgridRecord(egridRecord: EgridRecord): Promise<void> {
   try {
+    await connectDB();
     // Validate the input using Zod schema
     const validatedRecord = EgridRecord.parse(egridRecord);
 
-    // Check if record already exists
-    const existingRecord = await EgridModel.findOne({
-      year: validatedRecord.year,
-      location: validatedRecord.location,
-    }).lean();
-
-    if (existingRecord) {
-      return Promise.reject(
-        new AppError(
-          AppErrorCode.enum.SERVICE_ERROR,
-          `Record already exists for year ${validatedRecord.year} and location ${validatedRecord.location}`,
-        ),
-      );
-    }
-
-    // Create and save new record
-    const record = new EgridModel(validatedRecord);
-    await record.save();
+    // Upsert record
+    await EgridModel.findOneAndUpdate(
+      {
+        year: validatedRecord.year,
+        location: validatedRecord.location,
+      },
+      validatedRecord,
+      {
+        upsert: true,
+      },
+    );
   } catch (error) {
     return Promise.reject(transformError(error, AppErrorCode.enum.SERVICE_ERROR, "Failed to add eGRID record"));
   }
@@ -46,6 +41,7 @@ export async function addEgridRecord(egridRecord: EgridRecord): Promise<void> {
  */
 export async function getEgridRecordByKey(year: number, location: EgridLocation): Promise<EgridRecord> {
   try {
+    await connectDB();
     // Validate input parameters
     const validYear = EgridRecord.shape.year.parse(year);
     const validLocation = EgridRecord.shape.location.parse(location);
@@ -81,6 +77,7 @@ export async function getEgridRecordByKey(year: number, location: EgridLocation)
  */
 export async function doesRecordExist(year: number, location: EgridLocation): Promise<boolean> {
   try {
+    await connectDB();
     const result = await EgridModel.exists({
       year,
       location,

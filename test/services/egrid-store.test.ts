@@ -4,6 +4,13 @@ import { AppError } from "@/utils/errors";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { MOCK_EGRID_RECORD } from "../mocks/egrid-mocks";
+import connectDB from "@/database/db";
+import { mocked } from "jest-mock";
+import { EgridLocation } from "@/schema/egrid";
+
+jest.mock("@/database/db");
+const mockedConnectDB = mocked(connectDB);
+mockedConnectDB.mockResolvedValue(undefined);
 
 let mongoServer: MongoMemoryServer;
 
@@ -28,13 +35,19 @@ describe("addEgridRecord", () => {
 
     const found = await EgridModel.findOne(MOCK_EGRID_RECORD);
 
+    expect(mockedConnectDB).toHaveBeenCalled();
     expect(found).toMatchObject(MOCK_EGRID_RECORD);
   });
 
-  it("rejects if record exists", async () => {
+  it("replaces an existing record", async () => {
     await EgridModel.create(MOCK_EGRID_RECORD);
 
-    await expect(addEgridRecord(MOCK_EGRID_RECORD)).rejects.toBeInstanceOf(AppError);
+    const updatedRecord = { ...MOCK_EGRID_RECORD, location: EgridLocation.enum.AKGD };
+    await expect(addEgridRecord(updatedRecord)).resolves.toBeUndefined();
+
+    const found = await EgridModel.findOne(updatedRecord);
+
+    expect(found).toMatchObject(updatedRecord);
   });
 
   it("rejects if error occurs", async () => {
@@ -49,6 +62,7 @@ describe("getEgridRecordByKey", () => {
     await EgridModel.create(MOCK_EGRID_RECORD);
 
     await expect(getEgridRecordByKey(2020, "US")).resolves.toMatchObject(MOCK_EGRID_RECORD);
+    expect(mockedConnectDB).toHaveBeenCalled();
   });
 
   it("rejects if no record is found", async () => {
@@ -67,6 +81,7 @@ describe("doesRecordExist", () => {
     await EgridModel.create(MOCK_EGRID_RECORD);
 
     await expect(doesRecordExist(2020, "US")).resolves.toBe(true);
+    expect(mockedConnectDB).toHaveBeenCalled();
   });
 
   it("returns false if no record is found", async () => {
