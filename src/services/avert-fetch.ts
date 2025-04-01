@@ -5,16 +5,11 @@ import * as XLSX from "xlsx";
 //route that contains AVERT data file
 const AVERT_URL = "https://www.epa.gov/system/files/documents/2024-04/avert_emission_rates_04-11-24_0.xlsx";
 
-//fetch the AVERT Excel file from EPA website
-export const fetchAvertData = async (): Promise<Buffer> => {
-  //fetch spreadsheet as a binary buffer
+//fetch and transform the AVERT Excel file from EPA website
+export const fetchAndTransformAvertData = async (): Promise<AvertRecord[]> => {
   const response = await axios.get(AVERT_URL, { responseType: "arraybuffer" });
-  return response.data;
-};
-
-export const transformAvertData = (fileBuffer: Buffer): AvertRecord[] => {
   //load the workbook
-  const workbook = XLSX.read(fileBuffer, { type: "buffer" });
+  const workbook = XLSX.read(response.data, { type: "buffer" });
 
   //extract sheets from workbook
   const capacityFactorSheet = workbook.Sheets["Capacity factors"];
@@ -38,7 +33,7 @@ const extractCapacityFactors = (sheet: XLSX.WorkSheet) => {
   //convert to array format
   const jsonData: (string | number)[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   //create empty object to store extracted data
-  const capacityData: Record<string, Record<string, number | string>> = {};
+  const capacityData: Record<string, Record<string, number | null>> = {};
 
   //remove first two rows (headers)
   jsonData.slice(2).forEach((row: (string | number)[], index: number, array: (string | number)[][]) => {
@@ -66,7 +61,7 @@ const extractEmissionRates = (sheet: XLSX.WorkSheet) => {
   //convert sheet to an array
   const jsonData: (string | number)[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   //create an empty object to store emissions
-  const emissionRatesData: Record<string, Record<string, Record<string, number | string>>> = {};
+  const emissionRatesData: Record<string, Record<string, Record<string, number | null>>> = {};
 
   //extract national emission rate data
   for (let rowIndex = 6; rowIndex <= 11; rowIndex++) {
@@ -98,7 +93,7 @@ const extractEmissionRates = (sheet: XLSX.WorkSheet) => {
 //parse the columns in the location rows that represent the powerplant class
 function processEmissionData(
   row: (string | number)[],
-  emissionRatesData: Record<string, Record<string, Record<string, number | string>>>,
+  emissionRatesData: Record<string, Record<string, Record<string, number | null>>>,
   emissionType: string,
   location: string,
   colStart: number,
@@ -179,9 +174,9 @@ const combineData = (capacityFactors: XLSX.WorkSheet, emissionRates: XLSX.WorkSh
   return finalDocuments;
 };
 
-function sanitizeValue(value: string | number | undefined): number {
-  if (value === "-" || value === undefined || value === null) return 0;
+function sanitizeValue(value: string | number | undefined): number | null {
+  if (value === "-" || value === undefined || value === null) return null;
   if (typeof value === "number") return value;
   const parsed = parseFloat(value);
-  return isNaN(parsed) ? 0 : parsed;
+  return isNaN(parsed) ? null : parsed;
 }

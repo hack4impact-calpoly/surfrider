@@ -4,5 +4,11 @@ export const MOCK_AVERT_RECORD: AvertRecord = {
   year: 2020,
   location: "US",
   powerPlantClass: "OnshoreWind",
-  avoidedCo2EmissionRateLbMwh: 0,
+  avoidedCo2EmissionRateLbMwh: 100.5,
+  avoidedNoxEmissionRateLbMwh: 10.2,
+  avoidedSo2EmissionRateLbMwh: 5.1,
+  avoidedPm2_5EmissionRateLbMwh: 2.3,
+  avoidedVocEmissionRateLbMwh: 1.1,
+  avoidedNh3EmissionRateLbMwh: 0.9,
+  capacityFactorPercent: 80,
 };
