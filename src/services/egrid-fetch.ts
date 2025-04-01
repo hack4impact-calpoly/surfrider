@@ -466,6 +466,56 @@ const transformRawData = (
   }
 };
 
+export const fetchAndTransformEgridData = async (): Promise<EgridRecord[]> => {
+  try {
+    const response = await axios.get(EGRID_URL, { responseType: "arraybuffer" });
+    const workbook = XLSX.read(response.data, { type: "buffer" });
+    const records: EgridRecord[] = [];
+
+    // transform country data
+    const countrySheet = workbook.Sheets[COUNTRY_SHEET];
+    const countryData = XLSX.utils.sheet_to_json(countrySheet);
+    if (countryData.length > 1) {
+      const decodedRaw = z.record(z.unknown()).parse(countryData[1]);
+      records.push(transformRawData(decodedRaw, YEAR, EgridLocation.enum.US, COUNTRY_PREFIX));
+    } else {
+      throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find country data in eGRID file");
+    }
+
+    // transform subregion data
+    const subregionSheet = workbook.Sheets[SUBREGION_SHEET];
+    const subregionData = XLSX.utils.sheet_to_json(subregionSheet);
+    if (subregionData.length > 1) {
+      subregionData.slice(1).forEach((raw: unknown) => {
+        const decodedRaw = z.record(z.unknown()).parse(raw);
+        const location = parseRawStringValue(decodedRaw[SUBREGION_LOCATION_FIELD]);
+        const decodedLocation = EgridLocation.parse(location);
+        records.push(transformRawData(decodedRaw, YEAR, decodedLocation, SUBREGION_PREFIX));
+      });
+    } else {
+      throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find subregion data in eGRID file");
+    }
+
+    // transform state data
+    const stateSheet = workbook.Sheets[STATE_SHEET];
+    const stateData = XLSX.utils.sheet_to_json(stateSheet);
+    if (stateData.length > 1) {
+      stateData.slice(1).forEach((raw: unknown) => {
+        const decodedRaw = z.record(z.unknown()).parse(raw);
+        const location = parseRawStringValue(decodedRaw[STATE_LOCATION_FIELD]);
+        const decodedLocation = EgridLocation.parse(location);
+        records.push(transformRawData(decodedRaw, YEAR, decodedLocation, STATE_PREFIX));
+      });
+    } else {
+      throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find state data in eGRID file");
+    }
+
+    return records;
+  } catch (error) {
+    return Promise.reject(transformError(error, AppErrorCode.enum.SERVICE_ERROR, "Failed to fetch eGRID data"));
+  }
+};
+
 const transformCountryData = (countrySheet: XLSX.WorkSheet): EgridRecord => {
   const countryData = XLSX.utils.sheet_to_json(countrySheet);
   if (countryData.length > 1) {
