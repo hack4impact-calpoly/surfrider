@@ -466,6 +466,41 @@ const transformRawData = (
   }
 };
 
+const transformCountryData = (countrySheet: XLSX.WorkSheet): EgridRecord => {
+  const countryData = XLSX.utils.sheet_to_json(countrySheet);
+  if (countryData.length > 1) {
+    const decodedRaw = z.record(z.unknown()).parse(countryData[1]);
+    return transformRawData(decodedRaw, YEAR, EgridLocation.enum.US, COUNTRY_PREFIX);
+  }
+  throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find country data in eGRID file");
+};
+
+const transformSubregionData = (subregionSheet: XLSX.WorkSheet): EgridRecord[] => {
+  const subregionData = XLSX.utils.sheet_to_json(subregionSheet);
+  if (subregionData.length > 1) {
+    return subregionData.slice(1).map((raw: unknown) => {
+      const decodedRaw = z.record(z.unknown()).parse(raw);
+      const location = parseRawStringValue(decodedRaw[SUBREGION_LOCATION_FIELD]);
+      const decodedLocation = EgridLocation.parse(location);
+      return transformRawData(decodedRaw, YEAR, decodedLocation, SUBREGION_PREFIX);
+    });
+  }
+  throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find subregion data in eGRID file");
+};
+
+const transformStateData = (stateSheet: XLSX.WorkSheet): EgridRecord[] => {
+  const stateData = XLSX.utils.sheet_to_json(stateSheet);
+  if (stateData.length > 1) {
+    return stateData.slice(1).map((raw: unknown) => {
+      const decodedRaw = z.record(z.unknown()).parse(raw);
+      const location = parseRawStringValue(decodedRaw[STATE_LOCATION_FIELD]);
+      const decodedLocation = EgridLocation.parse(location);
+      return transformRawData(decodedRaw, YEAR, decodedLocation, STATE_PREFIX);
+    });
+  }
+  throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find state data in eGRID file");
+};
+
 export const fetchAndTransformEgridData = async (): Promise<EgridRecord[]> => {
   try {
     const response = await axios.get(EGRID_URL, { responseType: "arraybuffer" });
@@ -476,42 +511,13 @@ export const fetchAndTransformEgridData = async (): Promise<EgridRecord[]> => {
     const records: EgridRecord[] = [];
 
     // transform country data
-    const countrySheet = workbook.Sheets[COUNTRY_SHEET];
-    const countryData = XLSX.utils.sheet_to_json(countrySheet);
-    if (countryData.length > 1) {
-      const decodedRaw = z.record(z.unknown()).parse(countryData[1]);
-      records.push(transformRawData(decodedRaw, YEAR, EgridLocation.enum.US, COUNTRY_PREFIX));
-    } else {
-      throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find country data in eGRID file");
-    }
+    records.push(transformCountryData(workbook.Sheets[COUNTRY_SHEET]));
 
     // transform subregion data
-    const subregionSheet = workbook.Sheets[SUBREGION_SHEET];
-    const subregionData = XLSX.utils.sheet_to_json(subregionSheet);
-    if (subregionData.length > 1) {
-      subregionData.slice(1).forEach((raw: unknown) => {
-        const decodedRaw = z.record(z.unknown()).parse(raw);
-        const location = parseRawStringValue(decodedRaw[SUBREGION_LOCATION_FIELD]);
-        const decodedLocation = EgridLocation.parse(location);
-        records.push(transformRawData(decodedRaw, YEAR, decodedLocation, SUBREGION_PREFIX));
-      });
-    } else {
-      throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find subregion data in eGRID file");
-    }
+    records.push(...transformSubregionData(workbook.Sheets[SUBREGION_SHEET]));
 
     // transform state data
-    const stateSheet = workbook.Sheets[STATE_SHEET];
-    const stateData = XLSX.utils.sheet_to_json(stateSheet);
-    if (stateData.length > 1) {
-      stateData.slice(1).forEach((raw: unknown) => {
-        const decodedRaw = z.record(z.unknown()).parse(raw);
-        const location = parseRawStringValue(decodedRaw[STATE_LOCATION_FIELD]);
-        const decodedLocation = EgridLocation.parse(location);
-        records.push(transformRawData(decodedRaw, YEAR, decodedLocation, STATE_PREFIX));
-      });
-    } else {
-      throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find state data in eGRID file");
-    }
+    records.push(...transformStateData(workbook.Sheets[STATE_SHEET]));
 
     return records;
   } catch (error) {
