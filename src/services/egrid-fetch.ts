@@ -469,7 +469,10 @@ const transformRawData = (
 export const fetchAndTransformEgridData = async (): Promise<EgridRecord[]> => {
   try {
     const response = await axios.get(EGRID_URL, { responseType: "arraybuffer" });
-    const workbook = XLSX.read(response.data, { type: "buffer" });
+    const workbook = XLSX.read(response.data, {
+      type: "buffer",
+      sheets: [COUNTRY_SHEET, SUBREGION_SHEET, STATE_SHEET],
+    });
     const records: EgridRecord[] = [];
 
     // transform country data
