@@ -1,10 +1,12 @@
 import { z } from "zod";
 import { PowerPlantClass, EgridLocation } from "@/schema/egrid";
+import { AvertLocation } from "@/schema/avert";
 
 export const CalculateInput = z.object({
   installedCapacity: z.number().min(0, { message: "Installed capacity must be at least 0" }),
   powerPlantClass: PowerPlantClass,
-  location: EgridLocation,
+  egridLocation: EgridLocation,
+  avertLocation: AvertLocation,
   capacityFactor: z
     .number()
     .min(0, { message: "Capacity factor must be at least 0" })

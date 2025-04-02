@@ -5,7 +5,8 @@ describe("CalculateInput schema", () => {
     const validInput = {
       installedCapacity: 100,
       powerPlantClass: "OnshoreWind",
-      location: "US",
+      egridLocation: "US",
+      avertLocation: "California",
       capacityFactor: 0.25,
       population2070: 1000000,
       startYear: 2020,
@@ -20,7 +21,8 @@ describe("CalculateInput schema", () => {
     const invalidInput = {
       installedCapacity: "100", // should be a number
       powerPlantClass: "OnshoreWind",
-      location: "US",
+      egridlocation: "US",
+      avertLocation: "California",
       capacityFactor: 0.25,
       population2070: 1000000,
       startYear: 2020,
@@ -35,7 +37,8 @@ describe("CalculateInput schema", () => {
     const invalidInput = {
       installedCapacity: 100,
       powerPlantClass: "OnshoreWind",
-      location: "US",
+      egridLocation: "US",
+      avertLocation: "California",
       capacityFactor: 0.25,
       population2070: 1000000,
       startYear: 2020,

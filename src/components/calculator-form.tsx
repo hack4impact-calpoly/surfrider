@@ -9,9 +9,11 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Button } from "@/components/ui/button";
 import { CalculateInput } from "@/schema/api";
 import { EgridLocation, PowerPlantClass } from "@/schema/egrid";
+import { AvertLocation } from "@/schema/avert";
 
 const powerPlantOptions = PowerPlantClass.options;
-const locationOptions = EgridLocation.options;
+const egridLocationOptions = EgridLocation.options;
+const avertLocationOptions = AvertLocation.options;
 
 export default function CalculatorForm() {
   const form = useForm({
@@ -70,16 +72,39 @@ export default function CalculatorForm() {
 
         <FormField
           control={form.control}
-          name="location"
+          name="egridLocation"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Location</FormLabel>
+              <FormLabel>Egrid Location</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger className="text-gray-300">
-                  <SelectValue placeholder="Select Location" />
+                  <SelectValue placeholder="Select Egrid Location" />
                 </SelectTrigger>
                 <SelectContent>
-                  {locationOptions.map((option) => (
+                  {egridLocationOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="avertLocation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Avert Location</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <SelectTrigger className="text-gray-300">
+                  <SelectValue placeholder="Select Avert Location" />
+                </SelectTrigger>
+                <SelectContent>
+                  {avertLocationOptions.map((option) => (
                     <SelectItem key={option} value={option}>
                       {option}
                     </SelectItem>
