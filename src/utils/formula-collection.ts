@@ -1,38 +1,5 @@
 import { Formula } from "@/schema/formula";
 
-// This should all be gotten from the EGRID and AVERT databases
-export const AVERT_AND_EGRID = {
-  // energyType value map is as follows:
-  // Consumed is 0, Onshore Wind is 1, Offshore Wind is 2, Utility PV is 3, Distributed PV is 4, Portfolio EE is 5, Uniform EE is 6
-  // This is E2 on the spreadsheet
-  energyType: 2,
-  regional: 1, // 1 for regional, 0 for national
-
-  kWInstalledCapacity: 5882000,
-  capacityFactor: 0.51,
-
-  nationalEmissionRateFromElectricityConsumed: 823.15,
-  regionalCaliforniaEmissionRateFromElectricityConsumed: 455.94,
-
-  regionalOnshoreWindAvoidedCO2: 946.5,
-  nationalOnshoreWindAvoidedCO2: 1308,
-
-  regionalOffshoreWindAvoidedCO2: 948.1,
-  nationalOffshoreWindAvoidedCO2: 1228,
-
-  regionalUtilityPVAvoidedCO2: 949.4,
-  nationalUtilityPVAvoidedCO2: 1347,
-
-  regionalDistributedPVAvoidedCO2: 1039.6,
-  nationalDistributedPVAvoidedCO2: 1449,
-
-  regionalPortfolioEEAvoidedCO2: 1058,
-  nationalPortfolioEEAvoidedCO2: 1455,
-
-  regionalUniformEEAvoidedCO2: 1037,
-  nationalUniformEEAvoidedCO2: 1429,
-};
-
 /*
     Impact Calculator Equation 1: Conversion between Electricity Consumed and Reduced
  */
@@ -45,10 +12,10 @@ export const annualPowerGeneration: Formula = {
   explanation: "Takes user input of kW installed capacity and capacity factor, and calculates annual power generation",
   assumptions: [""],
   sources: ["User input"],
-  expression: "kWInstalledCapacity * capacityFactor * 8760",
+  expression: "installedCapacity * capacityFactor * 8760",
   unit: "",
   setupScope: () => {},
-  dependencies: ["kWInstalledCapacity", "capacityFactor"],
+  dependencies: ["installedCapacity", "capacityFactor"],
 };
 
 export const CO2PerkWhConsumed: Formula = {
@@ -58,21 +25,18 @@ export const CO2PerkWhConsumed: Formula = {
     "Given an energy source, calculates the number of pounds of CO2 emitted by each kWh consumed by the energy source (based on EGRID data)",
   assumptions: [""],
   sources: [""],
-  expression:
-    "energyType == 0 and regional ? regionalCaliforniaEmissionRateFromElectricityConsumed : nationalEmissionRateFromElectricityConsumed",
+  // TODO: Double check if regional vs. national depends on power plant class being consumed?
+  expression: "annualCo2TotalOutputEmissionRateLbMwh",
   unit: "CO2/kWh-Consumed",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  // In case you want to add energyType and regional using setupScope, do this
+  // In case you want to add powerPlantClass and location using setupScope, do this
   // I don't recommend this because it breaks all the tests
   // Also much harder to maintain, they should be in inputVariables in my opinion
   // setupScope: ((addVariable: (name: string, value: number | (() => number)) => void) => {
-  //   addVariable("energyType", 2);
-  //   addVariable("regional", 1); // 1 for regional, 0 for national
+  //   addVariable("powerPlantClass", 2);
+  //   addVariable("location", 1); // 1 for location, 0 for national
   // }) as (...args: unknown[]) => void,
-  dependencies: [
-    "regionalCaliforniaEmissionRateFromElectricityConsumed",
-    "nationalEmissionRateFromElectricityConsumed",
-  ],
+  dependencies: ["annualCo2TotalOutputEmissionRateLbMwh"],
 };
 
 export const poundsOfCO2PerMWh: Formula = {
@@ -81,39 +45,10 @@ export const poundsOfCO2PerMWh: Formula = {
   explanation: "Calculates the number of pounds of CO2 emissions per MWh of a given energy source",
   assumptions: [""],
   sources: [""],
-  expression:
-    "energyType == 1 and regional ? regionalOnshoreWindAvoidedCO2" +
-    " : energyType == 1 ? nationalOnshoreWindAvoidedCO2" +
-    " : energyType == 2 and regional ? regionalOffshoreWindAvoidedCO2" +
-    " : energyType == 2 ? nationalOffshoreWindAvoidedCO2" +
-    " : energyType == 3 and regional ? regionalUtilityPVAvoidedCO2" +
-    " : energyType == 3 ? nationalUtilityPVAvoidedCO2" +
-    " : energyType == 4 and regional ? regionalDistributedPVAvoidedCO2" +
-    " : energyType == 4 ? nationalDistributedPVAvoidedCO2" +
-    " : energyType == 5 and regional ? regionalPortfolioEEAvoidedCO2" +
-    " : energyType == 5 ? nationalPortfolioEEAvoidedCO2" +
-    " : energyType == 6 and regional ? regionalUniformEEAvoidedCO2" +
-    " : energyType == 6 ? nationalUniformEEAvoidedCO2" +
-    " : energyType == 0 and regional ? regionalCaliforniaEmissionRateFromElectricityConsumed" +
-    " : energyType == 0 ? nationalEmissionRateFromElectricityConsumed : 0",
+  expression: "powerPlantClass == 0 ? annualCo2TotalOutputEmissionRateLbMwh : avoidedCo2EmissionRateLbMwh",
   unit: "",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: [
-    "regionalOnshoreWindAvoidedCO2",
-    "nationalOnshoreWindAvoidedCO2",
-    "regionalOffshoreWindAvoidedCO2",
-    "nationalOffshoreWindAvoidedCO2",
-    "regionalUtilityPVAvoidedCO2",
-    "nationalUtilityPVAvoidedCO2",
-    "regionalDistributedPVAvoidedCO2",
-    "nationalDistributedPVAvoidedCO2",
-    "regionalPortfolioEEAvoidedCO2",
-    "nationalPortfolioEEAvoidedCO2",
-    "regionalUniformEEAvoidedCO2",
-    "nationalUniformEEAvoidedCO2",
-    "regionalCaliforniaEmissionRateFromElectricityConsumed",
-    "nationalEmissionRateFromElectricityConsumed",
-  ],
+  dependencies: ["annualCo2TotalOutputEmissionRateLbMwh", "avoidedCo2EmissionRateLbMwh"],
 };
 
 export const CO2PerkWhReduced: Formula = {
@@ -122,13 +57,16 @@ export const CO2PerkWhReduced: Formula = {
   explanation: "Calculates the number of pounds of CO2 emissions that are reduced by the given energy source",
   assumptions: [""],
   sources: [""],
-  expression:
-    "energyType == 0 and regional ? regionalPortfolioEEAvoidedCO2" +
-    " : energyType == 0 ? nationalPortfolioEEAvoidedCO2" +
-    " : poundsOfCO2PerMWh",
+  // expression:
+  //   "powerPlantClass == 0 and location ? regionalPortfolioEEAvoidedCO2" +
+  //   " : powerPlantClass == 0 ? nationalPortfolioEEAvoidedCO2" +
+  //   " : poundsOfCO2PerMWh",
+  // TODO: Not sure if this makes sense because the original formula above pulls
+  // the portfolio EE emissions rate if the power plant class is consumed
+  expression: "powerPlantClass == 0 ? avoidedCo2EmissionRateLbMwh : poundsOfCO2PerMWh",
   unit: "",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: ["regionalPortfolioEEAvoidedCO2", "nationalPortfolioEEAvoidedCO2", "poundsOfCO2PerMWh"],
+  dependencies: ["powerPlantClass", "avoidedCo2EmissionRateLbMwh", "poundsOfCO2PerMWh"],
 };
 
 export const effectivekWhReduced: Formula = {
@@ -138,7 +76,7 @@ export const effectivekWhReduced: Formula = {
   assumptions: ["Inherited assumptions from CO₂ Emissions from Electricity Consumption and Reduction"],
   sources: ["Inherited sources from the below two equations"],
   expression:
-    "energyType == 0 ? annualPowerGeneration * (CO2PerkWhConsumed / CO2PerkWhReduced) : annualPowerGeneration",
+    "powerPlantClass == 0 ? annualPowerGeneration * (CO2PerkWhConsumed / CO2PerkWhReduced) : annualPowerGeneration",
   unit: "",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["annualPowerGeneration", "CO2PerkWhConsumed", "CO2PerkWhReduced"],
@@ -151,7 +89,7 @@ export const effectivekWhConsumed: Formula = {
   assumptions: ["Inherited assumptions from CO₂ Emissions from Electricity Consumption and Reduction"],
   sources: ["Inherited sources from the below two equations"],
   expression:
-    "energyType == 0 ? annualPowerGeneration : annualPowerGeneration / (CO2PerkWhConsumed / CO2PerkWhReduced)",
+    "powerPlantClass == 0 ? annualPowerGeneration : annualPowerGeneration / (CO2PerkWhConsumed / CO2PerkWhReduced)",
   unit: "",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["annualPowerGeneration", "CO2PerkWhConsumed", "CO2PerkWhReduced"],
@@ -167,19 +105,10 @@ export const CO2PerkWhElectricityReduced: Formula = {
   explanation: "Calculates the metric tons of CO2 emissions displaced per kWh of reduced energy",
   assumptions: ["Same as electricityReductionsCO2Emissions"],
   sources: ["Same as electricityReductionsCO2Emissions"],
-  expression:
-    "(energyType == 0 and regional ? regionalPortfolioEEAvoidedCO2" +
-    " : energyType == 0 ? nationalPortfolioEEAvoidedCO2 " +
-    " : poundsOfCO2PerMWh) * 1 / 2204.60 * 0.001",
+  expression: "CO2PerkWhReduced * 1 / 2204.60 * 0.001",
   unit: "metric tons CO2/kWh",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: [
-    "energyType",
-    "regional",
-    "regionalPortfolioEEAvoidedCO2",
-    "nationalPortfolioEEAvoidedCO2",
-    "poundsOfCO2PerMWh",
-  ],
+  dependencies: ["CO2PerkWhReduced"],
 };
 
 export const electricityReductionsCO2Emissions: Formula = {
@@ -211,15 +140,10 @@ export const CO2PerkWhElectricityConsumed: Formula = {
   explanation: "Calculates the metric tons of CO2 produced per kWh",
   assumptions: ["Same as electricityConsumedCO2Emissions"],
   sources: ["Same as electricityConsumedCO2Emissions"],
-  expression:
-    "(regional ? regionalCaliforniaEmissionRateFromElectricityConsumed : nationalEmissionRateFromElectricityConsumed) * 1 / 2204.60 * 0.001",
+  expression: "annualCo2TotalOutputEmissionRateLbMwh * 1 / 2204.60 * 0.001",
   unit: "metric tons CO2/kWh",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: [
-    "regional",
-    "regionalCaliforniaEmissionRateFromElectricityConsumed",
-    "nationalEmissionRateFromElectricityConsumed",
-  ],
+  dependencies: ["annualCo2TotalOutputEmissionRateLbMwh"],
 };
 
 export const electricityConsumedCO2Emissions: Formula = {
@@ -262,11 +186,11 @@ export const gallonsOfGasolineBurnedEquivalentCO2Emissions: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / 0.008887",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / 0.008887",
   unit: "Gallons of Gasoline Equivalent CO2 Emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -292,11 +216,11 @@ export const gallonsOfDieselConsumedEquivalentCO2Emissions: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / 0.01018",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / 0.01018",
   unit: "Gallons of Diesel Equivalent CO2 Emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -325,11 +249,11 @@ export const gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions: Form
     "https://www.fhwa.dot.gov/policyinformation/statistics/2020/vm1.cfm",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.00889 * 11520 * 1 / 22.9 * 1 / 0.993)",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.00889 * 11520 * 1 / 22.9 * 1 / 0.993)",
   unit: "Gasoline-powered passenger vehicles per year Equivalent CO₂ Emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -356,11 +280,11 @@ export const milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2
     "https://www.fhwa.dot.gov/policyinformation/statistics/2020/vm1.cfm",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.00889 * 1 / 22.9 * 1 / 0.993)",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.00889 * 1 / 22.9 * 1 / 0.993)",
   unit: "Miles driven by the average gasoline-powered passenger vehicle Equivalent CO₂ Emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -388,11 +312,11 @@ export const thermsOfNaturalGasEquivalentCO2Emissions: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.1 * 14.43 * (44 / 12) * 1 / 1000)",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (0.1 * 14.43 * (44 / 12) * 1 / 1000)",
   unit: "therm of natural gas burned as fuel Equivalent emissions ",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -418,11 +342,11 @@ export const mcfOfNaturalGasEquivalentCO2Emissions: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / ((0.1 * 14.43 * (44 / 12) * 1 / 1000) * 10.38)",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / ((0.1 * 14.43 * (44 / 12) * 1 / 1000) * 10.38)",
   unit: "Mcf of natural gas burned as fuel Equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -448,11 +372,11 @@ export const barrelsOfOilConsumedEquivalentCO2Emissions: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (5.8 * 20.33 * (44 / 12) * 1 / 1000)",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (5.8 * 20.33 * (44 / 12) * 1 / 1000)",
   unit: "Barrels of oil burned equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -478,11 +402,11 @@ export const tankerTrucksFilledWithGasolineEquivalentEmissions: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? effectivekWhConsumed : effectivekWhReduced) * (energyType == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (8.89 * 0.001 * 8500)",
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced) / (8.89 * 0.001 * 8500)",
   unit: "Tanker Trucks of gas burned equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [
-    "energyType",
+    "powerPlantClass",
     "effectivekWhConsumed",
     "effectivekWhReduced",
     "CO2PerkWhElectricityConsumed",
@@ -512,7 +436,7 @@ export const numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperati
       "EPA (2019). Savings Calculator for ENERGY STAR Qualified Light Bulbs. U.S. Environmental Protection Agency, Washington, DC.",
     ],
     expression:
-      "(energyType == 0 ? electricityConsumedCO2Emissions" +
+      "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
       " : electricityReductionsCO2Emissions) / (((43 - 9) * 3 * 365 / 1000) * 1562.4 / 1000 / 2204.6)",
     unit: "Bulbs replaced operating for a year saved equivalent emissions",
     setupScope: (() => {}) as (...args: unknown[]) => void,
@@ -555,7 +479,7 @@ export const homeYearlyElectricityUseEquivalentEmissions: Formula = {
     "https://www.epa.gov/system/files/documents/2022-04/us-ghg-inventory-2022-annexes.pdf",
   ],
   expression:
-    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
     " : electricityReductionsCO2Emissions) / metricTonsOfCO2PerHomePerYear",
   unit: "Homes of yearly equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
@@ -595,7 +519,7 @@ export const homeYearlyTotalEnergyUseEquivalentEmissions: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
     " : electricityReductionsCO2Emissions) / (metricTonsOfCO2PerHomePerYear" +
     " + (41590 * .0550 / 1000) + (235 / 1000) + (27 / 42 * 426.1 / 1000))",
   unit: "Homes total energy use per year equivalent emissions",
@@ -627,7 +551,7 @@ export const numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation: 
     "https://www3.epa.gov/climatechange/Downloads/method-calculating-carbon-sequestration-trees-urban-and-suburban-settings.pdf",
   ],
   expression:
-    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
     " : electricityReductionsCO2Emissions) / (((.11 * 23.2) + (.89 * 38)) * (44 / 12) / 2204.6)",
   unit: "Urban Tree Seedlings Grown for Ten Years worth of Emission Fixation",
   setupScope: (() => {}) as (...args: unknown[]) => void,
@@ -658,7 +582,7 @@ export const acresOfUSForestsEquivalentCO2SequesteringForOneYear: Formula = {
     "Smith, J., Heath, L., & Nichols, M. (2010). U.S. Forest Carbon Calculation Tool User's Guide: Forestland Carbon Stocks and Net Annual Stock Change. General Technical Report NRS-13 revised, U.S. Department of Agriculture Forest Service, Northern Research Station.",
   ],
   expression:
-    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
     " : electricityReductionsCO2Emissions) / (((((58156 - 58007) * 106) / (282.061 * 103)) / 2.471) * (44 / 12))",
   unit: "Average Forestry Acres per year to sequester",
   setupScope: (() => {}) as (...args: unknown[]) => void,
@@ -693,7 +617,7 @@ export const acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions
     "https://www.ipcc-nggip.iges.or.jp/public/wetlands/index.html",
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html",
   ],
-  expression: "(energyType == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 5.139", //might be the wrong value
+  expression: "(powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 5.139", //might be the wrong value
   unit: "Acres prevented from conversion to cropland in the year of conversion Equivalent",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
@@ -717,7 +641,7 @@ export const propaneCylindersUsedForHomeBarbecues: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
     " : electricityReductionsCO2Emissions) / (16 * .818 * .4536 * 44 / 12 / 1000)",
   unit: "Homes of yearly equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
@@ -745,7 +669,7 @@ export const railcarsOfCoalBurned: Formula = {
     "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
   ],
   expression:
-    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
     " : electricityReductionsCO2Emissions) / (20.84 * 26.12 * 44 / 12 * 90.89 / 1000)",
   unit: "Railcars",
   setupScope: (() => {}) as (...args: unknown[]) => void,
@@ -771,7 +695,7 @@ export const poundsOfCoalBurned: Formula = {
     "IPCC (2006). 2006 IPCC Guidelines for National Greenhouse Gas Inventories. Volume 2 (Energy). Intergovernmental Panel on Climate Change, Geneva, Switzerland.",
   ],
   expression:
-    "(energyType == 0 ? electricityConsumedCO2Emissions" +
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions" +
     " : electricityReductionsCO2Emissions) / (20.84 * 25.76 * 44 / 12 / 2204.6 / 1000)",
   unit: "lb Coal",
   setupScope: (() => {}) as (...args: unknown[]) => void,
@@ -791,7 +715,7 @@ export const tonsOfWasteRecycledInsteadOfLandfilled: Formula = {
     "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
   ],
   sources: ["EPA (2020). Waste Reduction Model (WARM), Version 15. U.S. Environmental Protection Agency."],
-  expression: "(energyType == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 2.89",
+  expression: "(powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 2.89",
   unit: "Homes of yearly equivalent emissions",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
@@ -814,7 +738,8 @@ export const numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled: Formula = 
     "https://www.epa.gov/warm/versions-waste-reduction-model-warm#15",
     "https://www.epa.gov/sites/production/files/2016-03/documents/r02002.pdf",
   ],
-  expression: "(energyType == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / (2.89 * 7)",
+  expression:
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / (2.89 * 7)",
   unit: "Garbage truck recycled",
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
