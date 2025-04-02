@@ -7,6 +7,13 @@ import { getAvertRecordByKey } from "@/services/avert-store";
 import { EgridRecordData } from "@/schema/egrid";
 import { AvertRecordData } from "@/schema/avert";
 
+function extractNumericFields(obj: Record<string, unknown>): Record<string, number> {
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => typeof value === "number")) as Record<
+    string,
+    number
+  >;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -21,8 +28,8 @@ export async function POST(req: NextRequest) {
     const egridRecord = getEgridRecordByKey(yearOfStudy, egridLocation);
     const avertRecord = getAvertRecordByKey(yearOfStudy, avertLocation, powerPlantClass);
 
-    const egridRecordData = EgridRecordData.parse(egridRecord);
-    const avertRecordData = AvertRecordData.parse(avertRecord);
+    const egridRecordData = extractNumericFields(EgridRecordData.parse(egridRecord));
+    const avertRecordData = extractNumericFields(AvertRecordData.parse(avertRecord));
 
     const formulaParser = new FormulaParser({
       ...inputVariables,
