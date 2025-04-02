@@ -4,6 +4,7 @@ import { z } from "zod";
  * Power plant classification
  */
 export const PowerPlantClass = z.enum([
+  "Consumed",
   "OnshoreWind",
   "OffshoreWind",
   "UtilityPV",
@@ -12,6 +13,16 @@ export const PowerPlantClass = z.enum([
   "UniformEE",
 ]);
 export type PowerPlantClass = z.infer<typeof PowerPlantClass>;
+
+export const powerPlantClassToIndex: Record<PowerPlantClass, number> = {
+  Consumed: 0,
+  OnshoreWind: 1,
+  OffshoreWind: 2,
+  UtilityPV: 3,
+  DistributedPV: 4,
+  PortfolioEE: 5,
+  UniformEE: 6,
+};
 
 /**
  * eGRID country, subregion, and state codes
