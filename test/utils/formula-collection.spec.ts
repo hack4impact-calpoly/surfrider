@@ -72,6 +72,7 @@ describe("annualPowerGeneration evaluation", () => {
   });
 });
 
+// NOTE: Does not match spreadsheet
 describe("CO2PerkWhConsumed evaluation", () => {
   it("should evaluate CO2PerkWhConsumed", () => {
     const parser = new FormulaParser(TEST_INPUT);
@@ -120,6 +121,8 @@ describe("effectivekWhReduced evaluation", () => {
     expectPercentError(result, 26278423200.0, 0.001);
   });
 });
+
+// NOTE: Does not match spreadsheet
 describe("effectivekWhConsumed evaluation", () => {
   it("should evaluate effectivekWhConsumed", () => {
     const parser = new FormulaParser(TEST_INPUT);
@@ -158,6 +161,7 @@ describe("formula 2 evaluation", () => {
 
 /*
     Impact Calculator Equation 3: Electricity consumed (kilowatt-hours) CO₂ Emissions
+    NOTE: Does not match spreadsheet
  */
 describe("formula 3 evaluation", () => {
   it("should evaluate formula 3", () => {
