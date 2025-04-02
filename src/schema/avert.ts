@@ -34,13 +34,13 @@ export const AvertRecordKey = z.object({
 export type AvertRecordKey = z.infer<typeof AvertRecordKey>;
 
 export const AvertRecordData = z.object({
-  avoidedCo2EmissionRateLbMwh: z.number().optional(),
-  avoidedNoxEmissionRateLbMwh: z.number().optional(),
-  avoidedSo2EmissionRateLbMwh: z.number().optional(),
-  avoidedPm2_5EmissionRateLbMwh: z.number().optional(),
-  avoidedNh3EmissionRateLbMwh: z.number().optional(),
-  avoidedVocEmissionRateLbMwh: z.number().optional(),
-  capacityFactorPercent: z.number().optional(),
+  avoidedCo2EmissionRateLbMwh: z.number().or(z.null()),
+  avoidedNoxEmissionRateLbMwh: z.number().or(z.null()),
+  avoidedSo2EmissionRateLbMwh: z.number().or(z.null()),
+  avoidedPm2_5EmissionRateLbMwh: z.number().or(z.null()),
+  avoidedNh3EmissionRateLbMwh: z.number().or(z.null()),
+  avoidedVocEmissionRateLbMwh: z.number().or(z.null()),
+  capacityFactorPercent: z.number().or(z.null()),
 });
 
 export type AvertRecordData = z.infer<typeof AvertRecordData>;

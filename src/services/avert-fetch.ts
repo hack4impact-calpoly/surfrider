@@ -1,19 +1,15 @@
+import { AvertRecord } from "@/schema/avert";
 import axios from "axios";
 import * as XLSX from "xlsx";
 
 //route that contains AVERT data file
 const AVERT_URL = "https://www.epa.gov/system/files/documents/2024-04/avert_emission_rates_04-11-24_0.xlsx";
 
-//fetch the AVERT Excel file from EPA website
-export const fetchAvertData = async (): Promise<Buffer> => {
-  //fetch spreadsheet as a binary buffer
+//fetch and transform the AVERT Excel file from EPA website
+export const fetchAndTransformAvertData = async (): Promise<AvertRecord[]> => {
   const response = await axios.get(AVERT_URL, { responseType: "arraybuffer" });
-  return response.data;
-};
-
-export const transformAvertData = (fileBuffer: Buffer): unknown => {
   //load the workbook
-  const workbook = XLSX.read(fileBuffer, { type: "buffer" });
+  const workbook = XLSX.read(response.data, { type: "buffer" });
 
   //extract sheets from workbook
   const capacityFactorSheet = workbook.Sheets["Capacity factors"];
@@ -25,15 +21,19 @@ export const transformAvertData = (fileBuffer: Buffer): unknown => {
 
   //combine data
   const transformedData = combineData(capacityFactors, emissionRates, 2023);
+  //convert to AvertRecord objects
+  const avertRecords = transformedData.map((record) => {
+    return AvertRecord.parse(record); //will throw error if record doesn't match schema
+  });
 
-  return transformedData;
+  return avertRecords;
 };
 
 const extractCapacityFactors = (sheet: XLSX.WorkSheet) => {
   //convert to array format
   const jsonData: (string | number)[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   //create empty object to store extracted data
-  const capacityData: Record<string, Record<string, number | string>> = {};
+  const capacityData: Record<string, Record<string, number | null>> = {};
 
   //remove first two rows (headers)
   jsonData.slice(2).forEach((row: (string | number)[], index: number, array: (string | number)[][]) => {
@@ -46,10 +46,10 @@ const extractCapacityFactors = (sheet: XLSX.WorkSheet) => {
     //create entry for location and extract capacity factor values from respective columns
     if (location !== "") {
       capacityData[location] = {
-        OnshoreWind: row[1], //column B
-        OffshoreWind: row[2], //column C
-        UtilityPV: row[3], //column D
-        DistributedPV: row[4], //column E
+        OnshoreWind: sanitizeValue(row[1]), //column B
+        OffshoreWind: sanitizeValue(row[2]), //column C
+        UtilityPV: sanitizeValue(row[3]), //column D
+        DistributedPV: sanitizeValue(row[4]), //column E
       };
     }
   });
@@ -61,7 +61,7 @@ const extractEmissionRates = (sheet: XLSX.WorkSheet) => {
   //convert sheet to an array
   const jsonData: (string | number)[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   //create an empty object to store emissions
-  const emissionRatesData: Record<string, Record<string, Record<string, number | string>>> = {};
+  const emissionRatesData: Record<string, Record<string, Record<string, number | null>>> = {};
 
   //extract national emission rate data
   for (let rowIndex = 6; rowIndex <= 11; rowIndex++) {
@@ -93,7 +93,7 @@ const extractEmissionRates = (sheet: XLSX.WorkSheet) => {
 //parse the columns in the location rows that represent the powerplant class
 function processEmissionData(
   row: (string | number)[],
-  emissionRatesData: Record<string, Record<string, Record<string, number | string>>>,
+  emissionRatesData: Record<string, Record<string, Record<string, number | null>>>,
   emissionType: string,
   location: string,
   colStart: number,
@@ -108,14 +108,12 @@ function processEmissionData(
 
   //populate data
   emissionRatesData[location][emissionType] = {
-    OnshoreWind: row[colStart + 1],
-    OffshoreWind: row[colStart + 2],
-    UtilityPV: row[colStart + 3],
-    DistributedPV: row[colStart + 4],
-    UtilityPVPlusStorage: row[colStart + 5],
-    DistributedPVPlusStorage: row[colStart + 6],
-    PortfolioEE: row[colStart + 7],
-    UniformEE: row[colStart + 8],
+    OnshoreWind: sanitizeValue(row[colStart + 1]),
+    OffshoreWind: sanitizeValue(row[colStart + 2]),
+    UtilityPV: sanitizeValue(row[colStart + 3]),
+    DistributedPV: sanitizeValue(row[colStart + 4]),
+    PortfolioEE: sanitizeValue(row[colStart + 7]),
+    UniformEE: sanitizeValue(row[colStart + 8]),
   };
 }
 
@@ -161,12 +159,12 @@ const combineData = (capacityFactors: XLSX.WorkSheet, emissionRates: XLSX.WorkSh
         year,
         location,
         powerPlantClass,
-        capacityFactorPercent: capacityFactors[location]?.[powerPlantClass] ?? "-",
+        capacityFactorPercent: capacityFactors[location]?.[powerPlantClass] ?? 0,
       };
 
       //populate emission rates based on emission type
       emissionTypes.forEach((emissionType) => {
-        doc[emissionType] = emissionRates[location]?.[emissionType]?.[powerPlantClass] ?? "-";
+        doc[emissionType] = emissionRates[location]?.[emissionType]?.[powerPlantClass] ?? 0;
       });
 
       finalDocuments.push(doc);
@@ -175,3 +173,10 @@ const combineData = (capacityFactors: XLSX.WorkSheet, emissionRates: XLSX.WorkSh
 
   return finalDocuments;
 };
+
+function sanitizeValue(value: string | number | undefined): number | null {
+  if (value === "-" || value === undefined || value === null) return null;
+  if (typeof value === "number") return value;
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? null : parsed;
+}
