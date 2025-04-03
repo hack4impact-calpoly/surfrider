@@ -61,17 +61,17 @@ describe("getEgridRecordByKey", () => {
   it("returns a record if found", async () => {
     await EgridModel.create(MOCK_EGRID_RECORD);
 
-    await expect(getEgridRecordByKey(2020, "US")).resolves.toMatchObject(MOCK_EGRID_RECORD);
+    await expect(getEgridRecordByKey(2022, "US")).resolves.toMatchObject(MOCK_EGRID_RECORD);
     expect(mockedConnectDB).toHaveBeenCalled();
   });
 
   it("rejects if no record is found", async () => {
-    await expect(getEgridRecordByKey(2020, "US")).rejects.toBeInstanceOf(AppError);
+    await expect(getEgridRecordByKey(2022, "US")).rejects.toBeInstanceOf(AppError);
   });
 
   it("rejects if error occurs", async () => {
     await mongoose.disconnect();
-    await expect(getEgridRecordByKey(2020, "US")).rejects.toBeInstanceOf(AppError);
+    await expect(getEgridRecordByKey(2022, "US")).rejects.toBeInstanceOf(AppError);
     await mongoose.connect(mongoServer.getUri());
   });
 });
@@ -80,17 +80,17 @@ describe("doesRecordExist", () => {
   it("returns true if record exists", async () => {
     await EgridModel.create(MOCK_EGRID_RECORD);
 
-    await expect(doesRecordExist(2020, "US")).resolves.toBe(true);
+    await expect(doesRecordExist(2022, "US")).resolves.toBe(true);
     expect(mockedConnectDB).toHaveBeenCalled();
   });
 
   it("returns false if no record is found", async () => {
-    await expect(doesRecordExist(2020, "US")).resolves.toBe(false);
+    await expect(doesRecordExist(2022, "US")).resolves.toBe(false);
   });
 
   it("rejects if error occurs", async () => {
     await mongoose.disconnect();
-    await expect(doesRecordExist(2020, "US")).rejects.toBeInstanceOf(AppError);
+    await expect(doesRecordExist(2022, "US")).rejects.toBeInstanceOf(AppError);
     await mongoose.connect(mongoServer.getUri());
   });
 });
