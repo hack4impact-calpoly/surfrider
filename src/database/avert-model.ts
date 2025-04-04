@@ -1,6 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import { AvertLocation, AvertRecord } from "@/schema/avert";
 import { PowerPlantClass } from "@/schema/egrid";
-import { AvertLocation } from "@/schema/avert";
+import mongoose, { Schema } from "mongoose";
 
 export const AvertSchema = new Schema(
   {
@@ -20,4 +20,5 @@ export const AvertSchema = new Schema(
 
 AvertSchema.index({ year: 1, location: 1, powerPlantClass: 1 }, { unique: true });
 
-export const AvertModel = mongoose.model("Avert", AvertSchema);
+export const AvertModel =
+  (mongoose.models.Avert as mongoose.Model<AvertRecord>) || mongoose.model("Avert", AvertSchema);

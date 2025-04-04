@@ -16,7 +16,8 @@ const STATE_SHEET = "ST22";
 const STATE_PREFIX = "State";
 const STATE_LOCATION_FIELD = "State abbreviation";
 
-const parseRawNumberValue = (val: unknown): number | null => (typeof val === "number" ? val : null);
+const parseRawNumberValue = (val: unknown): number | null | undefined =>
+  val === undefined ? undefined : typeof val === "number" ? val : null;
 const parseRawStringValue = (val: unknown): string | null => (typeof val === "string" ? val : null);
 
 const transformRawData = (
@@ -31,7 +32,7 @@ const transformRawData = (
       location,
     };
 
-    const data: EgridRecordData = {
+    const data: Partial<EgridRecordData> = {
       nameplateCapacityMw: parseRawNumberValue(raw[`${prefix} nameplate capacity (MW)`]),
       annualHeatInputMmbtu: parseRawNumberValue(raw[`${prefix} annual heat input from combustion (MMBtu)`]),
       ozoneSeasonHeatInputMmbtu: parseRawNumberValue(raw[`${prefix} ozone season heat input from combustion (MMBtu)`]),
@@ -315,9 +316,11 @@ const transformRawData = (
       annualN2oNonbaseloadOutputEmissionRateLbMwh: parseRawNumberValue(
         raw[`${prefix} annual N2O non-baseload output emission rate (lb/MWh)`],
       ),
-      annualCo2EquivalentNonbaseloadOutputEmissionRateLbMwh: parseRawNumberValue(
-        raw[`${prefix} annual CO2e non-baseload output emission rate (lb/MWh)`],
-      ),
+      annualCo2EquivalentNonbaseloadOutputEmissionRateLbMwh: raw[
+        `${prefix} annual CO2e non-baseload output emission rate (lb/MWh)`
+      ]
+        ? parseRawNumberValue(raw[`${prefix} annual CO2e non-baseload output emission rate (lb/MWh)`])
+        : parseRawNumberValue(raw[`${prefix} annual CO2 equivalent non-baseload output emission rate (lb/MWh)`]),
       annualHgNonbaseloadOutputEmissionRateLbMwh: parseRawNumberValue(
         raw[`${prefix} annual Hg non-baseload output emission rate (lb/MWh)`],
       ),
@@ -466,10 +469,19 @@ const transformRawData = (
   }
 };
 
+const trimColumnNames = (sheetJson: Record<string, unknown>) => {
+  const newSheetJson: Record<string, unknown> = {};
+
+  Object.entries(sheetJson).forEach(([key, value]) => {
+    newSheetJson[key.trim()] = value;
+  });
+  return newSheetJson;
+};
+
 const transformCountryData = (countrySheet: XLSX.WorkSheet): EgridRecord => {
   const countryData = XLSX.utils.sheet_to_json(countrySheet);
   if (countryData.length > 1) {
-    const decodedRaw = z.record(z.unknown()).parse(countryData[1]);
+    const decodedRaw = trimColumnNames(z.record(z.unknown()).parse(countryData[1]));
     return transformRawData(decodedRaw, YEAR, EgridLocation.enum.US, COUNTRY_PREFIX);
   }
   throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find country data in eGRID file");
@@ -479,7 +491,7 @@ const transformSubregionData = (subregionSheet: XLSX.WorkSheet): EgridRecord[] =
   const subregionData = XLSX.utils.sheet_to_json(subregionSheet);
   if (subregionData.length > 1) {
     return subregionData.slice(1).map((raw: unknown) => {
-      const decodedRaw = z.record(z.unknown()).parse(raw);
+      const decodedRaw = trimColumnNames(z.record(z.unknown()).parse(raw));
       const location = parseRawStringValue(decodedRaw[SUBREGION_LOCATION_FIELD]);
       const decodedLocation = EgridLocation.parse(location);
       return transformRawData(decodedRaw, YEAR, decodedLocation, SUBREGION_PREFIX);
@@ -492,7 +504,7 @@ const transformStateData = (stateSheet: XLSX.WorkSheet): EgridRecord[] => {
   const stateData = XLSX.utils.sheet_to_json(stateSheet);
   if (stateData.length > 1) {
     return stateData.slice(1).map((raw: unknown) => {
-      const decodedRaw = z.record(z.unknown()).parse(raw);
+      const decodedRaw = trimColumnNames(z.record(z.unknown()).parse(raw));
       const location = parseRawStringValue(decodedRaw[STATE_LOCATION_FIELD]);
       const decodedLocation = EgridLocation.parse(location);
       return transformRawData(decodedRaw, YEAR, decodedLocation, STATE_PREFIX);
