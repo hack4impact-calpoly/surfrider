@@ -1,0 +1,36 @@
+import { z } from "zod";
+
+export const FormulaId = z.enum([
+  "annualPowerGeneration",
+  "CO2PerkWhConsumed",
+  "poundsOfCO2PerMWh",
+  "CO2PerkWhReduced",
+  "effectivekWhReduced",
+  "effectivekWhConsumed",
+  "CO2PerkWhElectricityReduced",
+  "electricityReductionsCO2Emissions",
+  "CO2PerkWhElectricityConsumed",
+  "electricityConsumedCO2Emissions",
+  "gallonsOfGasolineBurnedEquivalentCO2Emissions",
+  "gallonsOfDieselConsumedEquivalentCO2Emission",
+  "gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions",
+  "milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions",
+  "thermsOfNaturalGasEquivalentCO2Emissions",
+  "mcfOfNaturalGasEquivalentCO2Emissions",
+  "barrelsOfOilConsumedEquivalentCO2Emissions",
+  "tankerTrucksFilledWithGasolineEquivalentEmissions",
+  "numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions",
+  "metricTonsOfCO2PerHomePerYear",
+  "homeYearlyElectricityUseEquivalentEmissions",
+  "homeYearlyTotalEnergyUseEquivalentEmissions",
+  "numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation",
+  "acresOfUSForestsEquivalentCO2SequesteringForOneYear",
+  "acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions",
+  "propaneCylindersUsedForHomeBarbecues",
+  "railcarsOfCoalBurned",
+  "poundsOfCoalBurned",
+  "tonsOfWasteRecycledInsteadOfLandfilled",
+  "numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled",
+]);
+
+export type FormulaId = z.infer<typeof FormulaId>;

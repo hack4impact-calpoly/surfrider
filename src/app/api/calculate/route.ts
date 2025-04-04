@@ -1,12 +1,12 @@
 import { FormulaParser } from "@/utils/formula-parser";
 import { formulas } from "@/utils/formula-collection";
 import { apiErrorHandler } from "@/utils/errors";
-import { CalculateInput } from "@/schema/api";
-import { FormulaId } from "@/schema/formula";
+import { FormulaId } from "@/schema/formula-id";
 import { getEgridRecordByKey } from "@/services/egrid-store";
 import { getAvertRecordByKey } from "@/services/avert-store";
 import { EgridRecordData, powerPlantClassToIndex } from "@/schema/egrid";
 import { AvertRecordData, egridToAvertLocations } from "@/schema/avert";
+import { CalculateInput, CalculateResult } from "@/schema/api";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -26,7 +26,7 @@ function extractNumericFields(obj: Record<string, unknown>): Record<string, numb
  * @param results - The map of formula results.
  * @returns The filtered results as a record of formula IDs and corresponding values.
  */
-function filterFormulaResults(results: Map<string, number>): Record<string, number> {
+function filterFormulaResults(results: Map<string, number>): CalculateResult {
   const validResults = new Set(FormulaId.options);
 
   return Object.fromEntries(Array.from(results.entries()).filter(([key]) => validResults.has(key as FormulaId)));

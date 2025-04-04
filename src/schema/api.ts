@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PowerPlantClass, EgridLocation } from "@/schema/egrid";
+import { FormulaId } from "./formula-id";
 
 export const CalculateInput = z.object({
   installedCapacity: z.number().min(0, { message: "Installed capacity must be at least 0" }),
@@ -16,3 +17,9 @@ export const CalculateInput = z.object({
 });
 
 export type CalculateInput = z.infer<typeof CalculateInput>;
+
+export const CalculateResult = z.object(
+  Object.fromEntries(FormulaId.options.map((formulaId) => [formulaId, z.number()])),
+);
+
+export type CalculateResult = z.infer<typeof CalculateResult>;
