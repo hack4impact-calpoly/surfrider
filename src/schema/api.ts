@@ -18,8 +18,6 @@ export const CalculateInput = z.object({
 
 export type CalculateInput = z.infer<typeof CalculateInput>;
 
-export const CalculateResult = z.object(
-  Object.fromEntries(FormulaId.options.map((formulaId) => [formulaId, z.number()])),
-);
+export const CalculateResult = z.record(FormulaId, z.number());
 
 export type CalculateResult = z.infer<typeof CalculateResult>;
