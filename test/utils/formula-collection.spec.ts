@@ -1,7 +1,6 @@
 import { FormulaParser } from "@/utils/formula-parser";
 import {
   annualPowerGeneration,
-  AVERT_AND_EGRID,
   CO2PerkWhConsumed,
   CO2PerkWhReduced,
   poundsOfCO2PerMWh,
@@ -32,6 +31,22 @@ import {
   tonsOfWasteRecycledInsteadOfLandfilled,
   numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
 } from "@/utils/formula-collection";
+import { FormulaDependency } from "@/schema/formula";
+
+// This should all be gotten from the calculator input and EGRID/AVERT databases
+export const TEST_INPUT: Partial<Record<FormulaDependency, number>> = {
+  // powerPlantClass value map is as follows:
+  // Consumed is 0, Onshore Wind is 1, Offshore Wind is 2, Utility PV is 3, Distributed PV is 4, Portfolio EE is 5, Uniform EE is 6
+  // This is E2 on the spreadsheet
+  powerPlantClass: 2,
+
+  installedCapacity: 5882000,
+  capacityFactor: 0.51,
+
+  annualCo2TotalOutputEmissionRateLbMwh: 455.94,
+
+  avoidedCo2EmissionRateLbMwh: 948.1,
+};
 
 const expectPercentError = (result: number, expected: number, percentError: number) => {
   expect(result).toBeGreaterThanOrEqual(expected * (1 - percentError));
@@ -39,7 +54,7 @@ const expectPercentError = (result: number, expected: number, percentError: numb
 };
 
 /*
-  My assumption for most of these tests is that energyType is 2 and regional is 1. This will need to be reworked once AVERT_AND_EGRID is no longer fixed.
+  My assumption for most of these tests is that powerPlantClass is 2 and location is 1. This will need to be reworked once AVERT_AND_EGRID is no longer fixed.
  */
 
 /*
@@ -48,7 +63,7 @@ const expectPercentError = (result: number, expected: number, percentError: numb
 
 describe("annualPowerGeneration evaluation", () => {
   it("should evaluate annualPowerGeneration", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
 
     const result = parser.evaluate();
@@ -57,20 +72,21 @@ describe("annualPowerGeneration evaluation", () => {
   });
 });
 
+// NOTE: Does not match spreadsheet
 describe("CO2PerkWhConsumed evaluation", () => {
   it("should evaluate CO2PerkWhConsumed", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(CO2PerkWhConsumed);
 
     const result = parser.evaluate();
 
-    expect(result).toBeCloseTo(823.149, 1);
+    expect(result).toBeCloseTo(455.94, 1);
   });
 });
 
 describe("poundsOfCO2PerMWh evaluation", () => {
   it("should evaluate poundsOfCO2PerMWh", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(poundsOfCO2PerMWh);
 
     const result = parser.evaluate();
@@ -81,7 +97,7 @@ describe("poundsOfCO2PerMWh evaluation", () => {
 
 describe("CO2PerkWhReduced evaluation", () => {
   it("should evaluate CO2PerkWhReduced", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(poundsOfCO2PerMWh);
     parser.addFormula(CO2PerkWhReduced);
 
@@ -92,7 +108,7 @@ describe("CO2PerkWhReduced evaluation", () => {
 });
 describe("effectivekWhReduced evaluation", () => {
   it("should evaluate effectivekWhReduced", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -105,9 +121,11 @@ describe("effectivekWhReduced evaluation", () => {
     expectPercentError(result, 26278423200.0, 0.001);
   });
 });
+
+// NOTE: Does not match spreadsheet
 describe("effectivekWhConsumed evaluation", () => {
   it("should evaluate effectivekWhConsumed", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -117,7 +135,7 @@ describe("effectivekWhConsumed evaluation", () => {
     const result = parser.evaluate();
 
     // Can't get number to match exactly, probably intermediate rounding errors or precision issues.
-    expectPercentError(result, 30267994303.08, 0.001);
+    expectPercentError(result, 54645499939, 0.001);
   });
 });
 
@@ -126,7 +144,7 @@ describe("effectivekWhConsumed evaluation", () => {
  */
 describe("formula 2 evaluation", () => {
   it("should evaluate formula 2", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -143,10 +161,11 @@ describe("formula 2 evaluation", () => {
 
 /*
     Impact Calculator Equation 3: Electricity consumed (kilowatt-hours) CO₂ Emissions
+    NOTE: Does not match spreadsheet
  */
 describe("formula 3 evaluation", () => {
   it("should evaluate formula 3", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -157,7 +176,7 @@ describe("formula 3 evaluation", () => {
 
     const result = parser.evaluate();
 
-    expectPercentError(result, 6259815.53, 0.001);
+    expectPercentError(result, 11301401.27, 0.001);
   });
 });
 
@@ -166,7 +185,7 @@ describe("formula 3 evaluation", () => {
  */
 describe("formula 4 evaluation", () => {
   it("should evaluate formula 4", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -187,7 +206,7 @@ describe("formula 4 evaluation", () => {
  */
 describe("formula 5 evaluation", () => {
   it("should evaluate formula 5", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -208,7 +227,7 @@ describe("formula 5 evaluation", () => {
  */
 describe("formula 6 evaluation", () => {
   it("should evaluate formula 6", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -230,7 +249,7 @@ describe("formula 6 evaluation", () => {
  */
 describe("formula 7 evaluation", () => {
   it("should evaluate formula 7", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -252,7 +271,7 @@ describe("formula 7 evaluation", () => {
  */
 describe("thermsOfNaturalGasEquivalentCO2Emissions evaluation", () => {
   it("should evaluate thermsOfNaturalGasEquivalentCO2Emissions", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -272,7 +291,7 @@ describe("thermsOfNaturalGasEquivalentCO2Emissions evaluation", () => {
 
 describe("mcfOfNaturalGasEquivalentCO2Emissions evaluation", () => {
   it("should evaluate mcfOfNaturalGasEquivalentCO2Emissions", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -294,7 +313,7 @@ describe("mcfOfNaturalGasEquivalentCO2Emissions evaluation", () => {
  */
 describe("formula 9 evaluation", () => {
   it("should evaluate formula 9", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -316,7 +335,7 @@ describe("formula 9 evaluation", () => {
  */
 describe("formula 10 evaluation", () => {
   it("should evaluate formula 10", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -338,7 +357,7 @@ describe("formula 10 evaluation", () => {
  */
 describe("formula 11 evaluation", () => {
   it("should evaluate formula 11", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -366,7 +385,7 @@ describe("formula 11 evaluation", () => {
 // intermediate formula for yearly home emissions
 describe("intermediate formula evaluation", () => {
   it("should evaluate intermediate formula", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(metricTonsOfCO2PerHomePerYear);
 
     const result = parser.evaluate();
@@ -377,7 +396,7 @@ describe("intermediate formula evaluation", () => {
 
 describe("formula 12 evaluation", () => {
   it("should evaluate formula 12", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -402,7 +421,7 @@ describe("formula 12 evaluation", () => {
  */
 describe("formula 13 evaluation", () => {
   it("should evaluate formula 13", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -427,7 +446,7 @@ describe("formula 13 evaluation", () => {
  */
 describe("formula 14 evaluation", () => {
   it("should evaluate formula 14", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -452,7 +471,7 @@ describe("formula 14 evaluation", () => {
  */
 describe("formula 15 evaluation", () => {
   it("should evaluate formula 15", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -477,7 +496,7 @@ describe("formula 15 evaluation", () => {
  */
 describe("formula 16 evaluation", () => {
   it("should evaluate formula 16", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -502,7 +521,7 @@ describe("formula 16 evaluation", () => {
  */
 describe("formula 17 evaluation", () => {
   it("should evaluate formula 17", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -527,7 +546,7 @@ describe("formula 17 evaluation", () => {
  */
 describe("formula 18 evaluation", () => {
   it("should evaluate formula 18", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -552,7 +571,7 @@ describe("formula 18 evaluation", () => {
  */
 describe("formula 19 evaluation", () => {
   it("should evaluate formula 19", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -576,7 +595,7 @@ describe("formula 19 evaluation", () => {
  */
 describe("formula 20 evaluation", () => {
   it("should evaluate formula 20", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);
@@ -600,7 +619,7 @@ describe("formula 20 evaluation", () => {
  */
 describe("formula 21 evaluation", () => {
   it("should evaluate formula 21", () => {
-    const parser = new FormulaParser(AVERT_AND_EGRID);
+    const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
     parser.addFormula(CO2PerkWhConsumed);
     parser.addFormula(CO2PerkWhReduced);

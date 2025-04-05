@@ -1,7 +1,7 @@
 import { parser, Parser } from "mathjs";
-import { Formula } from "@/schema/formula";
+import { Formula, FormulaDependency } from "@/schema/formula";
 
-export class FormulaParser<T extends Record<string, number>> {
+export class FormulaParser {
   // map of formula id to formula object
   private formulas: Map<string, Formula>;
   // map of formula id to list of formula ids that depend on it
@@ -10,7 +10,7 @@ export class FormulaParser<T extends Record<string, number>> {
   private formulaInDeg: Map<string, number>;
   private parser: Parser;
 
-  constructor(inputVariables: T) {
+  constructor(inputVariables: Partial<Record<FormulaDependency, number>>) {
     this.formulas = new Map();
     this.formulaAdj = new Map();
     this.formulaInDeg = new Map();
@@ -18,7 +18,10 @@ export class FormulaParser<T extends Record<string, number>> {
 
     // initialize input variables in the parser
     Object.keys(inputVariables).forEach((key) => {
-      this.addVariable(key, inputVariables[key as keyof T]);
+      const variable = inputVariables[key as FormulaDependency];
+      if (!!variable) {
+        this.addVariable(key, variable);
+      }
     });
   }
 

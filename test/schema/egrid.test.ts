@@ -1,4 +1,5 @@
 import { EgridRecord, EgridRecordData, EgridRecordKey, EgridLocation, PowerPlantClass } from "@/schema/egrid";
+import { MOCK_EGRID_RECORD, MOCK_EGRID_RECORD_DATA, MOCK_EGRID_RECORD_KEY } from "../mocks/egrid-mocks";
 
 describe("PowerPlantClass schema", () => {
   it("should validate correct power plant classes", () => {
@@ -36,9 +37,7 @@ describe("Location schema", () => {
 
 describe("EgridRecordKey schema", () => {
   it("should validate correct eGRID record keys", () => {
-    const validRecordKey = { year: 2022, location: "US" };
-
-    expect(EgridRecordKey.parse(validRecordKey)).toEqual(validRecordKey);
+    expect(EgridRecordKey.parse(MOCK_EGRID_RECORD_KEY)).toEqual(MOCK_EGRID_RECORD_KEY);
   });
 
   it("should invalidate incorrect eGRID record keys", () => {
@@ -56,20 +55,11 @@ describe("EgridRecordKey schema", () => {
 
 describe("EgridRecordData schema", () => {
   it("should validate correct eGRID record data", () => {
-    const validRecordData = {
-      nameplateCapacityMw: 100,
-      annualHeatInputMmbtu: 5000,
-      annualNetGenerationMwh: 2000,
-      annualNoxEmissionsTons: 50,
-    };
-
-    expect(EgridRecordData.parse(validRecordData)).toEqual(validRecordData);
+    expect(EgridRecordData.parse(MOCK_EGRID_RECORD_DATA)).toEqual(MOCK_EGRID_RECORD_DATA);
   });
 
   it("should invalidate incorrect eGRID record data", () => {
-    const invalidRecordData = [
-      { nameplateCapacityMw: "invalid" }, // nameplateCapacityMw is not a number
-    ];
+    const invalidRecordData = [{ ...MOCK_EGRID_RECORD_DATA, nameplateCapacityMw: "invalid" }];
 
     invalidRecordData.forEach((invalidData) => {
       expect(() => EgridRecordData.parse(invalidData)).toThrow();
@@ -79,23 +69,14 @@ describe("EgridRecordData schema", () => {
 
 describe("EgridRecord", () => {
   it("should validate correct eGRID records", () => {
-    const validRecord = {
-      year: 2022,
-      location: "US",
-      nameplateCapacityMw: 100,
-      annualHeatInputMmbtu: 5000,
-      annualNetGenerationMwh: 2000,
-      annualNoxEmissionsTons: 50,
-    };
-
-    expect(EgridRecord.parse(validRecord)).toEqual(validRecord);
+    expect(EgridRecord.parse(MOCK_EGRID_RECORD)).toEqual(MOCK_EGRID_RECORD);
   });
 
   it("should invalidate incorrect eGRID records", () => {
     const invalidRecords = [
-      { year: 1999, location: "US", nameplateCapacityMw: 100 }, // year out of range
-      { year: 2022, location: "EU", annualHeatInputMmbtu: 5000 }, // invalid location
-      { year: 2022, location: "US", annualNetGenerationMwh: "2000" }, // annualNetGenerationMwh is not a number
+      { ...MOCK_EGRID_RECORD, year: 1999 }, // year out of range
+      { ...MOCK_EGRID_RECORD, location: "EU" }, // invalid location
+      { ...MOCK_EGRID_RECORD, nameplateCapacityMw: "invalid" }, // invalid capacity
     ];
 
     invalidRecords.forEach((invalidRecord) => {
