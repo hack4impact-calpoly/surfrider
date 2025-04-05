@@ -60,17 +60,17 @@ describe("getAvertRecordByKey", () => {
   it("returns a record if found", async () => {
     await AvertModel.create(MOCK_AVERT_RECORD);
 
-    await expect(getAvertRecordByKey(2020, "US", "OnshoreWind")).resolves.toMatchObject(MOCK_AVERT_RECORD);
+    await expect(getAvertRecordByKey(2023, "California", "OffshoreWind")).resolves.toMatchObject(MOCK_AVERT_RECORD);
     expect(mockedConnectDB).toHaveBeenCalled();
   });
 
   it("rejects if no record is found", async () => {
-    await expect(getAvertRecordByKey(2020, "US", "OnshoreWind")).rejects.toBeInstanceOf(AppError);
+    await expect(getAvertRecordByKey(2023, "California", "OffshoreWind")).rejects.toBeInstanceOf(AppError);
   });
 
   it("rejects if error occurs", async () => {
     await mongoose.disconnect();
-    await expect(getAvertRecordByKey(2020, "US", "OnshoreWind")).rejects.toBeInstanceOf(AppError);
+    await expect(getAvertRecordByKey(2023, "California", "OffshoreWind")).rejects.toBeInstanceOf(AppError);
     await mongoose.connect(mongoServer.getUri());
   });
 });
