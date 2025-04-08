@@ -71,11 +71,9 @@ describe("AVERT data fetcher", () => {
     mockedXlsx.utils.sheet_to_json = originalSheetToJson; // Restore original implementation
   });
 
-  it("should handle parsing errors gracefully", async () => {
-    mockedXlsx.read.mockImplementationOnce(() => {
-      throw new Error("Parsing error");
-    });
-    await expect(fetchAndTransformAvertData()).rejects.toThrow("Parsing error");
+  it("should handle network errors gracefully", async () => {
+    mockedAxios.get.mockRejectedValueOnce(new Error("Network error"));
+    await expect(fetchAndTransformAvertData()).rejects.toThrow("Network error");
   });
 
   it("should handle parsing errors gracefully", async () => {
