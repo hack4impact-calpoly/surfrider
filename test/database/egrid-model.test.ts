@@ -2,7 +2,7 @@ import { EgridModel } from "@/database/egrid-model";
 import { EgridLocation } from "@/schema/egrid";
 
 describe("EgridModel schema validation", () => {
-  it("should validate a correct egrid document", () => {
+  it("should validate a correct egrid document", async () => {
     const egrid = new EgridModel({
       year: 2024,
       location: EgridLocation.options[2], // Using a valid location
@@ -12,21 +12,21 @@ describe("EgridModel schema validation", () => {
       totalAnnualHeatInputMmbtu: 2.3,
     });
 
-    expect(egrid.validate()).resolves.toBeUndefined();
+    await expect(egrid.validate()).resolves.toBeUndefined();
   });
 
-  it("should fail validation when required fields are missing", () => {
+  it("should fail validation when required fields are missing", async () => {
     const egrid = new EgridModel({}); // Missing all required fields
 
-    expect(egrid.validate()).rejects.toThrow();
+    await expect(egrid.validate()).rejects.toThrow();
   });
 
-  it("should fail validation for an invalid location", () => {
+  it("should fail validation for an invalid location", async () => {
     const egrid = new EgridModel({
       year: 2024,
       location: "InvalidLocation", // Not in enum
     });
 
-    expect(egrid.validate()).rejects.toThrow();
+    await expect(egrid.validate()).rejects.toThrow();
   });
 });
