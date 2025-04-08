@@ -42,7 +42,7 @@ describe("addEgridRecord", () => {
   it("replaces an existing record", async () => {
     await EgridModel.create(MOCK_EGRID_RECORD);
 
-    const updatedRecord = { ...MOCK_EGRID_RECORD, location: EgridLocation.enum.AKGD };
+    const updatedRecord = { ...MOCK_EGRID_RECORD, location: EgridLocation.enum.AZNM };
     await expect(addEgridRecord(updatedRecord)).resolves.toBeUndefined();
 
     const found = await EgridModel.findOne(updatedRecord);
