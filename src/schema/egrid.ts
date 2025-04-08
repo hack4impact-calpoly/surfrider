@@ -26,40 +26,15 @@ export const powerPlantClassToIndex: Record<PowerPlantClass, number> = {
 
 /**
  * eGRID country, subregion, and state codes
+ *
+ * Note: Commented out subregions and states are valid but do not map to AVERT regions
  */
 export const EgridLocation = z.enum([
   // Country
   "US",
-  // Subregion
-  "AKGD",
-  "AKMS",
-  "AZNM",
-  "CAMX",
-  "ERCT",
-  "FRCC",
-  "HIMS",
-  "HIOA",
-  "MROE",
-  "MROW",
-  "NEWE",
-  "NWPP",
-  "NYCW",
-  "NYLI",
-  "NYUP",
-  "PRMS",
-  "RFCE",
-  "RFCM",
-  "RFCW",
-  "RMPA",
-  "SPNO",
-  "SPSO",
-  "SRMV",
-  "SRMW",
-  "SRSO",
-  "SRTV",
-  "SRVC",
+
   // State
-  "AK",
+  // "AK"
   "AL",
   "AR",
   "AZ",
@@ -70,7 +45,7 @@ export const EgridLocation = z.enum([
   "DE",
   "FL",
   "GA",
-  "HI",
+  // "HI",
   "IA",
   "ID",
   "IL",
@@ -98,7 +73,7 @@ export const EgridLocation = z.enum([
   "OK",
   "OR",
   "PA",
-  "PR",
+  // "PR",
   "RI",
   "SC",
   "SD",
@@ -111,6 +86,35 @@ export const EgridLocation = z.enum([
   "WI",
   "WV",
   "WY",
+
+  // Subregion
+  // "AKGD",
+  // "AKMS",
+  "AZNM",
+  "CAMX",
+  "ERCT",
+  "FRCC",
+  // "HIMS",
+  // "HIOA",
+  "MROE",
+  // "MROW",
+  "NEWE",
+  "NWPP",
+  "NYCW",
+  "NYLI",
+  "NYUP",
+  // "PRMS",
+  "RFCE",
+  "RFCM",
+  // "RFCW",
+  "RMPA",
+  "SPNO",
+  "SPSO",
+  "SRMV",
+  "SRMW",
+  "SRSO",
+  // "SRTV",
+  "SRVC",
 ]);
 export type EgridLocation = z.infer<typeof EgridLocation>;
 
