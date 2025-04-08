@@ -1,10 +1,10 @@
-import { Formula } from "@/schema/formula";
+import { Formula, FormulaDependency } from "@/schema/formula";
 
 export const MOCK_INPUT_VARIABLES = {
   a: 3,
   b: 7,
   c: 10,
-};
+} as unknown as Record<FormulaDependency, number>;
 
 export const MOCK_FORMULAS = [
   {
