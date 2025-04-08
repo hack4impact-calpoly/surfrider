@@ -1,4 +1,4 @@
-import { FormulaParser } from "@/app/formulas/formula-parser";
+import { FormulaParser } from "@/formulas/formula-parser";
 import { mocked } from "jest-mock";
 import { Parser, parser } from "mathjs";
 import {
