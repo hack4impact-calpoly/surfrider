@@ -953,5 +953,6 @@ export const formulas: Formula[] = [
   coalFiredPowerPlantEmissionsForOneYear,
   naturalGasFiredPowerPlantEmissionsForOneYear,
   numberOfWindTurbinesRunningForAYear,
+  numberOfSmartPhonesCharged,
   resultantConcentrationCO2IncreaseInTheAtmosphere,
 ];
