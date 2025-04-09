@@ -30,6 +30,12 @@ import {
   poundsOfCoalBurned,
   tonsOfWasteRecycledInsteadOfLandfilled,
   numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
+  trashBagsOfWasteRecycledInsteadOfLandfilled,
+  coalFiredPowerPlantEmissionsForOneYear,
+  naturalGasFiredPowerPlantEmissionsForOneYear,
+  numberOfWindTurbinesRunningForAYear,
+  numberOfSmartPhonesCharged,
+  resultantConcentrationCO2IncreaseInTheAtmosphere,
 } from "@/formulas/formula-collection";
 import { FormulaDependency } from "@/schema/formula";
 
@@ -635,5 +641,149 @@ describe("formula 21 evaluation", () => {
     const result = parser.evaluate();
 
     expectPercentError(result, 558645.64, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 22: Trash bags of waste recycled instead of landfilled
+ */
+describe("formula 22 evaluation", () => {
+  it("should evaluate formula 22", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(trashBagsOfWasteRecycledInsteadOfLandfilled);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 489238150.27, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 23: Coal-fired power plant emissions for one year
+ */
+describe("formula 23 evaluation", () => {
+  it("should evaluate formula 23", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(coalFiredPowerPlantEmissionsForOneYear);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 3.02505, 0.001);
+  });
+});
+
+/*
+        Impact Calculator Equation 24: Natural gas-fired power plant emissions for one year
+     */
+describe("formula 24 evaluation", () => {
+  it("should evaluate formula 24", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(naturalGasFiredPowerPlantEmissionsForOneYear);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 28.3984, 0.001);
+  });
+});
+
+/*
+        Impact Calculator Equation 25: Number of wind turbines running for a year
+     */
+describe("formula 25 evaluation", () => {
+  it("should evaluate formula 25", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(numberOfWindTurbinesRunningForAYear);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 3142.77, 0.001);
+  });
+});
+
+/*
+        Impact Calculator Equation 26: Number of smart phones charged
+     */
+describe("formula 26 evaluation", () => {
+  it("should evaluate formula 26", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(numberOfSmartPhonesCharged);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 1374866334701.21, 0.001);
+  });
+});
+
+/*
+        Impact Calculator Equation 27: Resultant Concentration CO₂ Increase in the Atmosphere
+     */
+describe("formula 27 evaluation", () => {
+  it("should evaluate formula 27", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(resultantConcentrationCO2IncreaseInTheAtmosphere);
+
+    const result = parser.evaluate();
+    //there was a rounding error in spreadsheet -> why the percent error is higher
+    expectPercentError(result, 0.0014452, 0.005);
   });
 });
