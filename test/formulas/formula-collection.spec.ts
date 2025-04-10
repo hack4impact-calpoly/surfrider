@@ -30,6 +30,11 @@ import {
   poundsOfCoalBurned,
   tonsOfWasteRecycledInsteadOfLandfilled,
   numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
+  resultantConcentrationCO2IncreaseInTheAtmosphere,
+  resultantTemperatureRise,
+  additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation,
+  baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs,
+  resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise,
 } from "@/formulas/formula-collection";
 import { FormulaDependency } from "@/schema/formula";
 
@@ -635,5 +640,139 @@ describe("formula 21 evaluation", () => {
     const result = parser.evaluate();
 
     expectPercentError(result, 558645.64, 0.001);
+  });
+});
+/*
+    Impact Calculator Equation 28: Resultant Concentration CO₂ Increase in the Atmosphere
+ */
+describe("formula 28 evaluation", () => {
+  it("should evaluate formula 28", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(resultantConcentrationCO2IncreaseInTheAtmosphere);
+
+    const result = parser.evaluate();
+
+    // Expected value: electricityReductionsCO2Emissions / 7820000000
+    // Using the value from previous tests: 11301401.27 / 7820000000 ≈ 0.001445
+    expectPercentError(result, 0.001445, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 29: Resultant Temperature Rise
+ */
+describe("formula 29 evaluation", () => {
+  it("should evaluate formula 29", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(resultantTemperatureRise);
+
+    const result = parser.evaluate();
+
+    // Expected value: electricityReductionsCO2Emissions / 7820000000 * 0.01
+    // Using the value from previous tests: 11301401.27 / 7820000000 * 0.01 ≈ 0.0000145
+    expectPercentError(result, 0.0000145, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 30: Additional People Exposed to Unprecedented Heat in 2070
+ */
+describe("formula 30 evaluation", () => {
+  it("should evaluate formula 30", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(
+      additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation,
+    );
+
+    const result = parser.evaluate();
+
+    // Expected value: 8325000000 * (electricityReductionsCO2Emissions / 7820000000) * 0.01 * 0.1239
+    // Using the value from previous tests: 8325000000 * (11301401.27 / 7820000000) * 0.01 * 0.1239 ≈ 14.9
+    expectPercentError(result, 14.9, 0.001);
+  });
+});
+
+/*
+    Impact Calculator Equation 31: Baseline °C Warming by End of Life and Year of Study based on various SSPs
+ */
+describe("formula 31 evaluation", () => {
+  it("should evaluate formula 31", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs);
+
+    const result = parser.evaluate();
+
+    // Expected value: 1.5473 (hardcoded in the formula)
+    expect(result).toBeCloseTo(1.5473, 4);
+  });
+});
+
+/*
+    Impact Calculator Equation 32: Resultant Yearly Mortality Cost from CO₂ Emissions
+ */
+describe("formula 32 evaluation", () => {
+  it("should evaluate formula 32", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(effectivekWhConsumed);
+    parser.addFormula(CO2PerkWhElectricityConsumed);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(electricityConsumedCO2Emissions);
+    parser.addFormula(resultantTemperatureRise);
+    parser.addFormula(baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs);
+    parser.addFormula(
+      resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise,
+    );
+
+    const result = parser.evaluate();
+
+    // This formula is a bit more complex, but we can compute the expected value
+    // The formula is essentially:
+    // f(1.5473 + resultantTemperatureRise) - f(1.5473), where f(x) = 0.0312*x^3 + 0.2461*x^2 - 0.4123*x + 0.0801
+    // We already calculated resultantTemperatureRise ≈ 0.0000145
+    // So we need: f(1.5473 + 0.0000145) - f(1.5473)
+    // This is an extremely small difference, but let's calculate it
+
+    // The change is small enough that using a linear approximation of the derivative:
+    // f'(x) = 0.0936*x^2 + 0.4922*x - 0.4123
+    // f'(1.5473) ≈ 0.0936*(1.5473)^2 + 0.4922*(1.5473) - 0.4123 ≈ 0.6318
+    // Then result ≈ f'(1.5473) * resultantTemperatureRise * 1000000 ≈ 0.6318 * 0.0000145 * 1000000 ≈ 9.16
+
+    expectPercentError(result, 9.16, 0.01); // Using a slightly higher tolerance due to potential precision issues
   });
 });
