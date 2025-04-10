@@ -744,6 +744,103 @@ export const numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled: Formula = 
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
 };
+/* 
+  Impact Calculator Equation 28: Resultant Concentration CO₂ Increase in the Atmosphere
+*/
+export const resultantConcentrationCO2IncreaseInTheAtmosphere: Formula = {
+  id: "resultantConcentrationCO2IncreaseInTheAtmosphere",
+  name: "Resultant Concentration CO₂ Increase in the Atmosphere",
+  explanation:
+    "CO₂ emissions are emitted to the atmosphere. This calculation calculates how much the additional CO₂ emitted into the atmosphere increases atmospheric concentration of CO₂",
+  assumptions: [
+    "1 ppm by volume of atmosphere CO₂ = 2.13 Gt C",
+    "Excludes natural sinks (ocean and biosphere which absorb approximately 55% of human emissions) and assumes natural sink rates are constant and independent of atmospheric CO₂ concentration",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: ["https://web.archive.org/web/20170118004650/http://cdiac.ornl.gov/pns/convert.html"],
+  expression:
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 7820000000",
+  unit: "ppm CO₂ increase in the atmosphere",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+/* 
+  Impact Calculator Equation 29: Resultant Temperature Rise
+*/
+export const resultantTemperatureRise: Formula = {
+  id: "resultantTemperatureRise",
+  name: "Resultant Temperature Rise",
+  explanation:
+    "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise",
+  assumptions: [
+    "10ppm CO₂ in the atmosphere leads to .1C temperature rise",
+    "Temperature rise and CO₂ concentration are linearly correllated in the temperature range of focus",
+    "Inherritted assumptions from Concentration Increase CO₂ in Atmosphere",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: ["https://factsonclimate.org/infographics/concentration-warming-relationship"],
+  expression:
+    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 7820000000 * 0.01",
+  unit: "°C increase",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
+/* 
+  Impact Calculator Equation 30: Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population
+*/
+export const additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation: Formula =
+  {
+    id: "additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation",
+    name: "Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population",
+    explanation:
+      "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human exposure to unprecedented heat",
+    assumptions: [
+      "Assumed best fit on supplemental sheet",
+      "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction, Concentration Increase CO₂ in Atmosphere, & Resultant Temperature Rise",
+    ],
+    sources: [""],
+    expression:
+      "8325000000 * ((powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 7820000000) * 0.01 * 0.1239",
+    unit: "Additional People Exposed to Unprecedented Heat in 2070",
+    setupScope: (() => {}) as (...args: unknown[]) => void,
+    dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+  };
+/* 
+  Impact Calculator Equation 31: Baseline °C Warming by End of Life and Year of Study based on various SSPs
+*/
+export const baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs: Formula = {
+  id: "baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs",
+  name: "Baseline °C Warming by End of Life and Year of Study based on various SSPs",
+  explanation: "There are 5 defined SSPs each with defined temperature vs time graphs",
+  assumptions: [],
+  sources: [
+    "Figure SPM.8 in IPCC, 2021: Summary for Policymakers. In: Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change [Masson-Delmotte, V., P. Zhai, A. Pirani, S.L. Connors, C. Péan, S. Berger, N. Caud, Y. Chen, L. Goldfarb, M.I. Gomis, M. Huang, K. Leitzell, E. Lonnoy, J.B.R. Matthews, T.K. Maycock, T. Waterfield, O. Yelekçi, R. Yu, and B. Zhou (eds.)]. Cambridge University Press, Cambridge, UK and New York, NY,USA, pp. 3−32, doi: 10.1017/9781009157896.001 .]",
+  ],
+  expression: "1.5473",
+  unit: "Baseline °C Warming by EOL SSP1-1.9",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [],
+};
+/* 
+  Impact Calculator Equation 32: Resultant Yearly Mortality Cost from CO₂ Emissions resulting in increased atmospheric concentration CO₂ resulting in temperature rise
+*/
+export const resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise: Formula =
+  {
+    id: "resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise",
+    name: "Resultant Yearly Mortality Cost from CO₂ Emissions resulting in increased atmospheric concentration CO₂ resulting in temperature rise",
+    explanation:
+      "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human mortalities",
+    assumptions: [
+      "Formula for excess lives at a given °C rise graphically extracted from Source A: Baseline Yearly Additional Mortalities = 0.0312(Base°C)^3 + 0.2461(Base°C)^2 - 0.4123(Base°C) + 0.0801",
+      "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction, Concentration Increase CO₂ in Atmosphere, & Resultant Temperature Rise",
+    ],
+    sources: ["https://www.nature.com/articles/s41467-021-24487-w"],
+    expression:
+      "(((0.0312 * Math.pow(1.5473 + resultantTemperatureRise.expression, 3)) + (0.2461 * Math.pow(1.5473 + resultantTemperatureRise.expression, 2)) - (0.4123 * (1.5473 + resultantTemperatureRise.expression)) + 0.0801) - ((0.0312 * Math.pow(1.5473, 3)) + (0.2461 * Math.pow(1.5473, 2)) - (0.4123 * 1.5473) + 0.0801)) * 1000000",
+    unit: "Additional Human Mortalities by EOL SSP1-1.9",
+    setupScope: (() => {}) as (...args: unknown[]) => void,
+    dependencies: ["resultantTemperatureRise"],
+  };
 
 // group and export all formulas
 export const formulas: Formula[] = [
@@ -777,4 +874,9 @@ export const formulas: Formula[] = [
   poundsOfCoalBurned,
   tonsOfWasteRecycledInsteadOfLandfilled,
   numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
+  resultantConcentrationCO2IncreaseInTheAtmosphere,
+  resultantTemperatureRise,
+  additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation,
+  baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs,
+  resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise,
 ];

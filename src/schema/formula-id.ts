@@ -31,6 +31,11 @@ export const FormulaId = z.enum([
   "poundsOfCoalBurned",
   "tonsOfWasteRecycledInsteadOfLandfilled",
   "numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled",
+  "resultantConcentrationCO2IncreaseInTheAtmosphere",
+  "resultantTemperatureRise",
+  "additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation",
+  "baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs",
+  "resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise",
 ]);
 
 export type FormulaId = z.infer<typeof FormulaId>;
