@@ -764,6 +764,7 @@ export const resultantConcentrationCO2IncreaseInTheAtmosphere: Formula = {
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
 };
+
 /* 
   Impact Calculator Equation 29: Resultant Temperature Rise
 */
@@ -785,6 +786,7 @@ export const resultantTemperatureRise: Formula = {
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
 };
+
 /* 
   Impact Calculator Equation 30: Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population
 */
@@ -805,6 +807,7 @@ export const additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeat
     setupScope: (() => {}) as (...args: unknown[]) => void,
     dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
   };
+
 /* 
   Impact Calculator Equation 31: Baseline °C Warming by End of Life and Year of Study based on various SSPs
 */
@@ -821,6 +824,7 @@ export const baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs: Formul
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: [],
 };
+
 /* 
   Impact Calculator Equation 32: Resultant Yearly Mortality Cost from CO₂ Emissions resulting in increased atmospheric concentration CO₂ resulting in temperature rise
 */
@@ -835,8 +839,9 @@ export const resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtm
       "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction, Concentration Increase CO₂ in Atmosphere, & Resultant Temperature Rise",
     ],
     sources: ["https://www.nature.com/articles/s41467-021-24487-w"],
+    // Condensed one-line expression to avoid ResultSet
     expression:
-      "(((0.0312 * Math.pow(1.5473 + resultantTemperatureRise.expression, 3)) + (0.2461 * Math.pow(1.5473 + resultantTemperatureRise.expression, 2)) - (0.4123 * (1.5473 + resultantTemperatureRise.expression)) + 0.0801) - ((0.0312 * Math.pow(1.5473, 3)) + (0.2461 * Math.pow(1.5473, 2)) - (0.4123 * 1.5473) + 0.0801)) * 1000000",
+      "(((0.0312 * (1.5473 + resultantTemperatureRise) * (1.5473 + resultantTemperatureRise) * (1.5473 + resultantTemperatureRise)) + (0.2461 * (1.5473 + resultantTemperatureRise) * (1.5473 + resultantTemperatureRise)) - (0.4123 * (1.5473 + resultantTemperatureRise)) + 0.0801) - ((0.0312 * 1.5473 * 1.5473 * 1.5473) + (0.2461 * 1.5473 * 1.5473) - (0.4123 * 1.5473) + 0.0801)) * 1000000",
     unit: "Additional Human Mortalities by EOL SSP1-1.9",
     setupScope: (() => {}) as (...args: unknown[]) => void,
     dependencies: ["resultantTemperatureRise"],
