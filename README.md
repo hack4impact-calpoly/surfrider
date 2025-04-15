@@ -33,6 +33,7 @@ The Surfrider team consists of 15 Cal Poly students. Over the course of about 9 
 - [Lindsay Minami](https://www.linkedin.com/in/lindsay-minami) - Software Developer
 - [Daniel Miranda](https://www.linkedin.com/in/daniel-miranda-98b568273/) - Software Developer
 - [Talia Vivrett](https://www.linkedin.com/taliavivrett/) - Software Developer
+- [Alexander Specht](https://www.linkedin.com/in/alexander-specht/) - Software Developer
 
 ## Getting Started And Contributing
 
