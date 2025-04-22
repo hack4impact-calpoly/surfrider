@@ -1049,5 +1049,8 @@ export const formulas: Formula[] = [
   numberOfSmartPhonesCharged,
   resultantConcentrationCO2IncreaseInTheAtmosphere,
   resultantTemperatureRise,
+  populationIncreaseExposedToUnprecedentedHeatPerDegreesCelsius,
+  populationIncreaseOutsideNichePerDegreesCelsius,
   additionalPeopleExposedToUnprecedentedHeatIn2070,
+  additionalPeopleOutsideTheHumanNicheIn2070,
 ];

@@ -822,8 +822,6 @@ describe("formula 28 evaluation", () => {
 /* 
   Impact Calculator Equation 29: Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population
 */
-// Fix for Formula 30 (Heat Exposure)
-// The actual result is about 1000x larger than expected, which suggests a scale factor issue
 describe("formula 29 evaluation", () => {
   it("should evaluate formula additionalPeopleExposedToUnprecedentedHeatIn2070", () => {
     const parser = new FormulaParser(TEST_INPUT);
