@@ -745,6 +745,178 @@ export const numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled: Formula = 
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
 };
 
+/*
+    Impact Calculator Equation 22: Trash bags of waste recycled instead of landfilled
+ */
+export const trashBagsOfWasteRecycledInsteadOfLandfilled: Formula = {
+  id: "trashBagsOfWasteRecycledInsteadOfLandfilled",
+  name: "Trash bags of waste recycled instead of landfilled",
+  explanation:
+    "Carbon dioxide emissions reduced per trash bag full of waste were determined by multiplying emissions avoided from recycling instead of landfilling 1 ton of waste by the amount of waste in an average trash bag. The amount of waste in an average trash bag was calculated by multiplying the average density of mixed recyclables by the average volume of a trash bag. ",
+  assumptions: [
+    "According to WARM, the net emission reduction from recycling mixed recyclables (e.g., paper, metals, plastics), compared with a baseline in which the materials are landfilled (i.e., accounting for the avoided emissions from landfilling), is 2.89 metric tons CO₂ equivalent per short ton, as calculated in the “Tons of waste recycled instead of landfilled” section above",
+    "According to EPA’s standard volume-to-weight conversion factors, the average density of mixed recyclables is 111 lbs per cubic yard (EPA 2016a). The volume of a standard-sized trash bag was assumed to be 25 gallons, based on a typical range of 20 to 30 gallons (EPA 2016b).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.epa.gov/warm/versions-waste-reduction-model-warm#15",
+    "https://www.epa.gov/sites/production/files/2016-04/documents/volume_to_weight_conversion_factors_memorandum_04192016_508fnl.pdf",
+    "https://archive.epa.gov/wastes/conserve/tools/payt/web/html/top3.html",
+  ],
+  expression:
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced)  / (2.89 * 1 / 2000 * 111 * 1 / 173.57 * 25)",
+  unit: "Bag recycled instead of landfilled",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
+/*
+        Impact Calculator Equation 23: Coal-fired power plant emissions for one year
+     */
+export const coalFiredPowerPlantEmissionsForOneYear: Formula = {
+  id: "coalFiredPowerPlantEmissionsForOneYear",
+  name: "Coal-fired power plant emissions for one year",
+  explanation:
+    "Carbon dioxide emissions per power plant were calculated by dividing the total emissions from power plants whose primary source of fuel was coal by the number of power plants.",
+  assumptions: [
+    "In 2019, a total of 240 power plants used coal to generate at least 95% of their electricity (EPA 2021). These plants emitted 896,626,600.7 metric tons of CO₂ in 2019.",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: ["https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid"],
+  expression:
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced)  / (896626600.7 * 1 / 240)",
+  unit: "Power plant per year",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
+/*
+        Impact Calculator Equation 24: Natural gas-fired power plant emissions for one year
+     */
+export const naturalGasFiredPowerPlantEmissionsForOneYear: Formula = {
+  id: "naturalGasFiredPowerPlantEmissionsForOneYear",
+  name: "Natural gas-fired power plant emissions for one year",
+  explanation:
+    "Carbon dioxide emissions per power plant were calculated by dividing the total emissions from power plants whose primary source of fuel was natural gas by the number of power plants.",
+  assumptions: [
+    "In 2019, a total of 1,501 power plants used natural gas to generate at least 95% of their electricity (EPA 2021). These plants emitted 597,337,575.3 metric tons of CO₂ in 2019.",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: ["https://www.epa.gov/egrid"],
+  expression:
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced)  / (597337575.3 * 1 / 1501)",
+  unit: "Power plant per year",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
+/*
+        Impact Calculator Equation 25: Number of wind turbines running for a year
+     */
+export const numberOfWindTurbinesRunningForAYear: Formula = {
+  id: "numberOfWindTurbinesRunningForAYear",
+  name: "Number of wind turbines running for a year",
+  explanation:
+    "Electricity generation from an average wind turbine was determined by multiplying the average nameplate capacity of a wind turbine in the United States (1.82 MW) by the average U.S. wind capacity factor (0.356) and by the number of hours per year. It was assumed that the electricity generated from an installed wind turbine would replace marginal sources of grid electricity. Carbon dioxide emissions avoided per year per wind turbine installed were determined by multiplying the average electricity generated per wind turbine in a year by the annual wind national marginal emission rate (EPA 2020).",
+  assumptions: [
+    "In 2021, the average nameplate capacity of wind turbines installed in the U.S. was 1.82 MW (Hoen et al. 2023).",
+    "The average wind capacity factor in the U.S. in 2021 was 35.6 percent (DOE 2022).",
+    "The U.S. annual wind national marginal emission rate to convert reductions of kilowatt-hours into avoided units of carbon dioxide emissions is 6.48 x 10-4 (EPA 2020).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.energy.gov/eere/wind/wind-market-reports-2022-edition",
+    "https://doi.org/10.5066/F7TX3DN0",
+    "https://www.epa.gov/statelocalenergy/download-avert",
+  ],
+  expression:
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced)  / (1.82 * 0.348 * 8760 * 1000 * 6.4818 * 10^-4)",
+  unit: "Turbines operating for a year",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
+/*
+        Impact Calculator Equation 26: Number of smart phones charged - ASK ABOUT THIS ONE, do we need to writ eth full formula out or just the final number
+     */
+export const numberOfSmartPhonesCharged: Formula = {
+  id: "numberOfSmartPhonesCharged",
+  name: "Number of smart phones charged",
+  explanation:
+    "To obtain the amount of energy consumed to charge the smartphone, subtract the amount of energy consumed in “maintenance mode” (0.13 Watts times 22 hours) from the 24-hour energy consumed (14.46 Watt-hours). Carbon dioxide emissions per smartphone charged were determined by multiplying the energy use per smartphone charged by the national weighted average carbon dioxide marginal emission rate for delivered electricity.",
+  assumptions: [
+    "According to U.S. DOE, the 24-hour energy consumed by a common smartphone battery is 14.46 Watt-hours (DOE 2020). This includes the amount of energy needed to charge a fully depleted smartphone battery and maintain that full charge throughout the day.",
+    "The average time required to completely recharge a smartphone battery is 2 hours (Ferreira et al. 2011).",
+    "Maintenance mode power, also known as the power consumed when the phone is fully charged and the charger is still plugged in, is 0.13 Watts (DOE 2020).",
+    "The national weighted average carbon dioxide marginal emission rate for delivered electricity in 2019 was 1,562.4 lbs CO₂ per megawatt-hour, which accounts for losses during transmission and distribution (EPA 2020).",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: [
+    "https://www.regulations.doe.gov/certification-data",
+    "https://www.epa.gov/statelocalenergy/download-avert",
+    "https://www.gpo.gov/fdsys/pkg/FR-2016-06-13/pdf/2016-12835.pdf",
+    "https://doi.org/10.1007/978-3-642-21726-5_2",
+  ],
+
+  expression:
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced)  / (((14.46 - (22 * 0.13)) * 1 / 1000) * 1562.4 * 1 / 1000 * 1 / 2204.6)",
+  unit: "Smartphones Charged",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
+/*
+        Impact Calculator Equation 27: Resultant Concentration CO₂ Increase in the Atmosphere
+     */
+export const resultantConcentrationCO2IncreaseInTheAtmosphere: Formula = {
+  id: "resultantConcentrationCO2IncreaseInTheAtmosphere",
+  name: "Resultant Concentration CO₂ Increase in the Atmosphere",
+  explanation:
+    "CO₂ emissions are emitted to the atmosphere. This calculation calculates how much the additional CO₂ emitted into the atmosphere increases atmospheric concentration of CO₂",
+  assumptions: [
+    "1 ppm by volume of atmosphere CO₂ = 2.13 Gt C",
+    "Excludes natural sinks (ocean and biosphere which absorb approximately 55% of human emissions) and assumes natural sink rates are constant and independent of atmospheric CO₂ concentration",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
+  ],
+  sources: ["https://web.archive.org/web/20170118004650/http://cdiac.ornl.gov/pns/convert.html"],
+
+  expression:
+    "(powerPlantClass == 0 ? effectivekWhConsumed : effectivekWhReduced) * (powerPlantClass == 0 ? CO2PerkWhElectricityConsumed : CO2PerkWhElectricityReduced)  / (2.13 * 44 / 12 * 1000000000)",
+  unit: "ppm CO₂ increase in the atmosphere",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "effectivekWhConsumed",
+    "effectivekWhReduced",
+    "CO2PerkWhElectricityConsumed",
+    "CO2PerkWhElectricityReduced",
+  ],
+};
+
 /* 
   Impact Calculator Equation 28: Resultant Temperature Rise
 */
@@ -870,6 +1042,12 @@ export const formulas: Formula[] = [
   poundsOfCoalBurned,
   tonsOfWasteRecycledInsteadOfLandfilled,
   numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
+  trashBagsOfWasteRecycledInsteadOfLandfilled,
+  coalFiredPowerPlantEmissionsForOneYear,
+  naturalGasFiredPowerPlantEmissionsForOneYear,
+  numberOfWindTurbinesRunningForAYear,
+  numberOfSmartPhonesCharged,
+  resultantConcentrationCO2IncreaseInTheAtmosphere,
   resultantTemperatureRise,
   additionalPeopleExposedToUnprecedentedHeatIn2070,
 ];
