@@ -744,29 +744,9 @@ export const numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled: Formula = 
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
 };
-/* 
-  Impact Calculator Equation 28: Resultant Concentration CO₂ Increase in the Atmosphere
-*/
-export const resultantConcentrationCO2IncreaseInTheAtmosphere: Formula = {
-  id: "resultantConcentrationCO2IncreaseInTheAtmosphere",
-  name: "Resultant Concentration CO₂ Increase in the Atmosphere",
-  explanation:
-    "CO₂ emissions are emitted to the atmosphere. This calculation calculates how much the additional CO₂ emitted into the atmosphere increases atmospheric concentration of CO₂",
-  assumptions: [
-    "1 ppm by volume of atmosphere CO₂ = 2.13 Gt C",
-    "Excludes natural sinks (ocean and biosphere which absorb approximately 55% of human emissions) and assumes natural sink rates are constant and independent of atmospheric CO₂ concentration",
-    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction",
-  ],
-  sources: ["https://web.archive.org/web/20170118004650/http://cdiac.ornl.gov/pns/convert.html"],
-  expression:
-    "(powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 7820000000",
-  unit: "ppm CO₂ increase in the atmosphere",
-  setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
-};
 
 /* 
-  Impact Calculator Equation 29: Resultant Temperature Rise
+  Impact Calculator Equation 28: Resultant Temperature Rise
 */
 export const resultantTemperatureRise: Formula = {
   id: "resultantTemperatureRise",
@@ -788,64 +768,75 @@ export const resultantTemperatureRise: Formula = {
 };
 
 /* 
-  Impact Calculator Equation 30: Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population
+  Impact Calculator Equation 29: Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population
 */
-export const additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation: Formula =
-  {
-    id: "additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation",
-    name: "Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population",
-    explanation:
-      "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human exposure to unprecedented heat",
-    assumptions: [
-      "Assumed best fit on supplemental sheet",
-      "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction, Concentration Increase CO₂ in Atmosphere, & Resultant Temperature Rise",
-    ],
-    sources: [""],
-    expression:
-      "8325000000 * ((powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 7820000000) * 0.01 * 0.1239",
-    unit: "Additional People Exposed to Unprecedented Heat in 2070",
-    setupScope: (() => {}) as (...args: unknown[]) => void,
-    dependencies: ["electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
-  };
-
-/* 
-  Impact Calculator Equation 31: Baseline °C Warming by End of Life and Year of Study based on various SSPs
-*/
-export const baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs: Formula = {
-  id: "baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs",
-  name: "Baseline °C Warming by End of Life and Year of Study based on various SSPs",
-  explanation: "There are 5 defined SSPs each with defined temperature vs time graphs",
-  assumptions: [],
-  sources: [
-    "Figure SPM.8 in IPCC, 2021: Summary for Policymakers. In: Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change [Masson-Delmotte, V., P. Zhai, A. Pirani, S.L. Connors, C. Péan, S. Berger, N. Caud, Y. Chen, L. Goldfarb, M.I. Gomis, M. Huang, K. Leitzell, E. Lonnoy, J.B.R. Matthews, T.K. Maycock, T. Waterfield, O. Yelekçi, R. Yu, and B. Zhou (eds.)]. Cambridge University Press, Cambridge, UK and New York, NY,USA, pp. 3−32, doi: 10.1017/9781009157896.001 .]",
-  ],
-  expression: "1.5473",
-  unit: "Baseline °C Warming by EOL SSP1-1.9",
+export const populationIncreaseExposedToUnprecedentedHeatPerDegreesCelsius: Formula = {
+  id: "populationIncreaseExposedToUnprecedentedHeatPerDegreesCelsius",
+  name: "Population Increase Exposed to Unprecedented Heat Per Degrees Celsius",
+  explanation:
+    "Calculates the number of additional people exposed to unprecedented heat in 2070 based on the user input baseline population.",
+  assumptions: [""],
+  sources: [""],
+  // use the following expression for mathjs: (Population) x (0.285 + -4.4E-11*(Population) + 2.61E-21*(Population)^2 + 4.21E-32*(Population)^3)
+  expression:
+    "population2070 * (0.285 + -4.4 * 10^-11 * population2070 + 2.61 * 10^-21 * population2070^2 + 4.21E-32 * population2070^3)",
+  unit: "People/°C",
   setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: [],
+  dependencies: ["population2070"],
 };
 
-/* 
-  Impact Calculator Equation 32: Resultant Yearly Mortality Cost from CO₂ Emissions resulting in increased atmospheric concentration CO₂ resulting in temperature rise
-*/
-export const resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise: Formula =
-  {
-    id: "resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise",
-    name: "Resultant Yearly Mortality Cost from CO₂ Emissions resulting in increased atmospheric concentration CO₂ resulting in temperature rise",
-    explanation:
-      "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human mortalities",
-    assumptions: [
-      "Formula for excess lives at a given °C rise graphically extracted from Source A: Baseline Yearly Additional Mortalities = 0.0312(Base°C)^3 + 0.2461(Base°C)^2 - 0.4123(Base°C) + 0.0801",
-      "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction, Concentration Increase CO₂ in Atmosphere, & Resultant Temperature Rise",
-    ],
-    sources: ["https://www.nature.com/articles/s41467-021-24487-w"],
-    // Condensed one-line expression to avoid ResultSet
-    expression:
-      "(((0.0312 * (1.5473 + resultantTemperatureRise) * (1.5473 + resultantTemperatureRise) * (1.5473 + resultantTemperatureRise)) + (0.2461 * (1.5473 + resultantTemperatureRise) * (1.5473 + resultantTemperatureRise)) - (0.4123 * (1.5473 + resultantTemperatureRise)) + 0.0801) - ((0.0312 * 1.5473 * 1.5473 * 1.5473) + (0.2461 * 1.5473 * 1.5473) - (0.4123 * 1.5473) + 0.0801)) * 1000000",
-    unit: "Additional Human Mortalities by EOL SSP1-1.9",
-    setupScope: (() => {}) as (...args: unknown[]) => void,
-    dependencies: ["resultantTemperatureRise"],
-  };
+export const populationIncreaseOutsideNichePerDegreesCelsius: Formula = {
+  id: "populationIncreaseOutsideNichePerDegreesCelsius",
+  name: "Population Increase Outside the Human Niche Per Degrees Celsius",
+  explanation:
+    "Calculates the number of additional people outside the human niche in 2070 based on the user input baseline population.",
+  assumptions: [""],
+  sources: [""],
+  // use the following expression for mathjs: (Population) x (0.179 + -1.11E-11*(Population) + -5.07E-23*(Population)^2 + 3.01E-32*(Population)^3)
+  expression:
+    "population2070 * (0.179 + -1.11 * 10^-11 * population2070 + -5.07 * 10^-23 * population2070^2 + 3.01E-32 * population2070^3)",
+  unit: "People/°C",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["population2070"],
+};
+
+export const additionalPeopleExposedToUnprecedentedHeatIn2070: Formula = {
+  id: "additionalPeopleExposedToUnprecedentedHeatIn2070",
+  name: "Additional People Exposed to Unprecedented & Exposed to Unprecedented Heat in 2070 from User Input Baseline Temperature and Population",
+  explanation:
+    "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human exposure to unprecedented heat",
+  assumptions: [
+    "Assumed best fit on supplemental sheet",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction, Concentration Increase CO₂ in Atmosphere, & Resultant Temperature Rise",
+  ],
+  sources: [""],
+  expression:
+    "((powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 7820000000) * 0.01 * populationIncreaseExposedToUnprecedentedHeatPerDegreesCelsius",
+  unit: "Additional People Exposed to Unprecedented Heat in 2070",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: [
+    "electricityConsumedCO2Emissions",
+    "electricityReductionsCO2Emissions",
+    "populationIncreaseExposedToUnprecedentedHeatPerDegreesCelsius",
+  ],
+};
+
+export const additionalPeopleOutsideTheHumanNicheIn2070: Formula = {
+  id: "additionalPeopleOutsideTheHumanNicheIn2070",
+  name: "Additional People Outside the Human Niche in 2070",
+  explanation:
+    "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human exposure to unprecedented heat",
+  assumptions: [
+    "Assumed best fit on supplemental sheet",
+    "Inherritted assumptions from CO₂ Emissions from Electricity Consumption and Reduction, Concentration Increase CO₂ in Atmosphere, & Resultant Temperature Rise",
+  ],
+  sources: [""],
+  expression:
+    "((powerPlantClass == 0 ? electricityConsumedCO2Emissions : electricityReductionsCO2Emissions) / 7820000000) * 0.01 * populationIncreaseOutsideNichePerDegreesCelsius",
+  unit: "Additional People Outside the Human Niche in 2070",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["population2070", "electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
+};
 
 // group and export all formulas
 export const formulas: Formula[] = [
@@ -879,9 +870,6 @@ export const formulas: Formula[] = [
   poundsOfCoalBurned,
   tonsOfWasteRecycledInsteadOfLandfilled,
   numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
-  resultantConcentrationCO2IncreaseInTheAtmosphere,
   resultantTemperatureRise,
-  additionalPeopleExposedToUnprecedentedAndExposedtoUnprecedentedHeatIn2070FromUserInputBaselineTemperatureAndPopulation,
-  baselineCWarmingByEndOfLifeAndYearOfStudyBasedOnVariousSSPs,
-  resultantYearlyMortalityCostFromCO2EmissionsResultingInIncreasedAtmosphericConcentrationCO2ResultingInTemperatureRise,
+  additionalPeopleExposedToUnprecedentedHeatIn2070,
 ];
