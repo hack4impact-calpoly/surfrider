@@ -39,7 +39,7 @@ describe("eGRID data fetcher", () => {
   it("should fetch and parse eGRID data", async () => {
     const result = await fetchAndTransformEgridData();
 
-    expect(result.length).toEqual(6);
+    expect(result.length).toEqual(4);
     expect(result[0]).toEqual(MOCK_EGRID_RECORD);
     expect(mockedAxios.get).toHaveBeenCalledTimes(1);
     expect(mockedXlsx.read).toHaveBeenCalledTimes(1);

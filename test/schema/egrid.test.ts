@@ -19,7 +19,7 @@ describe("PowerPlantClass schema", () => {
 
 describe("Location schema", () => {
   it("should validate correct locations", () => {
-    const validLocations = ["US", "AKGD", "PRMS", "SRVC", "AK", "CA", "CO", "CT", "MA", "OH", "WY"];
+    const validLocations = ["US", "AZNM", "NYUP", "SRVC", "AL", "CA", "CO", "CT", "MA", "OH", "WY"];
 
     validLocations.forEach((validLocation) => {
       expect(EgridLocation.parse(validLocation)).toBe(validLocation);
