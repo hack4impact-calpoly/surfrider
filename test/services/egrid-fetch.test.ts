@@ -39,6 +39,7 @@ describe("eGRID data fetcher", () => {
   it("should fetch and parse eGRID data", async () => {
     const result = await fetchAndTransformEgridData();
 
+    // 6 total records, but we are ignoring 1 invalid subregion and 1 invalid state
     expect(result.length).toEqual(4);
     expect(result[0]).toEqual(MOCK_EGRID_RECORD);
     expect(mockedAxios.get).toHaveBeenCalledTimes(1);

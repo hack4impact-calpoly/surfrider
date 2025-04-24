@@ -838,7 +838,6 @@ export const MOCK_EGRID_SUBREGION_SHEET = [
     "eGRID subregion nonbaseload other fossil generation percent (resource mix)": 0,
     "eGRID subregion nonbaseload other unknown/ purchased fuel generation percent (resource mix)": 0,
   },
-  /* Not in usable eGRID locations
   {
     "Data Year": 2022,
     "eGRID subregion acronym": "AKMS",
@@ -1005,7 +1004,6 @@ export const MOCK_EGRID_SUBREGION_SHEET = [
     "eGRID subregion nonbaseload other fossil generation percent (resource mix)": 0,
     "eGRID subregion nonbaseload other unknown/ purchased fuel generation percent (resource mix)": 0,
   },
-  */
 ];
 
 export const MOCK_EGRID_STATE_SHEET = [
@@ -1175,7 +1173,6 @@ export const MOCK_EGRID_STATE_SHEET = [
     "State nonbaseload other fossil generation percent (resource mix)": "STNBOFPR",
     "State nonbaseload other unknown/ purchased fuel generation percent (resource mix)": "STNBOPPR",
   },
-  /* Not in usable eGRID locations
   {
     "Data Year": 2022,
     "State abbreviation": "AK",
@@ -1342,7 +1339,6 @@ export const MOCK_EGRID_STATE_SHEET = [
     "State nonbaseload other fossil generation percent (resource mix)": 0,
     "State nonbaseload other unknown/ purchased fuel generation percent (resource mix)": 0,
   },
-  */
   {
     "Data Year": 2022,
     "State abbreviation": "AL",

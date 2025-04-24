@@ -487,12 +487,18 @@ const transformCountryData = (countrySheet: XLSX.WorkSheet): EgridRecord => {
 const transformSubregionData = (subregionSheet: XLSX.WorkSheet): EgridRecord[] => {
   const subregionData = XLSX.utils.sheet_to_json(subregionSheet);
   if (subregionData.length > 1) {
-    return subregionData.slice(1).map((raw: unknown) => {
-      const decodedRaw = trimColumnNames(z.record(z.unknown()).parse(raw));
-      const location = sanitizeStringValue(decodedRaw[SUBREGION_LOCATION_FIELD]);
-      const decodedLocation = EgridLocation.parse(location);
-      return transformRawData(decodedRaw, YEAR, decodedLocation, SUBREGION_PREFIX);
-    });
+    return subregionData
+      .slice(1)
+      .map((raw: unknown) => {
+        const decodedRaw = trimColumnNames(z.record(z.unknown()).parse(raw));
+        const location = sanitizeStringValue(decodedRaw[SUBREGION_LOCATION_FIELD]);
+        const { data: decodedLocation } = EgridLocation.safeParse(location);
+        if (!decodedLocation) {
+          return null;
+        }
+        return transformRawData(decodedRaw, YEAR, decodedLocation, SUBREGION_PREFIX);
+      })
+      .filter((record) => record !== null);
   }
   throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find subregion data in eGRID file");
 };
@@ -500,12 +506,18 @@ const transformSubregionData = (subregionSheet: XLSX.WorkSheet): EgridRecord[] =
 const transformStateData = (stateSheet: XLSX.WorkSheet): EgridRecord[] => {
   const stateData = XLSX.utils.sheet_to_json(stateSheet);
   if (stateData.length > 1) {
-    return stateData.slice(1).map((raw: unknown) => {
-      const decodedRaw = trimColumnNames(z.record(z.unknown()).parse(raw));
-      const location = sanitizeStringValue(decodedRaw[STATE_LOCATION_FIELD]);
-      const decodedLocation = EgridLocation.parse(location);
-      return transformRawData(decodedRaw, YEAR, decodedLocation, STATE_PREFIX);
-    });
+    return stateData
+      .slice(1)
+      .map((raw: unknown) => {
+        const decodedRaw = trimColumnNames(z.record(z.unknown()).parse(raw));
+        const location = sanitizeStringValue(decodedRaw[STATE_LOCATION_FIELD]);
+        const { data: decodedLocation } = EgridLocation.safeParse(location);
+        if (!decodedLocation) {
+          return null;
+        }
+        return transformRawData(decodedRaw, YEAR, decodedLocation, STATE_PREFIX);
+      })
+      .filter((record) => record !== null);
   }
   throw new AppError(AppErrorCode.enum.SERVICE_ERROR, "Unable to find state data in eGRID file");
 };
