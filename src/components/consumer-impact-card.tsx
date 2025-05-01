@@ -4,25 +4,16 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
-export interface ConsumerImpactCardProps {
+export const ConsumerImpactCard: React.FC<{
   value: number; //value to display
   label: string; //unit for the value
   subtext: string; //subtext for the value and unit
   tooltipText: string; //tooltip info
-  icon: React.ReactNode; //icon
+  icon: React.ReactNode; //icon component
   bgColor: string; //background color
-}
-
-export const ConsumerImpactCard: React.FC<ConsumerImpactCardProps> = ({
-  value,
-  label,
-  subtext,
-  tooltipText,
-  icon,
-  bgColor,
-}) => {
+}> = ({ value, label, subtext, tooltipText, icon, bgColor }) => {
   return (
-    <Card className={`${bgColor} relative rounded-lg p-4 shadow-sm w-64 max-w-full`}>
+    <Card className={`${bgColor} relative rounded-lg p-4 shadow-sm w-64 max-w-full border border-gray-200`}>
       {/* Info tooltip icon */}
       <div className="absolute top-2 right-2">
         <Tooltip>
