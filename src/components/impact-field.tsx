@@ -9,8 +9,8 @@ export const ImpactField: React.FC<{
   //children: React.ReactNode; //accordion content (specific field cards)
 }> = ({ title }) => (
   <Accordion type="single" collapsible className="w-full">
-    <AccordionItem value={title}>
-      <AccordionTrigger className="group flex items-center justify-between p-5 bg-white rounded-lg shadow-lg text-slate-900 text-lg font-medium hover:shadow-xl transition-shadow">
+    <AccordionItem value={title} className="border-none">
+      <AccordionTrigger className="group flex items-center justify-between p-5 bg-white rounded-xl shadow-2xl font-medium text-[24px] text-[#0F172A] hover:shadow-xl transition-shadow">
         {title}
       </AccordionTrigger>
 
