@@ -29,7 +29,7 @@ export const ConsumerImpactCard: React.FC<{
 
         {/* Value and Label */}
         <div className="text-center">
-          <h3 className="font-bold text-[20px] text-[#6F6F6F] p-1">{value.toLocaleString()}</h3>
+          <h3 className="font-bold text-[20px] text-[#6F6F6F] p-1">{value.toExponential(2).replace("e+", " E")}</h3>
           <p className="font-bold text-[20px] text-[#6F6F6F] p-1">{label}</p>
           <p className="font-light text-[12px] text-[#6F6F6F]">{subtext}</p>
         </div>
