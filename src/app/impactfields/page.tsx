@@ -69,7 +69,7 @@ export default function Home() {
             subtext="Subtext goes here"
             tooltipText="Tooltip text goes here"
             icon={<Image src={EnergyIcon} alt="Gas Icon" />}
-            bgColor="bg-[#F3F3F3]"
+            bgColor="bg-[#88C8D2]"
           />
           <ConsumerImpactCard
             value={8888888888888}
@@ -85,7 +85,7 @@ export default function Home() {
             subtext="Subtext goes here"
             tooltipText="Tooltip text goes here"
             icon={<Image src={CityIcon} alt="Gas Icon" />}
-            bgColor="bg-[#F3F3F3]"
+            bgColor="bg-[#99CCC1]"
           />
         </ImpactField>
 
