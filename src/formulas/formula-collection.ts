@@ -1010,6 +1010,112 @@ export const additionalPeopleOutsideTheHumanNicheIn2070: Formula = {
   dependencies: ["population2070", "electricityConsumedCO2Emissions", "electricityReductionsCO2Emissions"],
 };
 
+export const averageCoalPlantsInCalifornia: Formula = {
+  id: "averageCoalPlantsInCalifornia",
+  name: "Average coal plants in California",
+  explanation:
+    "The average number of coal plants in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualCoalNetGenerationMwh / 1000",
+  unit: "number of coal plants",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualCoalNetGenerationMwh"],
+};
+
+export const averageNaturalGasPlantsInCalifornia: Formula = {
+  id: "averageNaturalGasPlantsInCalifornia",
+  name: "Average natural gas plants in California",
+  explanation:
+    "The average number of natural gas plants in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualGasNetGenerationMwh / 1000",
+  unit: "number of gas plants",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualGasNetGenerationMwh"],
+};
+
+export const averageNuclearPlantsInCalifornia: Formula = {
+  id: "averageNuclearPlantsInCalifornia",
+  name: "Average nuclear plants in California",
+  explanation:
+    "The average number of nuclear plants in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualNuclearNetGenerationMwh / 1000",
+  unit: "number of nuclear plants",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualNuclearNetGenerationMwh"],
+};
+
+export const averageOnshoreWindTurbinesInCalifornia: Formula = {
+  id: "averageOnshoreWindTurbinesInCalifornia",
+  name: "Average onshore wind turbines in California",
+  explanation:
+    "The average number of onshore wind turbines in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualWindNetGenerationMwh / 1000",
+  unit: "number of onshore wind turbines",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualWindNetGenerationMwh"],
+};
+
+// TODO this is the same calculation as onshore wind (above), not sure how to separate them. Maybe annualWindNetGeneration is based on powerPlantClass?
+export const averageOffshoreWindTurbinesInCalifornia: Formula = {
+  id: "averageOffshoreWindTurbinesInCalifornia",
+  name: "Average offshore wind turbines in California",
+  explanation:
+    "The average number of offshore wind turbines in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualWindNetGenerationMwh / 1000",
+  unit: "number of offshore wind turbines",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualWindNetGenerationMwh"],
+};
+
+export const averageOilPlantsInCalifornia: Formula = {
+  id: "averageOilPlantsInCalifornia",
+  name: "Average oil plants in California",
+  explanation:
+    "The average number of oil plants in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualOilNetGenerationMwh / 1000",
+  unit: "number of oil plants",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualOilNetGenerationMwh"],
+};
+
+// TODO check that annualOtherFossilNetGenerationMwh is the correct variable
+export const averageFossilFuelPlantsInCalifornia: Formula = {
+  id: "averageFossilFuelPlantsInCalifornia",
+  name: "Average fossil fuel plants in California",
+  explanation:
+    "The average number of fossil fuel plants in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualOtherFossilNetGenerationMwh / 1000",
+  unit: "number of fossil fuel plants",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualOtherFossilNetGenerationMwh"],
+};
+
+export const averageAcresOfSolarInCalifornia: Formula = {
+  id: "averageAcresOfSolarInCalifornia",
+  name: "Average acres of solar in California",
+  explanation:
+    "The average acres of solar in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualSolarNetGenerationMwh / 1000",
+  unit: "acres of solar",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualSolarNetGenerationMwh"],
+};
+
 // group and export all formulas
 export const formulas: Formula[] = [
   annualPowerGeneration,
