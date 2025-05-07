@@ -10,12 +10,30 @@ import { Button } from "@/components/ui/button";
 import { CalculateInput } from "@/schema/api";
 import { EgridLocation, PowerPlantClass } from "@/schema/egrid";
 
+export const DEFAULT_POWER_PLANT_CLASS = PowerPlantClass.enum.Consumed;
+export const DEFAULT_LOCATION = EgridLocation.Enum.US;
+export const DEFAULT_CAPACITY_FACTOR = 0.51;
+export const DEFAULT_POPULATION_2070 = 8_325_000_000;
+export const DEFAULT_START_YEAR = 2028;
+export const DEFAULT_LIFETIME_YEARS = 30;
+export const DEFAULT_YEAR_OF_STUDY = 2100;
+
 const powerPlantOptions = PowerPlantClass.options;
 const locationOptions = EgridLocation.options;
 
 export default function CalculatorForm() {
   const form = useForm({
     resolver: zodResolver(CalculateInput),
+    defaultValues: {
+      installedCapacity: 0,
+      powerPlantClass: DEFAULT_POWER_PLANT_CLASS,
+      location: DEFAULT_LOCATION,
+      capacityFactor: DEFAULT_CAPACITY_FACTOR,
+      population2070: DEFAULT_POPULATION_2070,
+      startYear: DEFAULT_START_YEAR,
+      lifeTimeYears: DEFAULT_LIFETIME_YEARS,
+      yearOfStudy: DEFAULT_YEAR_OF_STUDY,
+    },
   });
 
   const onSubmit = (values: unknown) => {
