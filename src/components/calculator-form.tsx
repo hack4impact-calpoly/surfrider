@@ -70,7 +70,7 @@ export default function CalculatorForm() {
             <FormItem>
               <FormLabel>Power Plant Classification</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className="text-gray-300">
+                <SelectTrigger>
                   <SelectValue placeholder="Select Classification" />
                 </SelectTrigger>
                 <SelectContent>
@@ -93,7 +93,7 @@ export default function CalculatorForm() {
             <FormItem>
               <FormLabel>Location</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger className="text-gray-300">
+                <SelectTrigger>
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
                 <SelectContent>
