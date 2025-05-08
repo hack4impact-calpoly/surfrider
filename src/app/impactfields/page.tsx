@@ -2,14 +2,8 @@
 
 import * as React from "react";
 import { ImpactField } from "@/components/impact-field";
-import { ConsumerImpactCard } from "@/components/consumer-impact-card";
-import GasPumpIcon from "@/assets/icons/gas_pump.svg";
-import EnergyIcon from "@/assets/icons/energy.svg";
-import GasolineIcon from "@/assets/icons/gasoline.svg";
-import CityIcon from "@/assets/icons/heat.svg";
-import OilRigIcon from "@/assets/icons/oil_rig.svg";
-import CarIcon from "@/assets/icons/passenger_vehicle.svg";
-import Image from "next/image";
+import SocietalImpactFields from "@/components/societal-impact-fields";
+import ConsumerImpactFields from "@/components/consumer-impact-fields";
 
 export default function Home() {
   return (
@@ -27,78 +21,15 @@ export default function Home() {
 
       <div className="space-y-8">
         <ImpactField title="Societal Impact Fields">
-          {/* Societal Impact cards will go here */}
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={GasolineIcon} alt="Gas Icon" />}
-            bgColor="bg-[#88C8D2]"
-          />
+          <SocietalImpactFields />
         </ImpactField>
 
         <ImpactField title="Consumer Impact Fields">
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={GasolineIcon} alt="Gas Icon" />}
-            bgColor="bg-[#F3F3F3]"
-          />
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={OilRigIcon} alt="Gas Icon" />}
-            bgColor="bg-[#94CEEE]"
-          />
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={CarIcon} alt="Gas Icon" />}
-            bgColor="bg-[#F3F3F3]"
-          />
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={EnergyIcon} alt="Gas Icon" />}
-            bgColor="bg-[#88C8D2]"
-          />
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={GasPumpIcon} alt="Gas Icon" />}
-            bgColor="bg-[#F3F3F3]"
-          />
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={CityIcon} alt="Gas Icon" />}
-            bgColor="bg-[#99CCC1]"
-          />
+          <ConsumerImpactFields />
         </ImpactField>
 
         <ImpactField title="SSP">
-          {/* SSP cards will go here */}
-          <ConsumerImpactCard
-            value={8888888888888}
-            label="Metric Name"
-            subtext="Subtext goes here"
-            tooltipText="Tooltip text goes here"
-            icon={<Image src={CityIcon} alt="Gas Icon" />}
-            bgColor="bg-[#99CCC1]"
-          />
+          <ConsumerImpactFields /> {/* Placeholder for SSP */}
         </ImpactField>
       </div>
     </div>

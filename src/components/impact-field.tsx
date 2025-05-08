@@ -15,7 +15,7 @@ export const ImpactField: React.FC<{
       </AccordionTrigger>
 
       <AccordionContent className="flex justify-center p-3 bg-white rounded-xl border-none">
-        <div className="grid grid-cols-3 gap-14">{children}</div>
+        <div>{children}</div>
       </AccordionContent>
     </AccordionItem>
   </Accordion>
