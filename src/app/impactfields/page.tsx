@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { ImpactField } from "@/components/impact-field";
-import { ConsumerImpactCard } from "@/components/consumer-impact-card";
-import SocietalImpactFields from "@/components/SocietalImpactFields";
+import { MetricCard } from "@/components/metric-card";
+import SocietalImpactFields from "@/components/societal-impact-fields";
 import GasIcon from "@/assets/icons/gas_pump.svg";
 import Image from "next/image";
 
@@ -28,7 +28,7 @@ export default function Home() {
 
         <ImpactField title="Consumer Impact Fields">
           <div className="space-y-8">
-            <ConsumerImpactCard
+            <MetricCard
               value={8888888888888}
               label="Metric Name"
               subtext="Subtext goes here"
@@ -36,7 +36,7 @@ export default function Home() {
               icon={<Image src={GasIcon} alt="Gas Icon" />}
               bgColor="bg-[#F3F3F3]"
             />
-            <ConsumerImpactCard
+            <MetricCard
               value={8888888888888}
               label="Metric Name"
               subtext="Subtext goes here"
@@ -49,7 +49,7 @@ export default function Home() {
 
         <ImpactField title="SSP">
           {/* SSP cards will go here */}
-          <ConsumerImpactCard
+          <MetricCard
             value={8888888888888}
             label="Metric Name"
             subtext="Subtext goes here"

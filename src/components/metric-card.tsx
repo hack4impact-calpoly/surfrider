@@ -4,7 +4,7 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 
-export const ConsumerImpactCard: React.FC<{
+export const MetricCard: React.FC<{
   value: number; //value to display
   label: string; //unit for the value
   subtext: string; //subtext for the value and unit
@@ -28,14 +28,15 @@ export const ConsumerImpactCard: React.FC<{
         </div>
 
         {/* Value and Label */}
-        <div className="text-center">
-          <h3 className="font-bold text-[20px] text-[#6F6F6F] p-1">{value.toExponential(2).replace("e+", " E")}</h3>
+        <div className="text-center p-8">
+          <h3 className="font-bold text-[30px] text-[#6F6F6F] p-1">{value.toExponential(2).replace("e+", " E")}</h3>
+          <br />
           <p className="font-bold text-[20px] text-[#6F6F6F] p-1">{label}</p>
           <p className="font-light text-[12px] text-[#6F6F6F]">{subtext}</p>
         </div>
 
         {/* Icon at the bottom */}
-        <div className="m-4 flex justify-center">{icon}</div>
+        <div className="mt-6 flex justify-center">{icon}</div>
       </Card>
     </TooltipProvider>
   );
