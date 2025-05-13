@@ -5,9 +5,14 @@ import { NextResponse } from "next/server";
 
 /**
  * Route to fetch the egrid data
- * TODO: Add authorization to restrict access to scheduled cron job
  */
-export const GET = async () => {
+export async function GET(request: Request) {
+  const authHeader = request.headers.get("authorization");
+
+  if (authHeader !== process.env.CRON_SECRET) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   try {
     const records = await fetchAndTransformEgridData();
     await Promise.all(records.map(addEgridRecord));
@@ -15,4 +20,4 @@ export const GET = async () => {
   } catch (error) {
     return apiErrorHandler(error);
   }
-};
+}
