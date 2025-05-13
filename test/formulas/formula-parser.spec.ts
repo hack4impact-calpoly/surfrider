@@ -1,4 +1,4 @@
-import { FormulaParser } from "@/utils/formula-parser";
+import { FormulaParser } from "@/formulas/formula-parser";
 import { mocked } from "jest-mock";
 import { Parser, parser } from "mathjs";
 import {
@@ -32,7 +32,7 @@ describe("Formula parser", () => {
     });
 
     it("should add input variables", () => {
-      const parser = new FormulaParser(MOCK_INPUT_VARIABLES);
+      new FormulaParser(MOCK_INPUT_VARIABLES);
 
       expect(testParserSet).toHaveBeenCalledTimes(3);
       expect(testParserSet).toHaveBeenCalledWith("a", 3);
@@ -41,7 +41,7 @@ describe("Formula parser", () => {
     });
 
     it("should not add input variables if empty", () => {
-      const parser = new FormulaParser({});
+      new FormulaParser({});
 
       expect(testParserSet).not.toHaveBeenCalled();
     });

@@ -1,30 +1,16 @@
 import { parser, Parser } from "mathjs";
+import { Formula, FormulaDependency } from "@/schema/formula";
 
-// TODO: replace with formula schema types
-type FormulaId = string;
-
-export type Formula = {
-  id: FormulaId;
-  name: string;
-  explanation: string;
-  assumptions: string[];
-  sources: string[];
-  expression: string;
-  unit: string;
-  setupScope(addVariable: (name: string, value: number | (() => number)) => void): void;
-  dependencies: string[];
-};
-
-export class FormulaParser<T extends Record<string, number>> {
+export class FormulaParser {
   // map of formula id to formula object
-  private formulas: Map<FormulaId, Formula>;
+  private formulas: Map<string, Formula>;
   // map of formula id to list of formula ids that depend on it
-  private formulaAdj: Map<FormulaId, FormulaId[]>;
+  private formulaAdj: Map<string, string[]>;
   // map of formula id to number of formulas it depends on
-  private formulaInDeg: Map<FormulaId, number>;
+  private formulaInDeg: Map<string, number>;
   private parser: Parser;
 
-  constructor(inputVariables: T) {
+  constructor(inputVariables: Partial<Record<FormulaDependency, number>>) {
     this.formulas = new Map();
     this.formulaAdj = new Map();
     this.formulaInDeg = new Map();
@@ -32,7 +18,10 @@ export class FormulaParser<T extends Record<string, number>> {
 
     // initialize input variables in the parser
     Object.keys(inputVariables).forEach((key) => {
-      this.addVariable(key, inputVariables[key as keyof T]);
+      const variable = inputVariables[key as FormulaDependency];
+      if (!!variable) {
+        this.addVariable(key, variable);
+      }
     });
   }
 
@@ -45,7 +34,7 @@ export class FormulaParser<T extends Record<string, number>> {
 
   private buildTopologicalOrder(): Formula[] {
     const formulaOrder: Formula[] = [];
-    const queue: FormulaId[] = [];
+    const queue: string[] = [];
 
     // add formulas with no dependencies to the queue
     this.formulas.forEach((formula) => {
@@ -56,7 +45,7 @@ export class FormulaParser<T extends Record<string, number>> {
 
     // perform topological sort
     while (queue.length > 0) {
-      const formulaId = queue.shift() as FormulaId;
+      const formulaId = queue.shift() as string;
       formulaOrder.push(this.formulas.get(formulaId) as Formula);
 
       if (this.formulaAdj.has(formulaId)) {
@@ -124,7 +113,7 @@ export class FormulaParser<T extends Record<string, number>> {
     });
   }
 
-  getFormula(id: FormulaId): Formula {
+  getFormula(id: string): Formula {
     const formula = this.formulas.get(id);
     if (!formula) {
       throw new Error(`Formula with id ${id} not found`);

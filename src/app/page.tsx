@@ -1,4 +1,4 @@
-import CalculatorForm from "@/components/ui/calculator-form";
+import CalculatorForm from "@/components/calculator-form";
 
 export default function Home() {
   return (

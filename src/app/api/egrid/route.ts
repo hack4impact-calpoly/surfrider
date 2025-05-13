@@ -1,17 +1,18 @@
+import { fetchAndTransformEgridData } from "@/services/egrid-fetch";
+import { addEgridRecord } from "@/services/egrid-store";
+import { apiErrorHandler } from "@/utils/errors";
 import { NextResponse } from "next/server";
-import { fetchEgridData, transformEgridData } from "@/services/egrid-fetch";
 
 /**
  * Route to fetch the egrid data
- * TODO: Implement the route
  * TODO: Add authorization to restrict access to scheduled cron job
  */
-export async function POST() {
-  return NextResponse.json({ message: "Hello from the egrid API!" });
-}
-
 export const GET = async () => {
-  const fileBuffer = await fetchEgridData();
-  const transformedData = transformEgridData(fileBuffer);
-  return NextResponse.json({ success: true, data: transformedData });
+  try {
+    const records = await fetchAndTransformEgridData();
+    await Promise.all(records.map(addEgridRecord));
+    return NextResponse.json(records.length);
+  } catch (error) {
+    return apiErrorHandler(error);
+  }
 };

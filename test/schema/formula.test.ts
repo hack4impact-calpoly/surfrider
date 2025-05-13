@@ -3,15 +3,15 @@ import { Formula } from "@/schema/formula";
 describe("Formula schema", () => {
   it("should validate a correct formula object", () => {
     const validFormula = {
-      id: "1",
+      id: "annualPowerGeneration",
       name: "Test Formula",
       explanation: "This is a test formula",
       assumptions: ["Assumption 1", "Assumption 2"],
       sources: ["Source 1", "Source 2"],
-      expression: "x + y",
+      expression: "installedCapacity + capacityFactor",
       unit: "m",
       setupScope: () => {},
-      dependencies: ["x", "y"],
+      dependencies: ["installedCapacity", "capacityFactor"],
     };
 
     expect(() => Formula.parse(validFormula)).not.toThrow();
@@ -24,10 +24,10 @@ describe("Formula schema", () => {
       explanation: "This is a test formula",
       assumptions: ["Assumption 1", "Assumption 2"],
       sources: ["Source 1", "Source 2"],
-      expression: "x + y",
+      expression: "installedCapacity + capacityFactor",
       unit: "m",
       setupScope: () => {},
-      dependencies: ["x", "y"],
+      dependencies: ["installedCapacity", "capacityFactor"],
     };
 
     expect(() => Formula.parse(invalidFormula)).toThrow();
@@ -40,10 +40,10 @@ describe("Formula schema", () => {
       explanation: "This is a test formula",
       assumptions: ["Assumption 1", "Assumption 2"],
       sources: ["Source 1", "Source 2"],
-      expression: "x + y",
+      expression: "installedCapacity + capacityFactor",
       unit: "m",
       // setupScope is missing
-      dependencies: ["x", "y"],
+      dependencies: ["installedCapacity", "capacityFactor"],
     };
 
     expect(() => Formula.parse(invalidFormula)).toThrow();

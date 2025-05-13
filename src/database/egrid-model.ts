@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
-import { EgridRecord, Location } from "@/schema/egrid";
+import { EgridRecord, EgridLocation } from "@/schema/egrid";
 
 const EgridSchema = new Schema<EgridRecord>(
   {
     year: { type: Number, required: true },
-    location: { type: String, enum: Location.options, required: true }, //US, subregion, or state
+    location: { type: String, enum: EgridLocation.options, required: true }, //US, subregion, or state
     nameplateCapacityMw: { type: Number }, //megawatts
     annualHeatInputMmbtu: { type: Number }, //metric million British thermal units
     ozoneSeasonHeatInputMmbtu: { type: Number }, //metric million British thermal units
@@ -165,11 +165,12 @@ const EgridSchema = new Schema<EgridRecord>(
     nonbaseloadSolarGenerationPercentResourceMix: { type: Number }, //percent
     nonbaseloadGeothermalGenerationPercentResourceMix: { type: Number }, //percent
     nonbaseloadOtherFossilGenerationPercentResourceMix: { type: Number }, //percent
-    nonbaseloadOtherUnknownPurcasedFuelGenerationPercentResourceMix: { type: Number }, //percent
+    nonbaseloadOtherUnknownPurchasedFuelGenerationPercentResourceMix: { type: Number }, //percent
   },
   { collection: "surfrider-egrid" },
 );
 
 EgridSchema.index({ year: 1, location: 1 }, { unique: true });
 
-export const EgridModel = mongoose.model("Egrid", EgridSchema);
+export const EgridModel =
+  (mongoose.models.Egrid as mongoose.Model<EgridRecord>) || mongoose.model("Egrid", EgridSchema);
