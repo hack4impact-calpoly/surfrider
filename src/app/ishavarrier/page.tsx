@@ -1,17 +1,9 @@
-"use client";
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import CaliforniaEnergyTable from "../../../src/components/results-table";
 
-export default function IshaVarrier() {
-  const [count, setCount] = useState(0);
-  const handleClick = () => {
-    setCount(count + 1);
-  };
-
+export default async function DemoPage() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1>Count Value: {count}</h1>
-      <Button onClick={handleClick}>Click to Increment Count</Button>
+    <div className="container mx-auto py-10">
+      <CaliforniaEnergyTable />
     </div>
   );
 }
