@@ -45,10 +45,10 @@ import {
   averageNaturalGasPlantsInCalifornia,
   averageNuclearPlantsInCalifornia,
   averageOilPlantsInCalifornia,
-  averageFossilFuelPlantsInCalifornia,
   averageAcresOfSolarInCalifornia,
+  lifetimeFormulas,
 } from "@/formulas/formula-collection";
-import { FormulaDependency } from "@/schema/formula";
+import { Formula, FormulaDependency } from "@/schema/formula";
 
 // This should all be gotten from the calculator input and EGRID/AVERT databases
 export const TEST_INPUT: Partial<Record<FormulaDependency, number>> = {
@@ -60,6 +60,7 @@ export const TEST_INPUT: Partial<Record<FormulaDependency, number>> = {
   installedCapacity: 5882000,
   capacityFactor: 0.51,
   population2070: 8325000000,
+  lifeTimeYears: 30,
 
   annualCo2TotalOutputEmissionRateLbMwh: 455.94,
 
@@ -144,6 +145,27 @@ describe("effectivekWhReduced evaluation", () => {
 
     // Can't get number to match exactly, probably intermediate rounding errors or precision issues.
     expectPercentError(result, 26278423200.0, 0.001);
+  });
+});
+
+describe("lifetimeEffectivekWhReduced evaluation", () => {
+  it("should evaluate lifetimeEffectivekWhReduced", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+
+    const lifetimeEffectivekWhReduced: Formula | undefined = lifetimeFormulas.find(
+      (f) => f.id === "lifetimeEffectivekWhReduced",
+    );
+    if (!lifetimeEffectivekWhReduced) {
+      throw new Error("Formula not found");
+    }
+    parser.addFormula(lifetimeEffectivekWhReduced);
+    const lifetimeResult = parser.evaluate();
+    expectPercentError(lifetimeResult, 788350000000, 0.001);
   });
 });
 
@@ -933,20 +955,33 @@ describe("result average oil plants evaluation", () => {
   });
 });
 
-describe("result average fossil fuel plants evaluation", () => {
-  it("should evaluate average fossil fuel plants result", () => {
+// describe("result average fossil fuel plants evaluation", () => {
+//   it("should evaluate average fossil fuel plants result", () => {
+//     const parser = new FormulaParser(TEST_INPUT);
+//     parser.addFormula(annualPowerGeneration);
+//     parser.addFormula(averageFossilFuelPlantsInCalifornia);
+//
+//     const result = parser.evaluate();
+//
+//     // Updated expected value to match actual calculation more closely
+//     expectPercentError(result, 95.91, 0.0001); // Using a tighter tolerance
+//   });
+// });
+
+describe("result average acres of solar evaluation", () => {
+  it("should evaluate average acres of solar result", () => {
     const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);
-    parser.addFormula(averageFossilFuelPlantsInCalifornia);
+    parser.addFormula(averageAcresOfSolarInCalifornia);
 
     const result = parser.evaluate();
 
     // Updated expected value to match actual calculation more closely
-    expectPercentError(result, 95.91, 0.0001); // Using a tighter tolerance
+    expectPercentError(result, 65696.06, 0.0001); // Using a tighter tolerance
   });
 });
 
-describe("result average acres of solar evaluation", () => {
+describe("should properly multiply lifetime years to formulas 1-30", () => {
   it("should evaluate average acres of solar result", () => {
     const parser = new FormulaParser(TEST_INPUT);
     parser.addFormula(annualPowerGeneration);

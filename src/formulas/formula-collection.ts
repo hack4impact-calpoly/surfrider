@@ -1,4 +1,5 @@
 import { Formula } from "@/schema/formula";
+import { FormulaId } from "@/schema/formula-id";
 
 /*
     Impact Calculator Equation 1: Conversion between Electricity Consumed and Reduced
@@ -1062,7 +1063,6 @@ export const averageOnshoreWindTurbinesInCalifornia: Formula = {
   dependencies: ["annualPowerGeneration", "annualWindNetGenerationMwh"],
 };
 
-// TODO this is the same calculation as onshore wind (above), not sure how to separate them. Maybe annualWindNetGeneration is based on powerPlantClass?
 export const averageOffshoreWindTurbinesInCalifornia: Formula = {
   id: "averageOffshoreWindTurbinesInCalifornia",
   name: "Average offshore wind turbines in California",
@@ -1089,19 +1089,19 @@ export const averageOilPlantsInCalifornia: Formula = {
   dependencies: ["annualPowerGeneration", "annualOilNetGenerationMwh"],
 };
 
-// TODO check that annualOtherFossilNetGenerationMwh is the correct variable
-export const averageFossilFuelPlantsInCalifornia: Formula = {
-  id: "averageFossilFuelPlantsInCalifornia",
-  name: "Average fossil fuel plants in California",
-  explanation:
-    "The average number of fossil fuel plants in California required to provide an equivalent amount of energy as the provided energy source",
-  assumptions: ["", ""],
-  sources: [""],
-  expression: "annualPowerGeneration / annualOtherFossilNetGenerationMwh / 1000",
-  unit: "number of fossil fuel plants",
-  setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: ["annualPowerGeneration", "annualOtherFossilNetGenerationMwh"],
-};
+// // TODO check that annualOtherFossilNetGenerationMwh is the correct variable
+// export const averageFossilFuelPlantsInCalifornia: Formula = {
+//   id: "averageFossilFuelPlantsInCalifornia",
+//   name: "Average fossil fuel plants in California",
+//   explanation:
+//     "The average number of fossil fuel plants in California required to provide an equivalent amount of energy as the provided energy source",
+//   assumptions: ["", ""],
+//   sources: [""],
+//   expression: "annualPowerGeneration / annualOtherFossilNetGenerationMwh / 1000",
+//   unit: "number of fossil fuel plants",
+//   setupScope: (() => {}) as (...args: unknown[]) => void,
+//   dependencies: ["annualPowerGeneration", "annualOtherFossilNetGenerationMwh"],
+// };
 
 export const averageAcresOfSolarInCalifornia: Formula = {
   id: "averageAcresOfSolarInCalifornia",
@@ -1115,6 +1115,56 @@ export const averageAcresOfSolarInCalifornia: Formula = {
   setupScope: (() => {}) as (...args: unknown[]) => void,
   dependencies: ["annualPowerGeneration", "annualSolarNetGenerationMwh"],
 };
+
+export function createLifetimeFormula(original: Formula): Formula {
+  const newFormula: Formula = {
+    ...original,
+    id: `lifetime${original.id.charAt(0).toUpperCase()}${original.id.slice(1)}` as FormulaId,
+    name: `Lifetime ${original.name}`,
+    explanation: `Lifetime ${original.explanation}`,
+    expression: `${original.id} * lifeTimeYears`,
+    dependencies: [`${original.id}`, "lifeTimeYears"],
+    sources: [`Inherited ${original.id}`],
+  };
+  return newFormula;
+}
+
+const lifetimeFormulaSources = [
+  effectivekWhReduced,
+  effectivekWhConsumed,
+  gallonsOfGasolineBurnedEquivalentCO2Emissions,
+  gallonsOfDieselConsumedEquivalentCO2Emissions,
+  gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions,
+  milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions,
+  thermsOfNaturalGasEquivalentCO2Emissions,
+  mcfOfNaturalGasEquivalentCO2Emissions,
+  barrelsOfOilConsumedEquivalentCO2Emissions,
+  tankerTrucksFilledWithGasolineEquivalentEmissions,
+  homeYearlyElectricityUseEquivalentEmissions,
+  homeYearlyTotalEnergyUseEquivalentEmissions,
+  numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+  numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation,
+  acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions,
+  acresOfUSForestsEquivalentCO2SequesteringForOneYear,
+  propaneCylindersUsedForHomeBarbecues,
+  railcarsOfCoalBurned,
+  poundsOfCoalBurned,
+  trashBagsOfWasteRecycledInsteadOfLandfilled,
+  tonsOfWasteRecycledInsteadOfLandfilled,
+  numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled,
+  coalFiredPowerPlantEmissionsForOneYear,
+  naturalGasFiredPowerPlantEmissionsForOneYear,
+  numberOfWindTurbinesRunningForAYear,
+  numberOfSmartPhonesCharged,
+  resultantConcentrationCO2IncreaseInTheAtmosphere,
+  resultantTemperatureRise,
+  additionalPeopleExposedToUnprecedentedHeatIn2070,
+  additionalPeopleOutsideTheHumanNicheIn2070,
+];
+
+export const lifetimeFormulas: Formula[] = lifetimeFormulaSources.map((original) => {
+  return createLifetimeFormula(original);
+});
 
 // group and export all formulas
 export const formulas: Formula[] = [
@@ -1159,4 +1209,13 @@ export const formulas: Formula[] = [
   populationIncreaseOutsideNichePerDegreesCelsius,
   additionalPeopleExposedToUnprecedentedHeatIn2070,
   additionalPeopleOutsideTheHumanNicheIn2070,
+  averageCoalPlantsInCalifornia,
+  averageNaturalGasPlantsInCalifornia,
+  averageNuclearPlantsInCalifornia,
+  averageOnshoreWindTurbinesInCalifornia,
+  averageOffshoreWindTurbinesInCalifornia,
+  averageOilPlantsInCalifornia,
+  // averageFossilFuelPlantsInCalifornia,
+  averageAcresOfSolarInCalifornia,
+  ...lifetimeFormulas,
 ];
