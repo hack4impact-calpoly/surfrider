@@ -14,51 +14,51 @@ export default function ConsumerImpactFields() {
     <div className="grid grid-cols-3 gap-14">
       <MetricCard
         value={8888888888}
-        label="Mcf Natural Gas Burned"
-        subtext="Per year"
-        tooltipText="This metric represents the volume of natural gas consumed."
+        label="Gallons"
+        subtext="of Gasoline Burned"
+        tooltipText=""
         icon={<Image src={GasolineIcon} alt="Gasoline Icon" />}
-        bgColor="bg-[#88C8D2]"
-      />
-      <MetricCard
-        value={231}
-        label="Natural Gas–Fired Pp. Emissions"
-        subtext="For one year"
-        tooltipText="Emissions from power plants running on natural gas."
-        icon={<Image src={OilRigIcon} alt="Oil Rig Icon" />}
         bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={4.13e8}
-        label="Average Forestry Acres"
-        subtext="Per year equiv. emission sequestering"
-        tooltipText="This metric estimates how many acres of forest would be needed to offset these emissions."
+        value={8888888888}
+        label="Barrels"
+        subtext="of Oil Burned"
+        tooltipText=""
+        icon={<Image src={OilRigIcon} alt="Oil Rig Icon" />}
+        bgColor="bg-[#94CEEE]"
+      />
+      <MetricCard
+        value={8888888888}
+        label="Miles"
+        subtext="Driven by gas passenger vehicles"
+        tooltipText=""
         icon={<Image src={CarIcon} alt="Car Icon" />}
-        bgColor="bg-[#94CEEE]"
+        bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={4.13e8}
-        label="Average Forestry Acres"
-        subtext="Per year equiv. emission sequestering"
-        tooltipText="This metric estimates how many acres of forest would be needed to offset these emissions."
+        value={8888888888}
+        label="Homes"
+        subtext="of Yearly Electricity Use"
+        tooltipText=""
         icon={<Image src={EnergyIcon} alt="Energy Icon" />}
-        bgColor="bg-[#94CEEE]"
+        bgColor="bg-[#88C8D2]"
       />
       <MetricCard
-        value={4.13e8}
-        label="Average Forestry Acres"
-        subtext="Per year equiv. emission sequestering"
-        tooltipText="This metric estimates how many acres of forest would be needed to offset these emissions."
+        value={8888888888}
+        label="Gas Powered Passenger Vehicles"
+        subtext="Per Year"
+        tooltipText=""
         icon={<Image src={GasPumpIcon} alt="Gas Pump Icon" />}
-        bgColor="bg-[#94CEEE]"
+        bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={4.13e8}
-        label="Average Forestry Acres"
-        subtext="Per year equiv. emission sequestering"
-        tooltipText="This metric estimates how many acres of forest would be needed to offset these emissions."
+        value={8888888888}
+        label="Additional People"
+        subtext="Exposed to Unprecedented Heat"
+        tooltipText=""
         icon={<Image src={CityIcon} alt="City Icon" />}
-        bgColor="bg-[#94CEEE]"
+        bgColor="bg-[#99CCC1]"
       />
     </div>
   );
