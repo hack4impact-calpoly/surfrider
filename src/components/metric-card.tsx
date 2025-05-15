@@ -50,9 +50,7 @@ export const MetricCard: React.FC<{
       </div>
 
       {/* Icon slightly higher from the bottom */}
-      <div className="mb-8 flex justify-center">
-        <div className="max-w-[100px] max-h-[160px] w-full h-full">{icon}</div>
-      </div>
+      <div className="flex justify-center items-end h-24 mb-7">{icon}</div>
     </Card>
   );
 };

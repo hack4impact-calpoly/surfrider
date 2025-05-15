@@ -28,9 +28,7 @@ export default function Home() {
           <ConsumerImpactFields />
         </ImpactField>
 
-        <ImpactField title="SSP">
-          <ConsumerImpactFields /> {/* Placeholder for SSP */}
-        </ImpactField>
+        <ImpactField title="SSP"></ImpactField>
       </div>
     </div>
   );
