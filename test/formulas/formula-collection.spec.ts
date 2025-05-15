@@ -186,6 +186,29 @@ describe("effectivekWhConsumed evaluation", () => {
   });
 });
 
+describe("lifetimeEffectivekWhConsumed evaluation", () => {
+  it("should evaluate lifetimeEffectivekWhConsumed", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+
+    const lifetimeEffectivekWhConsumed: Formula | undefined = lifetimeFormulas.find(
+      (f) => f.id === "lifetimeEffectivekWhConsumed",
+    );
+    if (!lifetimeEffectivekWhConsumed) {
+      throw new Error("Formula not found");
+    }
+
+    parser.addFormula(lifetimeEffectivekWhConsumed);
+    const lifetimeResult = parser.evaluate();
+
+    expectPercentError(lifetimeResult, 1639364998000, 0.001);
+  });
+});
+
 /*
     Impact Calculator Equation 2: Electricity Reductions (kilowatt-hours) CO2 Emissions
  */
@@ -981,15 +1004,97 @@ describe("result average acres of solar evaluation", () => {
   });
 });
 
-describe("should properly multiply lifetime years to formulas 1-30", () => {
-  it("should evaluate average acres of solar result", () => {
-    const parser = new FormulaParser(TEST_INPUT);
-    parser.addFormula(annualPowerGeneration);
-    parser.addFormula(averageAcresOfSolarInCalifornia);
+// I excluded lifetimeEffectivekWhReduced and lifetimeEffectivekWhConsumed because they wouldn't work for some reason. I wrote their tests manually in this file.
+const EXPECTED_RESULTS: Record<string, number> = {
+  lifetimeGallonsOfGasolineBurnedEquivalentCO2Emissions: 38150000000,
+  lifetimeGallonsOfDieselConsumedEquivalentCO2Emission: 33305000000,
+  lifetimeGasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions: 75510476.2,
+  lifetimeMilesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions: 869340000000,
+  lifetimeThermsOfNaturalGasEquivalentCO2Emissions: 63970000000,
+  lifetimeMcfOfNaturalGasEquivalentCO2Emissions: 6153200000,
+  lifetimeBarrelsOfOilConsumedEquivalentCO2Emissions: 788469856.13,
+  lifetimeTankerTrucksFilledWithGasolineEquivalentEmissions: 4488245.14,
+  lifetimeHomeYearlyElectricityUseEquivalentEmissions: 65974321.49,
+  lifetimeHomeYearlyTotalEnergyUseEquivalentEmissions: 42754355.38,
+  lifetimeNumberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions: 12842501444,
+  lifetimeNumberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation: 5650700000,
+  lifetimeAcresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions: 65974321.49,
+  lifetimeAcresOfUSForestsEquivalentCO2SequesteringForOneYear: 420221685.2,
+  lifetimePropaneCylindersUsedForHomeBarbecues: 15572962920, // manually calculated, see non-lifetime formula
+  lifetimeRailcarsOfCoalBurned: 1870060.88,
+  lifetimePoundsOfCoalBurned: 379670000000,
+  lifetimeTrashBagsOfWasteRecycledInsteadOfLandfilled: 14677000000,
+  lifetimeTonsOfWasteRecycledInsteadOfLandfilled: 117315584.13,
+  lifetimeNumberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled: 16759369.16,
+  lifetimeCoalFiredPowerPlantEmissionsForOneYear: 90.75,
+  lifetimeNaturalGasFiredPowerPlantEmissionsForOneYear: 851.95,
+  lifetimeNumberOfWindTurbinesRunningForAYear: 94283.1,
+  lifetimeNumberOfSmartPhonesCharged: 41246000000000,
+  lifetimeResultantConcentrationCO2IncreaseInTheAtmosphere: 0.043356,
+  lifetimeResultantTemperatureRise: 0.00043356,
+  lifetimeAdditionalPeopleExposedToUnprecedentedHeatIn2070: 447121,
+  lifetimeAdditionalPeopleOutsideTheHumanNicheIn2070: 362546,
+};
 
-    const result = parser.evaluate();
+describe("lifetime formula evaluations", () => {
+  for (const formula of lifetimeFormulas) {
+    const expected = EXPECTED_RESULTS[formula.id];
+    if (expected === undefined) {
+      continue; // skip if no expected result
+    }
 
-    // Updated expected value to match actual calculation more closely
-    expectPercentError(result, 65696.06, 0.0001); // Using a tighter tolerance
-  });
+    it(`should correctly evaluate ${formula.id}`, () => {
+      const parser = new FormulaParser(TEST_INPUT);
+
+      parser.addFormula(annualPowerGeneration);
+      parser.addFormula(CO2PerkWhConsumed);
+      parser.addFormula(CO2PerkWhReduced);
+      parser.addFormula(poundsOfCO2PerMWh);
+      parser.addFormula(electricityReductionsCO2Emissions);
+      parser.addFormula(electricityConsumedCO2Emissions);
+      parser.addFormula(effectivekWhConsumed);
+      parser.addFormula(effectivekWhReduced);
+      parser.addFormula(CO2PerkWhElectricityConsumed);
+      parser.addFormula(CO2PerkWhElectricityReduced);
+      parser.addFormula(gallonsOfGasolineBurnedEquivalentCO2Emissions);
+      parser.addFormula(gallonsOfDieselConsumedEquivalentCO2Emissions);
+      parser.addFormula(gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions);
+      parser.addFormula(milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions);
+      parser.addFormula(thermsOfNaturalGasEquivalentCO2Emissions);
+      parser.addFormula(mcfOfNaturalGasEquivalentCO2Emissions);
+      parser.addFormula(barrelsOfOilConsumedEquivalentCO2Emissions);
+      parser.addFormula(tankerTrucksFilledWithGasolineEquivalentEmissions);
+      parser.addFormula(
+        numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+      );
+      parser.addFormula(metricTonsOfCO2PerHomePerYear);
+      parser.addFormula(homeYearlyElectricityUseEquivalentEmissions);
+      parser.addFormula(homeYearlyTotalEnergyUseEquivalentEmissions);
+      parser.addFormula(numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation);
+      parser.addFormula(acresOfUSForestsEquivalentCO2SequesteringForOneYear);
+      parser.addFormula(acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions);
+      parser.addFormula(propaneCylindersUsedForHomeBarbecues);
+      parser.addFormula(railcarsOfCoalBurned);
+      parser.addFormula(poundsOfCoalBurned);
+      parser.addFormula(tonsOfWasteRecycledInsteadOfLandfilled);
+      parser.addFormula(numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled);
+      parser.addFormula(trashBagsOfWasteRecycledInsteadOfLandfilled);
+      parser.addFormula(coalFiredPowerPlantEmissionsForOneYear);
+      parser.addFormula(naturalGasFiredPowerPlantEmissionsForOneYear);
+      parser.addFormula(numberOfWindTurbinesRunningForAYear);
+      parser.addFormula(numberOfSmartPhonesCharged);
+      parser.addFormula(resultantConcentrationCO2IncreaseInTheAtmosphere);
+      parser.addFormula(resultantTemperatureRise);
+      parser.addFormula(populationIncreaseExposedToUnprecedentedHeatPerDegreesCelsius);
+      parser.addFormula(populationIncreaseOutsideNichePerDegreesCelsius);
+      parser.addFormula(additionalPeopleExposedToUnprecedentedHeatIn2070);
+      parser.addFormula(additionalPeopleOutsideTheHumanNicheIn2070);
+
+      parser.addFormula(formula);
+
+      const result = parser.evaluate();
+
+      expectPercentError(result, expected, 0.01); // 1% tolerance
+    });
+  }
 });

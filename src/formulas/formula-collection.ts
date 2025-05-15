@@ -1089,7 +1089,6 @@ export const averageOilPlantsInCalifornia: Formula = {
   dependencies: ["annualPowerGeneration", "annualOilNetGenerationMwh"],
 };
 
-// // TODO check that annualOtherFossilNetGenerationMwh is the correct variable
 // export const averageFossilFuelPlantsInCalifornia: Formula = {
 //   id: "averageFossilFuelPlantsInCalifornia",
 //   name: "Average fossil fuel plants in California",
@@ -1117,7 +1116,7 @@ export const averageAcresOfSolarInCalifornia: Formula = {
 };
 
 export function createLifetimeFormula(original: Formula): Formula {
-  const newFormula: Formula = {
+  return {
     ...original,
     id: `lifetime${original.id.charAt(0).toUpperCase()}${original.id.slice(1)}` as FormulaId,
     name: `Lifetime ${original.name}`,
@@ -1126,7 +1125,6 @@ export function createLifetimeFormula(original: Formula): Formula {
     dependencies: [`${original.id}`, "lifeTimeYears"],
     sources: [`Inherited ${original.id}`],
   };
-  return newFormula;
 }
 
 const lifetimeFormulaSources = [

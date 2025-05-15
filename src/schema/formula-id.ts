@@ -53,7 +53,7 @@ export const FormulaId = z.enum([
   "lifetimeEffectivekWhReduced",
   "lifetimeEffectivekWhConsumed",
   "lifetimeGallonsOfGasolineBurnedEquivalentCO2Emissions",
-  "lifetimeGallonsOfDieselConsumedEquivalentCO2Emissions",
+  "lifetimeGallonsOfDieselConsumedEquivalentCO2Emission",
   "lifetimeGasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions",
   "lifetimeMilesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions",
   "lifetimeThermsOfNaturalGasEquivalentCO2Emissions",
