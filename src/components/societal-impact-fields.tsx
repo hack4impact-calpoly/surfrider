@@ -16,27 +16,27 @@ export default function SocietalImpactFields() {
               auto-rows-[380px]"
     >
       <MetricCard
-        value={6.15e9}
-        label="Mcf Natural Gas Burned"
-        subtext="Per year"
-        tooltipText="This metric represents the volume of natural gas consumed."
-        icon={<Image src={GasIcon} alt="Gas Icon" />}
+        value={8888888888}
+        label="Mcf"
+        subtext="of Natural Gas Burned"
+        tooltipText="Equivalent CO₂ emissions expressed as thousand cubic feet (Mcf) of natural gas combusted"
+        icon={<Image src={GasIcon} alt="Natural gas icon" />}
         bgColor="bg-[#88C8D2]"
       />
       <MetricCard
-        value={231}
-        label="Natural Gas–Fired Pp. Emissions"
-        subtext="For one year"
-        tooltipText="Emissions from power plants running on natural gas."
-        icon={<Image src={PlantIcon} alt="Plant Icon" />}
+        value={8888888888}
+        label="Natural Gas-Fired Power Plant Emissions"
+        subtext="Per Year"
+        tooltipText="Equivalent CO₂ emissions expressed as the annual output of one natural gas-fired power plant"
+        icon={<Image src={PlantIcon} alt="Power plant icon" />}
         bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={4.13e8}
+        value={8888888888}
         label="Average Forestry Acres"
-        subtext="Per year equiv. emission sequestering"
-        tooltipText="This metric estimates how many acres of forest would be needed to offset these emissions."
-        icon={<Image src={ForestIcon} alt="Forest Icon" />}
+        subtext="Per Year to Sequester"
+        tooltipText="Equivalent CO₂ emissions expressed as acres of U.S. forest needed to sequester this amount in one year"
+        icon={<Image src={ForestIcon} alt="Forest icon" />}
         bgColor="bg-[#94CEEE]"
       />
     </div>

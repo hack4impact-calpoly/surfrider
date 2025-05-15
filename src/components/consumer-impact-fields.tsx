@@ -22,7 +22,7 @@ export default function ConsumerImpactFields() {
         value={8888888888}
         label="Gallons"
         subtext="of Gasoline Burned"
-        tooltipText=""
+        tooltipText="Equivalent CO₂ emissions expressed as the number of gallons of gasoline combusted"
         icon={<Image src={GasolineIcon} alt="Gasoline Icon" />}
         bgColor="bg-[#F3F3F3]"
       />
@@ -30,7 +30,7 @@ export default function ConsumerImpactFields() {
         value={8888888888}
         label="Barrels"
         subtext="of Oil Burned"
-        tooltipText=""
+        tooltipText="Equivalent CO₂ emissions expressed as the number of crude-oil barrels burned"
         icon={<Image src={OilRigIcon} alt="Oil Rig Icon" />}
         bgColor="bg-[#94CEEE]"
       />
@@ -38,7 +38,7 @@ export default function ConsumerImpactFields() {
         value={8888888888}
         label="Miles"
         subtext="Driven by gas passenger vehicles"
-        tooltipText=""
+        tooltipText="Equivalent CO₂ emissions expressed as miles driven by an average gas-powered passenger car"
         icon={<Image src={CarIcon} alt="Car Icon" />}
         bgColor="bg-[#F3F3F3]"
       />
@@ -46,7 +46,7 @@ export default function ConsumerImpactFields() {
         value={8888888888}
         label="Homes"
         subtext="of Yearly Electricity Use"
-        tooltipText=""
+        tooltipText="Equivalent CO₂ emissions expressed as the annual electricity consumption of an average U.S. home"
         icon={<Image src={EnergyIcon} alt="Energy Icon" />}
         bgColor="bg-[#88C8D2]"
       />
@@ -54,7 +54,7 @@ export default function ConsumerImpactFields() {
         value={8888888888}
         label="Gas Powered Passenger Vehicles"
         subtext="Per Year"
-        tooltipText=""
+        tooltipText="Number of average gas-powered cars whose yearly fuel consumption would emit the same CO₂"
         icon={<Image src={GasPumpIcon} alt="Gas Pump Icon" />}
         bgColor="bg-[#F3F3F3]"
       />
@@ -62,7 +62,7 @@ export default function ConsumerImpactFields() {
         value={8888888888}
         label="Additional People"
         subtext="Exposed to Unprecedented Heat"
-        tooltipText=""
+        tooltipText="Projected additional people exposed to extreme‐heat events by 2070 due to these CO₂ emissions"
         icon={<Image src={CityIcon} alt="City Icon" />}
         bgColor="bg-[#99CCC1]"
       />
