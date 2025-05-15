@@ -47,6 +47,7 @@ import {
   averageOilPlantsInCalifornia,
   averageAcresOfSolarInCalifornia,
   lifetimeFormulas,
+  lifetimeMetricTonsOfCO2,
 } from "@/formulas/formula-collection";
 import { Formula, FormulaDependency } from "@/schema/formula";
 
@@ -1097,4 +1098,22 @@ describe("lifetime formula evaluations", () => {
       expectPercentError(result, expected, 0.01); // 1% tolerance
     });
   }
+});
+
+describe("lifetime CO2 emissions evaluation", () => {
+  it("should evaluate lifetime CO2 emissions", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(lifetimeMetricTonsOfCO2);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 339042038.14, 0.001);
+  });
 });

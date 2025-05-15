@@ -80,6 +80,7 @@ export const FormulaId = z.enum([
   "lifetimeResultantTemperatureRise",
   "lifetimeAdditionalPeopleExposedToUnprecedentedHeatIn2070",
   "lifetimeAdditionalPeopleOutsideTheHumanNicheIn2070",
+  "lifetimeMetricTonsOfCO2",
 ]);
 
 export type FormulaId = z.infer<typeof FormulaId>;

@@ -1217,3 +1217,16 @@ export const formulas: Formula[] = [
   averageAcresOfSolarInCalifornia,
   ...lifetimeFormulas,
 ];
+
+// D36 on spreadsheet
+export const lifetimeMetricTonsOfCO2: Formula = {
+  id: "lifetimeMetricTonsOfCO2",
+  name: "The total number of metric tons of Carbon Dioxide resulting from the emissions of the input energy source",
+  explanation: "",
+  assumptions: [],
+  sources: [],
+  expression: "electricityReductionsCO2Emissions * lifeTimeYears",
+  unit: "Metric tons Carbon Dioxide",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityReductionsCO2Emissions", "lifeTimeYears"],
+};
