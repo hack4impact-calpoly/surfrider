@@ -11,7 +11,7 @@ import Image from "next/image";
 
 export default function ConsumerImpactFields() {
   return (
-    <div className="grid grid-cols-3 gap-14">
+    <div className="grid grid-cols-3 gap-20">
       <MetricCard
         value={8888888888}
         label="Gallons"

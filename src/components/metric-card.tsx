@@ -14,7 +14,19 @@ export const MetricCard: React.FC<{
 }> = ({ value, label, subtext, tooltipText, icon, bgColor }) => {
   return (
     <Card
-      className={`${bgColor} h-full w-full relative rounded-xl p-6 shadow-md border-none overflow-hidden flex flex-col justify-between`}
+      className={`
+      ${bgColor}
+      w-[340px]
+      h-[380px]
+      relative
+      rounded-xl
+      overflow-hidden
+      flex
+      flex-col
+      justify-between
+      py-6
+      px-5
+    `}
     >
       {/* Tooltip */}
       <TooltipProvider>
@@ -31,10 +43,10 @@ export const MetricCard: React.FC<{
       </TooltipProvider>
 
       {/* Main Text Content with adjusted spacing */}
-      <div className="flex flex-col items-center text-center pt-6 space-y-2">
+      <div className="flex flex-col items-center text-center space-y-3 pt-6">
         <h3 className="font-bold text-[24px] text-[#6F6F6F]">{value.toLocaleString()}</h3>
         <p className="font-bold text-[24px] text-[#6F6F6F]">{label}</p>
-        <p className="font-light text-[14px] text-[#6F6F6F] mt-2">{subtext}</p>
+        <p className="font-light text-[16px] text-[#6F6F6F]">{subtext}</p>
       </div>
 
       {/* Icon slightly higher from the bottom */}

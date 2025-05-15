@@ -14,7 +14,7 @@ export const ImpactField: React.FC<{
         {title}
       </AccordionTrigger>
 
-      <AccordionContent className="flex justify-center p-3 bg-white rounded-xl border-none">
+      <AccordionContent className="flex justify-center p-10 bg-white rounded-xl border-none">
         <div>{children}</div>
       </AccordionContent>
     </AccordionItem>
