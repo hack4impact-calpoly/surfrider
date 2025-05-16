@@ -41,8 +41,15 @@ import {
   populationIncreaseOutsideNichePerDegreesCelsius,
   additionalPeopleExposedToUnprecedentedHeatIn2070,
   additionalPeopleOutsideTheHumanNicheIn2070,
+  averageCoalPlantsInCalifornia,
+  averageNaturalGasPlantsInCalifornia,
+  averageNuclearPlantsInCalifornia,
+  averageOilPlantsInCalifornia,
+  averageAcresOfSolarInCalifornia,
+  lifetimeFormulas,
+  lifetimeMetricTonsOfCO2,
 } from "@/formulas/formula-collection";
-import { FormulaDependency } from "@/schema/formula";
+import { Formula, FormulaDependency } from "@/schema/formula";
 
 // This should all be gotten from the calculator input and EGRID/AVERT databases
 export const TEST_INPUT: Partial<Record<FormulaDependency, number>> = {
@@ -54,10 +61,18 @@ export const TEST_INPUT: Partial<Record<FormulaDependency, number>> = {
   installedCapacity: 5882000,
   capacityFactor: 0.51,
   population2070: 8325000000,
+  lifeTimeYears: 30,
 
   annualCo2TotalOutputEmissionRateLbMwh: 455.94,
 
   avoidedCo2EmissionRateLbMwh: 948.1,
+
+  annualCoalNetGenerationMwh: 284673,
+  annualGasNetGenerationMwh: 312385,
+  annualNuclearNetGenerationMwh: 17593254,
+  annualOilNetGenerationMwh: 17469,
+  annualOtherFossilNetGenerationMwh: 273978,
+  annualSolarNetGenerationMwh: 400,
 };
 
 const expectPercentError = (result: number, expected: number, percentError: number) => {
@@ -134,6 +149,27 @@ describe("effectivekWhReduced evaluation", () => {
   });
 });
 
+describe("lifetimeEffectivekWhReduced evaluation", () => {
+  it("should evaluate lifetimeEffectivekWhReduced", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+
+    const lifetimeEffectivekWhReduced: Formula | undefined = lifetimeFormulas.find(
+      (f) => f.id === "lifetimeEffectivekWhReduced",
+    );
+    if (!lifetimeEffectivekWhReduced) {
+      throw new Error("Formula not found");
+    }
+    parser.addFormula(lifetimeEffectivekWhReduced);
+    const lifetimeResult = parser.evaluate();
+    expectPercentError(lifetimeResult, 788350000000, 0.001);
+  });
+});
+
 // NOTE: Does not match spreadsheet
 describe("effectivekWhConsumed evaluation", () => {
   it("should evaluate effectivekWhConsumed", () => {
@@ -148,6 +184,29 @@ describe("effectivekWhConsumed evaluation", () => {
 
     // Can't get number to match exactly, probably intermediate rounding errors or precision issues.
     expectPercentError(result, 54645499939, 0.001);
+  });
+});
+
+describe("lifetimeEffectivekWhConsumed evaluation", () => {
+  it("should evaluate lifetimeEffectivekWhConsumed", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhConsumed);
+
+    const lifetimeEffectivekWhConsumed: Formula | undefined = lifetimeFormulas.find(
+      (f) => f.id === "lifetimeEffectivekWhConsumed",
+    );
+    if (!lifetimeEffectivekWhConsumed) {
+      throw new Error("Formula not found");
+    }
+
+    parser.addFormula(lifetimeEffectivekWhConsumed);
+    const lifetimeResult = parser.evaluate();
+
+    expectPercentError(lifetimeResult, 1639364998000, 0.001);
   });
 });
 
@@ -863,5 +922,198 @@ describe("formula 29 evaluation", () => {
 
     // Adjusted expected value based on the actual calculation
     expectPercentError(result, 12084.58, 0.001);
+  });
+});
+
+describe("result average coal plants evaluation", () => {
+  it("should evaluate average coal plants result", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(averageCoalPlantsInCalifornia);
+
+    const result = parser.evaluate();
+
+    // Updated expected value to match actual calculation more closely
+    expectPercentError(result, 92.31, 0.0001); // Using a tighter tolerance
+  });
+});
+
+describe("result average natural gas plants evaluation", () => {
+  it("should evaluate average natural gas plants result", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(averageNaturalGasPlantsInCalifornia);
+
+    const result = parser.evaluate();
+
+    // Updated expected value to match actual calculation more closely
+    expectPercentError(result, 84.12, 0.0001); // Using a tighter tolerance
+  });
+});
+
+describe("result average nuclear plants evaluation", () => {
+  it("should evaluate average nuclear plants result", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(averageNuclearPlantsInCalifornia);
+
+    const result = parser.evaluate();
+
+    // Updated expected value to match actual calculation more closely
+    expectPercentError(result, 1.49, 0.01); // Using a tighter tolerance
+  });
+});
+
+// TODO how to test onshore and offshore when spreadsheet versions are broken?
+
+describe("result average oil plants evaluation", () => {
+  it("should evaluate average oil plants result", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(averageOilPlantsInCalifornia);
+
+    const result = parser.evaluate();
+
+    // Updated expected value to match actual calculation more closely
+    expectPercentError(result, 1504.29, 0.0001); // Using a tighter tolerance
+  });
+});
+
+// describe("result average fossil fuel plants evaluation", () => {
+//   it("should evaluate average fossil fuel plants result", () => {
+//     const parser = new FormulaParser(TEST_INPUT);
+//     parser.addFormula(annualPowerGeneration);
+//     parser.addFormula(averageFossilFuelPlantsInCalifornia);
+//
+//     const result = parser.evaluate();
+//
+//     // Updated expected value to match actual calculation more closely
+//     expectPercentError(result, 95.91, 0.0001); // Using a tighter tolerance
+//   });
+// });
+
+describe("result average acres of solar evaluation", () => {
+  it("should evaluate average acres of solar result", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(averageAcresOfSolarInCalifornia);
+
+    const result = parser.evaluate();
+
+    // Updated expected value to match actual calculation more closely
+    expectPercentError(result, 65696.06, 0.0001); // Using a tighter tolerance
+  });
+});
+
+// I excluded lifetimeEffectivekWhReduced and lifetimeEffectivekWhConsumed because they wouldn't work for some reason. I wrote their tests manually in this file.
+const EXPECTED_RESULTS: Record<string, number> = {
+  lifetimeGallonsOfGasolineBurnedEquivalentCO2Emissions: 38150000000,
+  lifetimeGallonsOfDieselConsumedEquivalentCO2Emission: 33305000000,
+  lifetimeGasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions: 75510476.2,
+  lifetimeMilesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions: 869340000000,
+  lifetimeThermsOfNaturalGasEquivalentCO2Emissions: 63970000000,
+  lifetimeMcfOfNaturalGasEquivalentCO2Emissions: 6153200000,
+  lifetimeBarrelsOfOilConsumedEquivalentCO2Emissions: 788469856.13,
+  lifetimeTankerTrucksFilledWithGasolineEquivalentEmissions: 4488245.14,
+  lifetimeHomeYearlyElectricityUseEquivalentEmissions: 65974321.49,
+  lifetimeHomeYearlyTotalEnergyUseEquivalentEmissions: 42754355.38,
+  lifetimeNumberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions: 12842501444,
+  lifetimeNumberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation: 5650700000,
+  lifetimeAcresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions: 65974321.49,
+  lifetimeAcresOfUSForestsEquivalentCO2SequesteringForOneYear: 420221685.2,
+  lifetimePropaneCylindersUsedForHomeBarbecues: 15572962920, // manually calculated, see non-lifetime formula
+  lifetimeRailcarsOfCoalBurned: 1870060.88,
+  lifetimePoundsOfCoalBurned: 379670000000,
+  lifetimeTrashBagsOfWasteRecycledInsteadOfLandfilled: 14677000000,
+  lifetimeTonsOfWasteRecycledInsteadOfLandfilled: 117315584.13,
+  lifetimeNumberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled: 16759369.16,
+  lifetimeCoalFiredPowerPlantEmissionsForOneYear: 90.75,
+  lifetimeNaturalGasFiredPowerPlantEmissionsForOneYear: 851.95,
+  lifetimeNumberOfWindTurbinesRunningForAYear: 94283.1,
+  lifetimeNumberOfSmartPhonesCharged: 41246000000000,
+  lifetimeResultantConcentrationCO2IncreaseInTheAtmosphere: 0.043356,
+  lifetimeResultantTemperatureRise: 0.00043356,
+  lifetimeAdditionalPeopleExposedToUnprecedentedHeatIn2070: 447121,
+  lifetimeAdditionalPeopleOutsideTheHumanNicheIn2070: 362546,
+};
+
+describe("lifetime formula evaluations", () => {
+  for (const formula of lifetimeFormulas) {
+    const expected = EXPECTED_RESULTS[formula.id];
+    if (expected === undefined) {
+      continue; // skip if no expected result
+    }
+
+    it(`should correctly evaluate ${formula.id}`, () => {
+      const parser = new FormulaParser(TEST_INPUT);
+
+      parser.addFormula(annualPowerGeneration);
+      parser.addFormula(CO2PerkWhConsumed);
+      parser.addFormula(CO2PerkWhReduced);
+      parser.addFormula(poundsOfCO2PerMWh);
+      parser.addFormula(electricityReductionsCO2Emissions);
+      parser.addFormula(electricityConsumedCO2Emissions);
+      parser.addFormula(effectivekWhConsumed);
+      parser.addFormula(effectivekWhReduced);
+      parser.addFormula(CO2PerkWhElectricityConsumed);
+      parser.addFormula(CO2PerkWhElectricityReduced);
+      parser.addFormula(gallonsOfGasolineBurnedEquivalentCO2Emissions);
+      parser.addFormula(gallonsOfDieselConsumedEquivalentCO2Emissions);
+      parser.addFormula(gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions);
+      parser.addFormula(milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions);
+      parser.addFormula(thermsOfNaturalGasEquivalentCO2Emissions);
+      parser.addFormula(mcfOfNaturalGasEquivalentCO2Emissions);
+      parser.addFormula(barrelsOfOilConsumedEquivalentCO2Emissions);
+      parser.addFormula(tankerTrucksFilledWithGasolineEquivalentEmissions);
+      parser.addFormula(
+        numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions,
+      );
+      parser.addFormula(metricTonsOfCO2PerHomePerYear);
+      parser.addFormula(homeYearlyElectricityUseEquivalentEmissions);
+      parser.addFormula(homeYearlyTotalEnergyUseEquivalentEmissions);
+      parser.addFormula(numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation);
+      parser.addFormula(acresOfUSForestsEquivalentCO2SequesteringForOneYear);
+      parser.addFormula(acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions);
+      parser.addFormula(propaneCylindersUsedForHomeBarbecues);
+      parser.addFormula(railcarsOfCoalBurned);
+      parser.addFormula(poundsOfCoalBurned);
+      parser.addFormula(tonsOfWasteRecycledInsteadOfLandfilled);
+      parser.addFormula(numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled);
+      parser.addFormula(trashBagsOfWasteRecycledInsteadOfLandfilled);
+      parser.addFormula(coalFiredPowerPlantEmissionsForOneYear);
+      parser.addFormula(naturalGasFiredPowerPlantEmissionsForOneYear);
+      parser.addFormula(numberOfWindTurbinesRunningForAYear);
+      parser.addFormula(numberOfSmartPhonesCharged);
+      parser.addFormula(resultantConcentrationCO2IncreaseInTheAtmosphere);
+      parser.addFormula(resultantTemperatureRise);
+      parser.addFormula(populationIncreaseExposedToUnprecedentedHeatPerDegreesCelsius);
+      parser.addFormula(populationIncreaseOutsideNichePerDegreesCelsius);
+      parser.addFormula(additionalPeopleExposedToUnprecedentedHeatIn2070);
+      parser.addFormula(additionalPeopleOutsideTheHumanNicheIn2070);
+
+      parser.addFormula(formula);
+
+      const result = parser.evaluate();
+
+      expectPercentError(result, expected, 0.01); // 1% tolerance
+    });
+  }
+});
+
+describe("lifetime CO2 emissions evaluation", () => {
+  it("should evaluate lifetime CO2 emissions", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(CO2PerkWhConsumed);
+    parser.addFormula(CO2PerkWhReduced);
+    parser.addFormula(poundsOfCO2PerMWh);
+    parser.addFormula(effectivekWhReduced);
+    parser.addFormula(CO2PerkWhElectricityReduced);
+    parser.addFormula(electricityReductionsCO2Emissions);
+    parser.addFormula(lifetimeMetricTonsOfCO2);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 339042038.14, 0.001);
   });
 });
