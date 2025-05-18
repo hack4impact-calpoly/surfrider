@@ -42,6 +42,7 @@ export function BlueLineChart({ labels, dataPoints, title }: Props) {
   // single, correct options block
   const options: ChartOptions<"line"> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
@@ -75,7 +76,11 @@ export function BlueLineChart({ labels, dataPoints, title }: Props) {
     },
   };
 
-  return <Line data={data} options={options} width={500} height={280} />;
+  return (
+    <div className="w-full aspect-[16/9] mx-auto">
+      <Line data={data} options={options} />
+    </div>
+  );
 }
 
 export function RedLineChart({ labels, dataPoints, title }: Props) {
@@ -96,6 +101,7 @@ export function RedLineChart({ labels, dataPoints, title }: Props) {
 
   const options: ChartOptions<"line"> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
@@ -129,5 +135,9 @@ export function RedLineChart({ labels, dataPoints, title }: Props) {
     },
   };
 
-  return <Line data={data} options={options} width={500} height={280} />;
+  return (
+    <div className="w-full aspect-[16/9] mx-auto">
+      <Line data={data} options={options} />
+    </div>
+  );
 }

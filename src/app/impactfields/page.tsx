@@ -4,6 +4,7 @@ import * as React from "react";
 import { ImpactField } from "@/components/impact-field";
 import SocietalImpactFields from "@/components/societal-impact-fields";
 import ConsumerImpactFields from "@/components/consumer-impact-fields";
+import SspFields from "@/components/ssp-fields";
 
 export default function Home() {
   return (
@@ -28,7 +29,9 @@ export default function Home() {
           <ConsumerImpactFields />
         </ImpactField>
 
-        <ImpactField title="SSP"></ImpactField>
+        <ImpactField title="SSP Fields">
+          <SspFields />
+        </ImpactField>
       </div>
     </div>
   );

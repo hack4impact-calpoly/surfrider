@@ -25,7 +25,7 @@ interface BlueCardProps extends CardProps {
 
 export function BlueCard({ value2058, value2100, className, ...props }: BlueCardProps) {
   return (
-    <CardContent className={`flex items-center gap-3 rounded-2xl  p-6 w-fit ${className ?? ""}`} {...props}>
+    <CardContent className={`flex items-center gap-3 rounded-2xl p-6 w-fit ${className ?? ""}`} {...props}>
       <div className="flex flex-col gap-4">
         <div className="space-y-1">
           <CardTitle className="text-5xl font-bold tracking-tight text-slate-600">{value2058}</CardTitle>
