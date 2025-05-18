@@ -3,7 +3,7 @@
 import { RedLineChart, BlueLineChart } from "@/components/ssp-charts";
 import { BlueCard, RedCard } from "@/components/ssp-cards";
 
-export default function IvanTorriani() {
+export default function SspFields() {
   const mortalityLabels = [
     "2015",
     "2016",
@@ -196,8 +196,6 @@ export default function IvanTorriani() {
     12681, 13011, 13339, 13666, 13993, 14318, 14641, 14964, 15285, 15605, 15924, 16241, 16557, 16871,
   ];
 
-  const chartSize = "w-full h-full";
-
   return (
     <section className="mx-auto max-w-6xl pt-8">
       <h2 className="mb-10 text-center text-xl font-semibold tracking-tight text-slate-700">
@@ -207,14 +205,14 @@ export default function IvanTorriani() {
       <div className="border border-slate-200 rounded-2xl bg-white py-8 pl-8 pr-6 shadow-sm">
         <div className="grid grid-cols-1 gap-y-12 md:grid-cols-2 md:gap-x-8">
           <div className="flex flex-col gap-y-12 items-center">
-            <div className={`${chartSize} flex justify-center`}>
+            <div className={"w-full h-full flex justify-center"}>
               <BlueLineChart
                 labels={mortalityLabels}
                 dataPoints={mortalityPoints}
                 title="Additional Human Mortalities: SSP1-2.6"
               />
             </div>
-            <div className={`${chartSize} flex justify-center`}>
+            <div className={"w-full h-full flex justify-center"}>
               <RedLineChart labels={tempLabels} dataPoints={tempPoints} title="Baseline °C Warming SSP1-2.6" />
             </div>
           </div>
