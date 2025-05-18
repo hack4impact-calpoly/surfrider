@@ -14,15 +14,7 @@ import {
 } from "chart.js";
 
 // register all the pieces you need
-ChartJS.register(
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  ChartTitlePlugin,
-  Legend,
-  Tooltip
-);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, ChartTitlePlugin, Legend, Tooltip);
 
 interface Props {
   labels: string[];
@@ -57,7 +49,7 @@ export function BlueLineChart({ labels, dataPoints, title }: Props) {
         color: surfrider_blue,
       },
       legend: {
-        display: false,          //hide chartjs elements
+        display: false, //hide chartjs elements
         labels: { color: lightGray },
       },
       tooltip: {
@@ -111,7 +103,7 @@ export function RedLineChart({ labels, dataPoints, title }: Props) {
         color: surfrider_red,
       },
       legend: {
-        display: false,          //  also hide here
+        display: false, //  also hide here
         labels: { color: lightGray },
       },
       tooltip: {
