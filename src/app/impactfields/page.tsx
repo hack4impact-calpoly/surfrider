@@ -29,8 +29,15 @@ export default function Home() {
           <ConsumerImpactFields />
         </ImpactField>
 
-        <ImpactField title="SSP Fields">
-          <SspFields />
+        <ImpactField title="Shared Socioeconomic Pathways&nbsp;(SSP) Fields">
+          <SspFields
+            endOfLifeYear="2058"
+            endOfLifeMortality="4,661"
+            endOfLifeTemperature="1.77 °C ↑"
+            yearOfStudy="2100"
+            yearOfStudyMortality="18,116"
+            yearOfStudyTemperature="1.72 °C ↑"
+          />
         </ImpactField>
       </div>
     </div>

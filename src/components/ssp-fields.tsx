@@ -3,7 +3,23 @@
 import { RedLineChart, BlueLineChart } from "@/components/ssp-charts";
 import { BlueCard, RedCard } from "@/components/ssp-cards";
 
-export default function SspFields() {
+interface SspFieldsProps {
+  endOfLifeYear: string;
+  endOfLifeMortality: string;
+  endOfLifeTemperature: string;
+  yearOfStudy: string;
+  yearOfStudyMortality: string;
+  yearOfStudyTemperature: string;
+}
+
+export default function SspFields({
+  endOfLifeYear,
+  endOfLifeMortality,
+  endOfLifeTemperature,
+  yearOfStudy,
+  yearOfStudyMortality,
+  yearOfStudyTemperature,
+}: SspFieldsProps) {
   const generateYearLabels = (startYear: number, endYear: number): string[] => {
     return Array.from({ length: endYear - startYear + 1 }, (_, i) => (startYear + i).toString());
   };
@@ -29,28 +45,42 @@ export default function SspFields() {
 
   return (
     <section className="mx-auto max-w-6xl">
-      <h2 className="mb-10 text-center text-xl font-semibold tracking-tight text-slate-700">
-        Shared Socioeconomic Pathways&nbsp;(SSP)
-      </h2>
-
-      <div className="bg-white py-8 pl-8 pr-6 shadow-sm">
-        <div className="grid grid-cols-1 gap-y-12 md:grid-cols-2 md:gap-x-8">
-          <div className="flex flex-col gap-y-12 items-center">
-            <div className={"w-full h-full flex justify-center"}>
-              <BlueLineChart
-                labels={mortalityLabels}
-                dataPoints={mortalityPoints}
-                title="Additional Human Mortalities: SSP1-2.6"
-              />
-            </div>
-            <div className={"w-full h-full flex justify-center"}>
-              <RedLineChart labels={tempLabels} dataPoints={tempPoints} title="Baseline °C Warming SSP1-2.6" />
-            </div>
+      <div className="bg-white shadow-sm">
+        <div className="grid grid-cols-1 gap-y-12 md:grid-cols-3 md:grid-rows-2 md:gap-x-8 md:gap-y-8">
+          {/* Row 1 */}
+          <div className="md:col-span-2 md:row-span-1 flex justify-center">
+            <BlueLineChart
+              labels={mortalityLabels}
+              dataPoints={mortalityPoints}
+              title="Additional Human Mortalities: SSP1-2.6"
+              yLabel="Mortalities"
+            />
+          </div>
+          <div className="md:col-span-1 md:row-span-1 flex justify-start pl-[10%]">
+            <BlueCard
+              endOfLifeYear={endOfLifeYear}
+              endOfLifeValue={endOfLifeMortality}
+              yearOfStudy={yearOfStudy}
+              yearOfStudyValue={yearOfStudyMortality}
+            />
           </div>
 
-          <div className="flex flex-col gap-y-12 items-center">
-            <BlueCard value2058="4,661" value2100="18,116" />
-            <RedCard value2058="1.77 °C ↑" value2100="1.72 °C ↑" />
+          {/* Row 2 */}
+          <div className="md:col-span-2 md:row-span-1 flex justify-center">
+            <RedLineChart
+              labels={tempLabels}
+              dataPoints={tempPoints}
+              title="Baseline °C Warming SSP1-2.6"
+              yLabel="Temperature (°C)"
+            />
+          </div>
+          <div className="md:col-span-1 md:row-span-1 flex justify-start pl-[10%]">
+            <RedCard
+              endOfLifeYear={endOfLifeYear}
+              endOfLifeValue={endOfLifeTemperature}
+              yearOfStudy={yearOfStudy}
+              yearOfStudyValue={yearOfStudyTemperature}
+            />
           </div>
         </div>
       </div>

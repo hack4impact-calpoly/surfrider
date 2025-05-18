@@ -13,33 +13,34 @@ import {
   ChartOptions,
 } from "chart.js";
 
-// register all the pieces you need
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, ChartTitlePlugin, Legend, Tooltip);
 
 interface Props {
   labels: string[];
   dataPoints: number[];
   title: string;
+  yLabel: string;
 }
 
-export function BlueLineChart({ labels, dataPoints, title }: Props) {
-  const surfrider_blue = "#64748B";
-  const lightGray = "#D3D3D3";
+const surfriderBlue = "#64748B";
+const surfriderRed = "#FF928A";
+const lightGray = "#D3D3D3";
+const chartFont =
+  "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', sans-serif";
 
-  // build your dataset
+export function BlueLineChart({ labels, dataPoints, title, yLabel }: Props) {
   const data: ChartData<"line", number[], string> = {
     labels,
     datasets: [
       {
         label: title,
         data: dataPoints,
-        borderColor: surfrider_blue,
+        borderColor: surfriderBlue,
         tension: 0.3,
       },
     ],
   };
 
-  // single, correct options block
   const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -47,14 +48,15 @@ export function BlueLineChart({ labels, dataPoints, title }: Props) {
       title: {
         display: true,
         text: title,
-        color: surfrider_blue,
+        color: surfriderBlue,
+        font: { family: chartFont, size: 14 },
       },
       legend: {
         display: false, //hide chartjs elements
         labels: { color: lightGray },
       },
       tooltip: {
-        titleColor: surfrider_blue,
+        titleColor: surfriderBlue,
         bodyColor: lightGray,
       },
     },
@@ -62,14 +64,21 @@ export function BlueLineChart({ labels, dataPoints, title }: Props) {
       x: {
         ticks: {
           color: lightGray,
-          font: { family: "Family/caption", size: 12 },
+          font: { family: chartFont, size: 16 },
         },
         grid: { color: lightGray, display: false },
       },
       y: {
         ticks: {
           color: lightGray,
-          font: { family: "Family/caption", size: 12 },
+          font: { family: chartFont, size: 12 },
+        },
+        title: {
+          display: true,
+          text: yLabel,
+          color: lightGray,
+          font: { family: chartFont, size: 14 },
+          padding: { bottom: 20 },
         },
         grid: { color: lightGray },
       },
@@ -83,17 +92,14 @@ export function BlueLineChart({ labels, dataPoints, title }: Props) {
   );
 }
 
-export function RedLineChart({ labels, dataPoints, title }: Props) {
-  const surfrider_red = "#FF928A";
-  const lightGray = "#D3D3D3";
-
+export function RedLineChart({ labels, dataPoints, title, yLabel }: Props) {
   const data: ChartData<"line", number[], string> = {
     labels,
     datasets: [
       {
         label: title,
         data: dataPoints,
-        borderColor: surfrider_red,
+        borderColor: surfriderRed,
         tension: 0.3,
       },
     ],
@@ -106,14 +112,15 @@ export function RedLineChart({ labels, dataPoints, title }: Props) {
       title: {
         display: true,
         text: title,
-        color: surfrider_red,
+        color: surfriderRed,
+        font: { family: chartFont, size: 16 },
       },
       legend: {
         display: false, //  also hide here
         labels: { color: lightGray },
       },
       tooltip: {
-        titleColor: surfrider_red,
+        titleColor: surfriderRed,
         bodyColor: lightGray,
       },
     },
@@ -121,14 +128,21 @@ export function RedLineChart({ labels, dataPoints, title }: Props) {
       x: {
         ticks: {
           color: lightGray,
-          font: { family: "Plus Jakarta Sans", size: 12 },
+          font: { family: chartFont, size: 12 },
         },
         grid: { color: lightGray, display: false },
       },
       y: {
         ticks: {
           color: lightGray,
-          font: { family: "Plus Jakarta Sans", size: 12 },
+          font: { family: chartFont, size: 12 },
+        },
+        title: {
+          display: true,
+          text: yLabel,
+          color: lightGray,
+          font: { family: chartFont, size: 14 },
+          padding: { bottom: 20 },
         },
         grid: { color: lightGray },
       },
