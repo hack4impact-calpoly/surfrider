@@ -21,7 +21,12 @@ export const DEFAULT_YEAR_OF_STUDY = 2100;
 const powerPlantOptions = PowerPlantClass.options;
 const locationOptions = EgridLocation.options;
 
-export default function CalculatorForm() {
+interface CalculatorFormProps {
+  onSubmit: (values: CalculateInput) => void;
+}
+
+export default function CalculatorForm(props: CalculatorFormProps) {
+  const { onSubmit } = props;
   const form = useForm({
     resolver: zodResolver(CalculateInput),
     defaultValues: {
@@ -36,19 +41,9 @@ export default function CalculatorForm() {
     },
   });
 
-  const onSubmit = (values: unknown) => {
-    // TODO: Implement API request to /api/calculate
-    console.log("Submitted", values);
-  };
-
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 border rounded-lg shadow-lg bg-white max-w-5xl mx-auto items-start"
-      >
-        <h2 className="text-xl font-semibold text-slate-900 text-center col-span-full">Energy Calculator</h2>
-
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         <FormField
           control={form.control}
           name="installedCapacity"
