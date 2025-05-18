@@ -49,7 +49,7 @@ export function BlueLineChart({ labels, dataPoints, title, yLabel }: Props) {
         display: true,
         text: title,
         color: surfriderBlue,
-        font: { family: chartFont, size: 14 },
+        font: { family: chartFont, size: 16 },
       },
       legend: {
         display: false, //hide chartjs elements
@@ -64,14 +64,14 @@ export function BlueLineChart({ labels, dataPoints, title, yLabel }: Props) {
       x: {
         ticks: {
           color: lightGray,
-          font: { family: chartFont, size: 16 },
+          font: { family: chartFont, size: 14 },
         },
         grid: { color: lightGray, display: false },
       },
       y: {
         ticks: {
           color: lightGray,
-          font: { family: chartFont, size: 12 },
+          font: { family: chartFont, size: 14 },
         },
         title: {
           display: true,
@@ -128,14 +128,14 @@ export function RedLineChart({ labels, dataPoints, title, yLabel }: Props) {
       x: {
         ticks: {
           color: lightGray,
-          font: { family: chartFont, size: 12 },
+          font: { family: chartFont, size: 14 },
         },
         grid: { color: lightGray, display: false },
       },
       y: {
         ticks: {
           color: lightGray,
-          font: { family: chartFont, size: 12 },
+          font: { family: chartFont, size: 14 },
         },
         title: {
           display: true,
