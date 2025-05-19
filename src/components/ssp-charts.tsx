@@ -20,6 +20,9 @@ interface Props {
   dataPoints: number[];
   title: string;
   yLabel: string;
+  endOfLifeYear: string;
+  yearOfStudy: string;
+  onHoverYearChange?: (year: string | null) => void;
 }
 
 const surfriderBlue = "#64748B";
@@ -28,7 +31,15 @@ const lightGray = "#D3D3D3";
 const chartFont =
   "'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', sans-serif";
 
-export function BlueLineChart({ labels, dataPoints, title, yLabel }: Props) {
+export function BlueLineChart({
+  labels,
+  dataPoints,
+  title,
+  yLabel,
+  endOfLifeYear,
+  yearOfStudy,
+  onHoverYearChange,
+}: Props) {
   const data: ChartData<"line", number[], string> = {
     labels,
     datasets: [
@@ -37,6 +48,10 @@ export function BlueLineChart({ labels, dataPoints, title, yLabel }: Props) {
         data: dataPoints,
         borderColor: surfriderBlue,
         tension: 0.3,
+        pointRadius: dataPoints.map((_, i) => {
+          const year = labels[i];
+          return year === endOfLifeYear || year === yearOfStudy ? 6 : 2;
+        }),
       },
     ],
   };
@@ -83,6 +98,15 @@ export function BlueLineChart({ labels, dataPoints, title, yLabel }: Props) {
         grid: { color: lightGray },
       },
     },
+    onHover: (event, elements) => {
+      if (elements.length > 0) {
+        const index = elements[0].index;
+        const year = labels?.[index] ?? null;
+        onHoverYearChange?.(year);
+      } else {
+        onHoverYearChange?.(null);
+      }
+    },
   };
 
   return (
@@ -92,7 +116,15 @@ export function BlueLineChart({ labels, dataPoints, title, yLabel }: Props) {
   );
 }
 
-export function RedLineChart({ labels, dataPoints, title, yLabel }: Props) {
+export function RedLineChart({
+  labels,
+  dataPoints,
+  title,
+  yLabel,
+  endOfLifeYear,
+  yearOfStudy,
+  onHoverYearChange,
+}: Props) {
   const data: ChartData<"line", number[], string> = {
     labels,
     datasets: [
@@ -101,6 +133,10 @@ export function RedLineChart({ labels, dataPoints, title, yLabel }: Props) {
         data: dataPoints,
         borderColor: surfriderRed,
         tension: 0.3,
+        pointRadius: dataPoints.map((_, i) => {
+          const year = labels[i];
+          return year === endOfLifeYear || year === yearOfStudy ? 6 : 2;
+        }),
       },
     ],
   };
@@ -146,6 +182,15 @@ export function RedLineChart({ labels, dataPoints, title, yLabel }: Props) {
         },
         grid: { color: lightGray },
       },
+    },
+    onHover: (event, elements) => {
+      if (elements.length > 0) {
+        const index = elements[0].index;
+        const year = labels?.[index] ?? null;
+        onHoverYearChange?.(year);
+      } else {
+        onHoverYearChange?.(null);
+      }
     },
   };
 

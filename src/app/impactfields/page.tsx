@@ -34,7 +34,7 @@ export default function Home() {
             endOfLifeYear="2058"
             endOfLifeMortality="4,661"
             endOfLifeTemperature="1.77 °C ↑"
-            yearOfStudy="2100"
+            yearOfStudy="2099"
             yearOfStudyMortality="18,116"
             yearOfStudyTemperature="1.72 °C ↑"
           />
