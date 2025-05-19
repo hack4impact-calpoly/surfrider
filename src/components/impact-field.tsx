@@ -10,12 +10,10 @@ export const ImpactField: React.FC<
   }>
 > = ({ title, children }) => (
   <Accordion type="single" collapsible className="w-full">
-    <AccordionItem value={title} className="rounded-xl border-none shadow-2xl">
-      <AccordionTrigger className="flex p-5 bg-white rounded-xl font-medium text-[24px] text-[#0F172A]">
-        {title}
-      </AccordionTrigger>
+    <AccordionItem value={title} className="border rounded-lg shadow-lg bg-white">
+      <AccordionTrigger className="flex p-5 font-medium text-[24px] text-slate-900">{title}</AccordionTrigger>
 
-      <AccordionContent className="flex justify-center p-10 bg-white rounded-xl border-none">
+      <AccordionContent className="flex justify-center p-10">
         <div>{children}</div>
       </AccordionContent>
     </AccordionItem>

@@ -5,8 +5,15 @@ import GasIcon from "@/assets/icons/natural-gas.svg";
 import PlantIcon from "@/assets/icons/power-plant.svg";
 import ForestIcon from "@/assets/icons/forest.svg";
 import Image from "next/image";
+import { CalculateResult } from "@/schema/api";
 
-export default function SocietalImpactFields() {
+interface SocietalImpactFieldsProps {
+  results: CalculateResult;
+}
+
+export default function SocietalImpactFields(props: SocietalImpactFieldsProps) {
+  const { results } = props;
+
   return (
     <div
       className="grid gap-20 
@@ -16,7 +23,7 @@ export default function SocietalImpactFields() {
               auto-rows-[380px]"
     >
       <MetricCard
-        value={8888888888}
+        value={results.mcfOfNaturalGasEquivalentCO2Emissions ?? 0}
         label="Mcf"
         subtext="of Natural Gas Burned"
         tooltipText="Equivalent CO₂ emissions expressed as thousand cubic feet (Mcf) of natural gas combusted"
@@ -24,7 +31,7 @@ export default function SocietalImpactFields() {
         bgColor="bg-[#88C8D2]"
       />
       <MetricCard
-        value={8888888888}
+        value={results.naturalGasFiredPowerPlantEmissionsForOneYear ?? 0}
         label="Natural Gas-Fired Power Plant Emissions"
         subtext="Per Year"
         tooltipText="Equivalent CO₂ emissions expressed as the annual output of one natural gas-fired power plant"
@@ -32,7 +39,7 @@ export default function SocietalImpactFields() {
         bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={8888888888}
+        value={results.acresOfUSForestsEquivalentCO2SequesteringForOneYear ?? 0}
         label="Average Forestry Acres"
         subtext="Per Year to Sequester"
         tooltipText="Equivalent CO₂ emissions expressed as acres of U.S. forest needed to sequester this amount in one year"

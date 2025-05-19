@@ -3,7 +3,7 @@ import { PowerPlantClass, EgridLocation } from "@/schema/egrid";
 import { FormulaId } from "./formula-id";
 
 export const CalculateInput = z.object({
-  installedCapacity: z.coerce.number().min(0, { message: "Installed capacity must be at least 0" }),
+  installedCapacity: z.coerce.number().gt(0, { message: "Installed capacity must be greater than 0" }),
   powerPlantClass: PowerPlantClass,
   location: EgridLocation,
   capacityFactor: z.coerce

@@ -1,25 +1,40 @@
 "use client";
 
 import CalculatorForm from "@/components/calculator-form";
+import { ErrorCard } from "@/components/error-card";
+import { Results } from "@/components/results";
+import { Spinner } from "@/components/spinner";
+import { useCalculate } from "@/hooks/use-calculate";
 import { cn } from "@/lib/utils";
+import { CalculateInput } from "@/schema/api";
 import { ChevronUp } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
+  const { data, error, loading, getCalculateResult } = useCalculate();
   const [submitted, setSubmitted] = useState(false);
   const [formExpanded, setFormExpanded] = useState(true);
 
-  const handleSubmit = () => {
+  const handleSubmit = (values: CalculateInput) => {
     setSubmitted(true);
     setFormExpanded(false);
+    getCalculateResult(values);
   };
 
   const handleToggleForm = () => {
     setFormExpanded(!formExpanded);
   };
 
+  const renderResults = () => {
+    if (submitted) {
+      if (loading) return <Spinner />;
+      if (error || !data) return <ErrorCard />;
+      return <Results results={data} />;
+    }
+  };
+
   return (
-    <main className="relative min-h-screen bg-gray-100">
+    <main className="relative min-h-screen flex justify-center items-center bg-gray-100">
       {/* Calculator form card */}
       <div
         className={cn(
@@ -52,7 +67,8 @@ export default function Home() {
         )}
       </div>
 
-      {submitted && <div>Results Placeholder</div>}
+      {/* Results */}
+      {renderResults()}
     </main>
   );
 }

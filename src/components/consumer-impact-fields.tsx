@@ -8,8 +8,15 @@ import CityIcon from "@/assets/icons/heat.svg";
 import OilRigIcon from "@/assets/icons/oil_rig.svg";
 import CarIcon from "@/assets/icons/passenger_vehicle.svg";
 import Image from "next/image";
+import { CalculateResult } from "@/schema/api";
 
-export default function ConsumerImpactFields() {
+interface ConsumerImpactFieldsProps {
+  results: CalculateResult;
+}
+
+export default function ConsumerImpactFields(props: ConsumerImpactFieldsProps) {
+  const { results } = props;
+
   return (
     <div
       className="grid gap-20 
@@ -19,7 +26,7 @@ export default function ConsumerImpactFields() {
                 auto-rows-[380px]"
     >
       <MetricCard
-        value={8888888888}
+        value={results.gallonsOfGasolineBurnedEquivalentCO2Emissions ?? 0}
         label="Gallons"
         subtext="of Gasoline Burned"
         tooltipText="Equivalent CO₂ emissions expressed as the number of gallons of gasoline combusted"
@@ -27,7 +34,7 @@ export default function ConsumerImpactFields() {
         bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={8888888888}
+        value={results.barrelsOfOilConsumedEquivalentCO2Emissions ?? 0}
         label="Barrels"
         subtext="of Oil Burned"
         tooltipText="Equivalent CO₂ emissions expressed as the number of crude-oil barrels burned"
@@ -35,7 +42,7 @@ export default function ConsumerImpactFields() {
         bgColor="bg-[#94CEEE]"
       />
       <MetricCard
-        value={8888888888}
+        value={results.milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions ?? 0}
         label="Miles"
         subtext="Driven by gas passenger vehicles"
         tooltipText="Equivalent CO₂ emissions expressed as miles driven by an average gas-powered passenger car"
@@ -43,7 +50,7 @@ export default function ConsumerImpactFields() {
         bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={8888888888}
+        value={results.homeYearlyElectricityUseEquivalentEmissions ?? 0}
         label="Homes"
         subtext="of Yearly Electricity Use"
         tooltipText="Equivalent CO₂ emissions expressed as the annual electricity consumption of an average U.S. home"
@@ -51,7 +58,7 @@ export default function ConsumerImpactFields() {
         bgColor="bg-[#88C8D2]"
       />
       <MetricCard
-        value={8888888888}
+        value={results.gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions ?? 0}
         label="Gas Powered Passenger Vehicles"
         subtext="Per Year"
         tooltipText="Number of average gas-powered cars whose yearly fuel consumption would emit the same CO₂"
@@ -59,7 +66,7 @@ export default function ConsumerImpactFields() {
         bgColor="bg-[#F3F3F3]"
       />
       <MetricCard
-        value={8888888888}
+        value={results.additionalPeopleExposedToUnprecedentedHeatIn2070 ?? 0}
         label="Additional People"
         subtext="Exposed to Unprecedented Heat"
         tooltipText="Projected additional people exposed to extreme‐heat events by 2070 due to these CO₂ emissions"
