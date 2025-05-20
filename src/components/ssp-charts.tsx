@@ -111,6 +111,7 @@ export function BlueLineChart({
 
   return (
     <div className="w-full aspect-[16/9] mx-auto">
+      <h3 className="sr-only">{title}</h3> {/* for accessibility/testing */}
       <Line data={data} options={options} />
     </div>
   );
@@ -196,6 +197,7 @@ export function RedLineChart({
 
   return (
     <div className="w-full aspect-[16/9] mx-auto">
+      <h3 className="sr-only">{title}</h3> {/* for accessibility/testing */}
       <Line data={data} options={options} />
     </div>
   );
