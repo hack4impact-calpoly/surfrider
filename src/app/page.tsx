@@ -13,9 +13,11 @@ import { useState } from "react";
 export default function Home() {
   const { data, error, loading, getCalculateResult } = useCalculate();
   const [submitted, setSubmitted] = useState(false);
+  const [submittedInput, setSubmittedInput] = useState<CalculateInput | null>(null);
   const [formExpanded, setFormExpanded] = useState(true);
 
   const handleSubmit = (values: CalculateInput) => {
+    setSubmittedInput(values);
     setSubmitted(true);
     setFormExpanded(false);
     getCalculateResult(values);
@@ -29,7 +31,7 @@ export default function Home() {
     if (submitted) {
       if (loading) return <Spinner />;
       if (error || !data) return <ErrorCard />;
-      return <Results results={data} />;
+      return <Results results={data} inputs={submittedInput} />;
     }
   };
 

@@ -3,33 +3,41 @@
 import { useState } from "react";
 import { RedLineChart, BlueLineChart } from "@/components/ssp-charts";
 import { BlueCard, RedCard } from "@/components/ssp-cards";
+import { CalculateInput } from "@/schema/api";
 
 interface SspFieldsProps {
-  endOfLifeYear: string;
-  endOfLifeMortality: string;
-  endOfLifeTemperature: string;
-  yearOfStudy: string;
-  yearOfStudyMortality: string;
-  yearOfStudyTemperature: string;
+  // endOfLifeYear: string; -> user input (startYear + lifeTimeYears)
+  // endOfLifeMortality: string; -> hardcoded in mortalityPoints
+  // endOfLifeTemperature: string; -> hardcoded in tempPoints
+  // yearOfStudy: string; -> user input
+  // yearOfStudyMortality: string; -> hardcoded in mortalityPoints
+  // yearOfStudyTemperature: string; -> hardcoded in tempPoints
+  inputs: CalculateInput | null;
 }
 
-export default function SspFields({
-  endOfLifeYear,
-  endOfLifeMortality,
-  endOfLifeTemperature,
-  yearOfStudy,
-  yearOfStudyMortality,
-  yearOfStudyTemperature,
-}: SspFieldsProps) {
+export default function SspFields(props: SspFieldsProps) {
+  const { inputs } = props;
+
   const [hoverMortalityYear, setHoverMortalityYear] = useState<string | null>(null);
   const [hoverTemperatureYear, setHoverTemperatureYear] = useState<string | null>(null);
 
-  const generateYearLabels = (startYear: number, endYear: number): string[] => {
-    return Array.from({ length: endYear - startYear + 1 }, (_, i) => (startYear + i).toString());
+  const endOfLifeYear = (inputs!.startYear + inputs!.lifeTimeYears).toString();
+  const yearOfStudy = inputs!.yearOfStudy.toString();
+
+  const buildYearValueMap = (start: number, values: number[]) => {
+    return values.reduce(
+      (acc, value, i) => {
+        const year = (start + i).toString();
+        acc[year] = value;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
   };
 
-  const mortalityLabels = generateYearLabels(2015, 2099);
-  const tempLabels = generateYearLabels(2015, 2099);
+  const getSafeValue = (data: Record<string, number>, key: string | number): string | number => {
+    return key in data ? data[key] : "--";
+  };
 
   const mortalityPoints = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 22, 44, 75, 115, 164, 222, 290, 368, 456, 555, 665, 786, 918, 1061,
@@ -46,6 +54,8 @@ export default function SspFields({
     1.8006, 1.7997, 1.7992, 1.7986, 1.798, 1.7963, 1.7935, 1.7922, 1.7889, 1.7868, 1.7838, 1.7806, 1.7778, 1.7746,
     1.7722, 1.769, 1.7645, 1.7608, 1.7587, 1.7543, 1.7499, 1.7463, 1.7425, 1.739, 1.7348, 1.7316, 1.7274, 1.7236,
   ];
+  const mortalityData = buildYearValueMap(2015, mortalityPoints);
+  const temperatureData = buildYearValueMap(2015, tempPoints);
 
   return (
     <section className="mx-auto max-w-6xl">
@@ -54,7 +64,7 @@ export default function SspFields({
           {/* Row 1 */}
           <div className="md:col-span-2 md:row-span-1 flex justify-center">
             <BlueLineChart
-              labels={mortalityLabels}
+              labels={Object.keys(mortalityData)}
               dataPoints={mortalityPoints}
               title="Additional Human Mortalities: SSP1-2.6"
               yLabel="Mortalities"
@@ -66,9 +76,9 @@ export default function SspFields({
           <div className="md:col-span-1 md:row-span-1 flex justify-start pl-[10%]">
             <BlueCard
               endOfLifeYear={endOfLifeYear}
-              endOfLifeValue={endOfLifeMortality}
+              endOfLifeValue={getSafeValue(mortalityData, endOfLifeYear)}
               yearOfStudy={yearOfStudy}
-              yearOfStudyValue={yearOfStudyMortality}
+              yearOfStudyValue={getSafeValue(mortalityData, yearOfStudy)}
               hoverYear={hoverMortalityYear}
             />
           </div>
@@ -76,7 +86,7 @@ export default function SspFields({
           {/* Row 2 */}
           <div className="md:col-span-2 md:row-span-1 flex justify-center">
             <RedLineChart
-              labels={tempLabels}
+              labels={Object.keys(temperatureData)}
               dataPoints={tempPoints}
               title="Baseline °C Warming SSP1-2.6"
               yLabel="Temperature (°C)"
@@ -88,9 +98,9 @@ export default function SspFields({
           <div className="md:col-span-1 md:row-span-1 flex justify-start pl-[10%]">
             <RedCard
               endOfLifeYear={endOfLifeYear}
-              endOfLifeValue={endOfLifeTemperature}
+              endOfLifeValue={getSafeValue(temperatureData, endOfLifeYear)}
               yearOfStudy={yearOfStudy}
-              yearOfStudyValue={yearOfStudyTemperature}
+              yearOfStudyValue={getSafeValue(temperatureData, yearOfStudy)}
               hoverYear={hoverTemperatureYear}
             />
           </div>

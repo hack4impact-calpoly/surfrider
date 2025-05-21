@@ -128,7 +128,7 @@ export function RedCard({
                     : "opacity-100 -translate-x-3.5"
             }`}
           >
-            <CardTitle className="text-5xl font-bold tracking-tight text-[#FF928A]">{endOfLifeValue}</CardTitle>
+            <CardTitle className="text-5xl font-bold tracking-tight text-[#FF928A]">{endOfLifeValue} °C ↑</CardTitle>
             <CardTitle className="text-base font-semibold text-[#FF928A]">Increase by&nbsp;{endOfLifeYear}</CardTitle>
             <CardDescription className="text-xs text-[#FF928A]">(End&nbsp;of&nbsp;Life) SSP1-2.6</CardDescription>
           </div>
@@ -152,7 +152,7 @@ export function RedCard({
             }`}
           >
             {showYearOfStudyHighlight && <div className="w-1 h-full bg-[#FF928A] rounded" />}
-            <CardTitle className="text-5xl font-bold tracking-tight text-[#FF928A]">{yearOfStudyValue}</CardTitle>
+            <CardTitle className="text-5xl font-bold tracking-tight text-[#FF928A]">{yearOfStudyValue} °C ↑</CardTitle>
             <CardTitle className="text-base font-semibold text-[#FF928A]">Increase by&nbsp;{yearOfStudy}</CardTitle>
             <CardDescription className="text-xs text-[#FF928A]">(Year&nbsp;of&nbsp;Study) SSP1-2.6</CardDescription>
           </div>

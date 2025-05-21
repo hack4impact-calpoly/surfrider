@@ -4,14 +4,16 @@ import * as React from "react";
 import { ImpactField } from "@/components/impact-field";
 import SocietalImpactFields from "@/components/societal-impact-fields";
 import ConsumerImpactFields from "@/components/consumer-impact-fields";
-import { CalculateResult } from "@/schema/api";
+import SspFields from "@/components/ssp-fields";
+import { CalculateInput, CalculateResult } from "@/schema/api";
 
 interface ResultsProps {
+  inputs: CalculateInput | null;
   results: CalculateResult;
 }
 
 export const Results = (props: ResultsProps) => {
-  const { results } = props;
+  const { inputs, results } = props;
 
   return (
     <div className="min-w-full mx-auto px-14 py-6 space-y-4 flex flex-col items-center">
@@ -35,7 +37,9 @@ export const Results = (props: ResultsProps) => {
           <ConsumerImpactFields results={results} />
         </ImpactField>
 
-        <ImpactField title="SSP"></ImpactField>
+        <ImpactField title="Shared Socioeconomic Pathways&nbsp;(SSP) Fields">
+          <SspFields inputs={inputs} />
+        </ImpactField>
       </div>
     </div>
   );
