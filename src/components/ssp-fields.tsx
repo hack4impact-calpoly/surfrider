@@ -4,7 +4,7 @@ import { useState } from "react";
 import { RedLineChart, BlueLineChart } from "@/components/ssp-charts";
 import { BlueCard, RedCard } from "@/components/ssp-cards";
 import { CalculateInput } from "@/schema/api";
-import { getAdditionalHumanMortalityColumn, getBaselineCWarningColumn, SSP } from "@/utils/ssp-data";
+import { getAdditionalHumanMortalityColumn, getBaselineCWarmingColumn, SSP } from "@/utils/ssp-data";
 
 interface SspFieldsProps {
   // endOfLifeYear: string; -> user input (startYear + lifeTimeYears)
@@ -41,7 +41,7 @@ export default function SspFields(props: SspFieldsProps) {
   };
 
   const mortalityPoints = getAdditionalHumanMortalityColumn(SSP.SSP1_2_6);
-  const tempPoints = getBaselineCWarningColumn(SSP.SSP1_2_6);
+  const tempPoints = getBaselineCWarmingColumn(SSP.SSP1_2_6);
   const mortalityData = buildYearValueMap(2015, mortalityPoints);
   const temperatureData = buildYearValueMap(2015, tempPoints);
 

@@ -1,16 +1,23 @@
 "use client";
 
-import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CalculateResult } from "@/schema/api";
+import { CalculateInput, CalculateResult } from "@/schema/api";
 import { FormulaResultCell } from "./formula-result-cell";
+import { ResultCell } from "./result-cell";
+import { getAdditionalHumanMortalityCell, getBaselineCWarmingCell, SSP } from "../utils/ssp-data";
+
+const SSP_EXPLANATION =
+  "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human mortalities";
 
 interface ResultsTableProps {
+  inputs: CalculateInput;
   results: CalculateResult;
 }
 
 const ResultsTable = (props: ResultsTableProps) => {
-  const { results } = props;
+  const { inputs, results } = props;
+  const yearOfStudy = inputs.yearOfStudy;
+  const endOfLife = inputs.startYear + inputs.lifeTimeYears;
 
   return (
     <>
@@ -379,79 +386,159 @@ const ResultsTable = (props: ResultsTableProps) => {
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">446,336</TableCell>
+              <FormulaResultCell results={results} formulaId="additionalPeopleExposedToUnprecedentedHeatIn2070" />
               <TableCell>Additional People Exposed to Unprecedented Heat in 2070 UI</TableCell>
-              <TableCell className="text-right font-bold green-cell">361,908</TableCell>
+              <FormulaResultCell results={results} formulaId="additionalPeopleOutsideTheHumanNicheIn2070" />
               <TableCell>Additional People Outside Niche in 2070 (Temp+Demo) UI</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1.55</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP1_1_9) ?? undefined}
+                name="Baseline °C Warming by End of Life SSP1-1.9"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by End of Life SSP1-1.9</TableCell>
-              <TableCell className="text-right font-bold green-cell">1.38</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP1_1_9) ?? undefined}
+                name="Baseline °C Warming by Year of Study SSP1-1.9"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by Year of Study SSP1-1.9</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1.62</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP1_2_6) ?? undefined}
+                name="Baseline °C Warming by End of Life SSP1-2.6"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by End of Life SSP1-2.6</TableCell>
-              <TableCell className="text-right font-bold green-cell">1.72</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP1_2_6) ?? undefined}
+                name="Baseline °C Warming by Year of Study SSP1-2.6"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by Year of Study SSP1-2.6</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2.12</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP2_4_5) ?? undefined}
+                name="Baseline °C Warming by End of Life SSP2-4.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by End of Life SSP2-4.5</TableCell>
-              <TableCell className="text-right font-bold green-cell">2.75</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP2_4_5) ?? undefined}
+                name="Baseline °C Warming by Year of Study SSP2-4.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by Year of Study SSP2-4.5</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2.72</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP3_7_0) ?? undefined}
+                name="Baseline °C Warming by End of Life SSP3-7.0"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by End of Life SSP3-7.0</TableCell>
-              <TableCell className="text-right font-bold green-cell">3.22</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP3_7_0) ?? undefined}
+                name="Baseline °C Warming by Year of Study SSP3-7.0"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by Year of Study SSP3-7.0</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2.71</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP5_8_5) ?? undefined}
+                name="Baseline °C Warming by End of Life SSP5-8.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by End of Life SSP5-8.5</TableCell>
-              <TableCell className="text-right font-bold green-cell">4.73</TableCell>
+              <ResultCell
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP5_8_5) ?? undefined}
+                name="Baseline °C Warming by Year of Study SSP5-8.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Baseline °C Warming by Year of Study SSP5-8.5</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1,944</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP1_1_9) ?? undefined}
+                name="Additional Human Mortalities by End of Life SSP1-1.9"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by End of Life SSP1-1.9</TableCell>
-              <TableCell className="text-right font-bold green-cell">1,199</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP1_1_9) ?? undefined}
+                name="Additional Human Mortalities by Year of Study SSP1-1.9"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by Year of Study SSP1-1.9</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">6,396</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP1_2_6) ?? undefined}
+                name="Additional Human Mortalities by End of Life SSP1-2.6"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by End of Life SSP1-2.6</TableCell>
-              <TableCell className="text-right font-bold green-cell">3,688</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP1_2_6) ?? undefined}
+                name="Additional Human Mortalities by Year of Study SSP1-2.6"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by Year of Study SSP1-2.6</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">15,219</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP2_4_5) ?? undefined}
+                name="Additional Human Mortalities by End of Life SSP2-4.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by End of Life SSP2-4.5</TableCell>
-              <TableCell className="text-right font-bold green-cell">9,244</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP2_4_5) ?? undefined}
+                name="Additional Human Mortalities by Year of Study SSP2-4.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by Year of Study SSP2-4.5</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">26,731</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP3_7_0) ?? undefined}
+                name="Additional Human Mortalities by End of Life SSP3-7.0"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by End of Life SSP3-7.0</TableCell>
-              <TableCell className="text-right font-bold green-cell">15,862</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP3_7_0) ?? undefined}
+                name="Additional Human Mortalities by Year of Study SSP3-7.0"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by Year of Study SSP3-7.0</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">35,892</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP5_8_5) ?? undefined}
+                name="Additional Human Mortalities by End of Life SSP5-8.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by End of Life SSP5-8.5</TableCell>
-              <TableCell className="text-right font-bold green-cell">21,287</TableCell>
+              <ResultCell
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP5_8_5) ?? undefined}
+                name="Additional Human Mortalities by Year of Study SSP5-8.5"
+                explanation={SSP_EXPLANATION}
+              />
               <TableCell>Additional Human Mortalities by Year of Study SSP5-8.5</TableCell>
             </TableRow>
           </TableBody>

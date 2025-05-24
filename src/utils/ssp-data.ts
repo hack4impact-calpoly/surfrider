@@ -1,12 +1,12 @@
 export enum SSP {
-  SSP1_1_1 = 0,
+  SSP1_1_9 = 0,
   SSP1_2_6 = 1,
   SSP2_4_5 = 2,
   SSP3_7_0 = 3,
   SSP5_8_5 = 4,
 }
 
-const baselineCWarningData: readonly [number, number, number, number, number][] = [
+const baselineCWarmingData: readonly [number, number, number, number, number][] = [
   [1.0988, 1.0992, 1.1032, 1.0944, 1.1101],
   [1.1232, 1.1249, 1.1269, 1.1179, 1.1368],
   [1.1489, 1.1511, 1.1519, 1.1435, 1.1661],
@@ -182,17 +182,17 @@ const additionalHumanMortalityData: readonly [number, number, number, number, nu
   [12944, 18116, 30471, 43653, 57294],
 ];
 
-export const getBaselineCWarningCell = (year: number, ssp: SSP): number | null => {
+export const getBaselineCWarmingCell = (year: number, ssp: SSP): number | null => {
   if (year < 2015 || year >= 2100) {
     return null;
   }
   const yearIndex = year - 2015;
   const sspIndex = ssp;
-  return baselineCWarningData[yearIndex][sspIndex] || null;
+  return baselineCWarmingData[yearIndex][sspIndex] || null;
 };
 
-export const getBaselineCWarningColumn = (ssp: SSP): number[] => {
-  return baselineCWarningData.map((row) => row[ssp]);
+export const getBaselineCWarmingColumn = (ssp: SSP): number[] => {
+  return baselineCWarmingData.map((row) => row[ssp]);
 };
 
 export const getAdditionalHumanMortalityCell = (year: number, ssp: SSP): number | null => {
