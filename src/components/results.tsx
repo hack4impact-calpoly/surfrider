@@ -1,11 +1,13 @@
 "use client";
 
-import * as React from "react";
+import ConsumerImpactFields from "@/components/consumer-impact-fields";
 import { ImpactField } from "@/components/impact-field";
 import SocietalImpactFields from "@/components/societal-impact-fields";
-import ConsumerImpactFields from "@/components/consumer-impact-fields";
 import SspFields from "@/components/ssp-fields";
 import { CalculateInput, CalculateResult } from "@/schema/api";
+import ResultsTable from "./results-table";
+import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 interface ResultsProps {
   inputs: CalculateInput;
@@ -16,7 +18,7 @@ export const Results = (props: ResultsProps) => {
   const { inputs, results } = props;
 
   return (
-    <div className="min-w-full mx-auto px-14 py-6 space-y-4 flex flex-col items-center">
+    <div className="min-w-full mx-auto px-14 pt-6 pb-24 space-y-4 flex flex-col items-center">
       {/* <h1 className="font-bold text-[48px] leading-[48px] px-4 tracking-[-1.2] text-slate-900">
         Surfrider Carbon Emissions Calculator
       </h1>
@@ -41,6 +43,18 @@ export const Results = (props: ResultsProps) => {
           <SspFields inputs={inputs} />
         </ImpactField>
       </div>
+
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="link">View Detailed Impact</Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto flex flex-col items-center">
+          <DialogHeader>
+            <DialogTitle className="text-slate-900">Detailed Impact</DialogTitle>
+          </DialogHeader>
+          <ResultsTable />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

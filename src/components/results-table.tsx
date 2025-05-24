@@ -23,12 +23,12 @@ const ResultsTable = () => {
         }
       `}</style>
 
-      <div className="w-full max-w-4xl mx-auto">
+      <div className="w-full mx-auto">
         <Table className="text-white compact-table">
           <TableHeader>
             <TableRow>
               <TableHead colSpan={4} className="text-center font-bold green-cell">
-                Results
+                Calculated Results
               </TableHead>
             </TableRow>
           </TableHeader>
