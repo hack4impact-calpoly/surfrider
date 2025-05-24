@@ -16,7 +16,7 @@ export const DEFAULT_CAPACITY_FACTOR = 0.51;
 export const DEFAULT_POPULATION_2070 = 8_325_000_000;
 export const DEFAULT_START_YEAR = 2028;
 export const DEFAULT_LIFETIME_YEARS = 30;
-export const DEFAULT_YEAR_OF_STUDY = 2100;
+export const DEFAULT_YEAR_OF_STUDY = 2099;
 
 const powerPlantOptions = PowerPlantClass.options;
 const locationOptions = EgridLocation.options;

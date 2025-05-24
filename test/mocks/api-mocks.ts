@@ -9,5 +9,5 @@ export const MOCK_CALCULATE_INPUT: CalculateInput = {
   population2070: 8325000000,
   startYear: 2028,
   lifeTimeYears: 30,
-  yearOfStudy: 2100,
+  yearOfStudy: 2099,
 };

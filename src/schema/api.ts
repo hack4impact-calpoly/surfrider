@@ -14,12 +14,12 @@ export const CalculateInput = z.object({
   startYear: z.coerce
     .number()
     .min(2015, { message: "Start year must be at least 2015" })
-    .max(2100, { message: "Start year cannot exceed 2100" }),
+    .max(2099, { message: "Start year cannot exceed 2099" }),
   lifeTimeYears: z.coerce.number().min(1, { message: "Lifetime must be at least 1 year" }),
   yearOfStudy: z.coerce
     .number()
     .min(2015, { message: "Year of study must be at least 2015" })
-    .max(2100, { message: "Year of study cannot exceed 2100" }),
+    .max(2099, { message: "Year of study cannot exceed 2099" }),
 });
 
 export type CalculateInput = z.infer<typeof CalculateInput>;
