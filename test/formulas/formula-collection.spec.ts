@@ -48,6 +48,7 @@ import {
   averageAcresOfSolarInCalifornia,
   lifetimeFormulas,
   lifetimeMetricTonsOfCO2,
+  lbsCO2MWhEmissionRate,
 } from "@/formulas/formula-collection";
 import { Formula, FormulaDependency } from "@/schema/formula";
 
@@ -1115,5 +1116,16 @@ describe("lifetime CO2 emissions evaluation", () => {
     const result = parser.evaluate();
 
     expectPercentError(result, 339042038.14, 0.001);
+  });
+});
+
+describe("Pounds of CO₂ per MWh emission rate evaluation", () => {
+  it("should evaluate lbsCO2MWhEmissionRate", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(lbsCO2MWhEmissionRate);
+
+    const result = parser.evaluate();
+
+    expectPercentError(result, 948.1, 0.001);
   });
 });

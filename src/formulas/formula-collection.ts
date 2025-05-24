@@ -203,7 +203,7 @@ export const gallonsOfGasolineBurnedEquivalentCO2Emissions: Formula = {
     Impact Calculator Equation 5: Gallons of diesel consumed Equivalent CO₂ Emissions
  */
 export const gallonsOfDieselConsumedEquivalentCO2Emissions: Formula = {
-  id: "gallonsOfDieselConsumedEquivalentCO2Emission",
+  id: "gallonsOfDieselConsumedEquivalentCO2Emissions",
   name: "Gallons of Diesel Consumed Equivalent CO2 Emissions",
   explanation:
     "To obtain the number of grams of CO₂ emitted per gallon of diesel combusted, the heat content of the fuel per gallon can be multiplied by the kg CO₂ per heat content of the fuel.",
@@ -1164,6 +1164,31 @@ export const lifetimeFormulas: Formula[] = lifetimeFormulaSources.map((original)
   return createLifetimeFormula(original);
 });
 
+// D36 on spreadsheet
+export const lifetimeMetricTonsOfCO2: Formula = {
+  id: "lifetimeMetricTonsOfCO2",
+  name: "The total number of metric tons of Carbon Dioxide resulting from the emissions of the input energy source",
+  explanation: "",
+  assumptions: [],
+  sources: [],
+  expression: "electricityReductionsCO2Emissions * lifeTimeYears",
+  unit: "Metric tons Carbon Dioxide",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["electricityReductionsCO2Emissions", "lifeTimeYears"],
+};
+
+export const lbsCO2MWhEmissionRate: Formula = {
+  id: "lbsCO2MWhEmissionRate",
+  name: "Pounds of CO₂ per MWh emission rate",
+  explanation: "The avoided CO₂ emission rate in pounds per MWh from AVERT",
+  assumptions: [],
+  sources: [],
+  expression: "avoidedCo2EmissionRateLbMwh",
+  unit: "lbs CO₂/MWh",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["avoidedCo2EmissionRateLbMwh"],
+};
+
 // group and export all formulas
 export const formulas: Formula[] = [
   annualPowerGeneration,
@@ -1216,17 +1241,14 @@ export const formulas: Formula[] = [
   // averageFossilFuelPlantsInCalifornia,
   averageAcresOfSolarInCalifornia,
   ...lifetimeFormulas,
+  lifetimeMetricTonsOfCO2,
+  lbsCO2MWhEmissionRate,
 ];
 
-// D36 on spreadsheet
-export const lifetimeMetricTonsOfCO2: Formula = {
-  id: "lifetimeMetricTonsOfCO2",
-  name: "The total number of metric tons of Carbon Dioxide resulting from the emissions of the input energy source",
-  explanation: "",
-  assumptions: [],
-  sources: [],
-  expression: "electricityReductionsCO2Emissions * lifeTimeYears",
-  unit: "Metric tons Carbon Dioxide",
-  setupScope: (() => {}) as (...args: unknown[]) => void,
-  dependencies: ["electricityReductionsCO2Emissions", "lifeTimeYears"],
-};
+export const formulaMap: Record<FormulaId, Formula> = formulas.reduce(
+  (acc, formula) => {
+    acc[formula.id] = formula;
+    return acc;
+  },
+  {} as Record<FormulaId, Formula>,
+);
