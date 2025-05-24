@@ -2,8 +2,16 @@
 
 import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { CalculateResult } from "@/schema/api";
+import { FormulaResultCell } from "./formula-result-cell";
 
-const ResultsTable = () => {
+interface ResultsTableProps {
+  results: CalculateResult;
+}
+
+const ResultsTable = (props: ResultsTableProps) => {
+  const { results } = props;
+
   return (
     <>
       <style jsx global>{`
@@ -34,11 +42,11 @@ const ResultsTable = () => {
           </TableHeader>
           <TableBody>
             {/* First data row */}
-            <TableRow>
+            {/* <TableRow>
               <TableCell>This amount of annual electricity generation is</TableCell>
               <TableCell className="text-center font-bold green-cell">10.13%</TableCell>
               <TableCell colSpan={2}>of Californias annual electricity consumption.</TableCell>
-            </TableRow>
+            </TableRow> */}
 
             {/* FIRST SECTION */}
             <TableRow>
@@ -47,30 +55,30 @@ const ResultsTable = () => {
 
             {/* Energy source rows - left and right columns */}
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">92.31</TableCell>
+              <FormulaResultCell results={results} formulaId="averageCoalPlantsInCalifornia" />
               <TableCell>Average coal plants in California</TableCell>
-              <TableCell className="text-right font-bold green-cell">1,504.29</TableCell>
+              <FormulaResultCell results={results} formulaId="averageOilPlantsInCalifornia" />
               <TableCell>Average oil plants in California</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">84.12</TableCell>
+              <FormulaResultCell results={results} formulaId="averageNaturalGasPlantsInCalifornia" />
               <TableCell>Average natural gas plants in California</TableCell>
-              <TableCell className="text-right font-bold  green-cell">95.91</TableCell>
+              <FormulaResultCell results={results} formulaId={null} />
               <TableCell>Average fossil fuel plants in California</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1.49</TableCell>
+              <FormulaResultCell results={results} formulaId="averageNuclearPlantsInCalifornia" />
               <TableCell>Average nuclear plants in California</TableCell>
-              <TableCell className="text-right font-bold  green-cell">65,696.06</TableCell>
+              <FormulaResultCell results={results} formulaId="averageAcresOfSolarInCalifornia" />
               <TableCell>Average acres of solar in California (*ESTIMATED*)</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">#VALUE!</TableCell>
+              <FormulaResultCell results={results} formulaId="averageOnshoreWindTurbinesInCalifornia" />
               <TableCell>Average onshore wind turbines in California (*ESTIMATED*)</TableCell>
-              <TableCell className="text-right font-bold green-cell">499.97</TableCell>
+              <FormulaResultCell results={results} formulaId="averageOffshoreWindTurbinesInCalifornia" />
               <TableCell>Average offshore wind turbines in California (*ESTIMATED*)</TableCell>
             </TableRow>
             <TableRow>
@@ -85,11 +93,10 @@ const ResultsTable = () => {
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">11,281,551</TableCell>
-              <TableCell>Metric tons Carbon Dioxide (CO₂) With An</TableCell>
-              <TableCell colSpan={2} className="font-bold green-cell text-center">
-                946 lbs CO₂/MWh Emission Rate
-              </TableCell>
+              <FormulaResultCell results={results} formulaId="electricityReductionsCO2Emissions" />
+              <TableCell>Metric tons Carbon Dioxide (CO₂)</TableCell>
+              <FormulaResultCell results={results} formulaId="lbsCO2MWhEmissionRate" />
+              <TableCell>lbs CO₂/MWh Emission Rate</TableCell>
             </TableRow>
 
             <TableRow>
@@ -97,107 +104,125 @@ const ResultsTable = () => {
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2.6278E+10</TableCell>
+              <FormulaResultCell results={results} formulaId="effectivekWhReduced" />
               <TableCell>kWh-Reduced</TableCell>
-              <TableCell className="text-right font-bold green-cell">3.0215E+10</TableCell>
+              <FormulaResultCell results={results} formulaId="effectivekWhConsumed" />
               <TableCell>kWh-Consumed</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1.2694E+09</TableCell>
+              <FormulaResultCell results={results} formulaId="gallonsOfGasolineBurnedEquivalentCO2Emissions" />
               <TableCell>Gallons of Gasoline Burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">1.1082E+09</TableCell>
+              <FormulaResultCell results={results} formulaId="gallonsOfDieselConsumedEquivalentCO2Emissions" />
               <TableCell>Gallons of Diesel Burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2,512,594.96</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="gasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions"
+              />
               <TableCell>Gas Powered Passenger Vehicles Per Year</TableCell>
-              <TableCell className="text-right font-bold green-cell">2.8927E+10</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="milesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions"
+              />
               <TableCell>Miles Driven by Gas Passenger Vehicles</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2.1286E+09</TableCell>
-              <TableCell>thems Natural Gas Burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">204,746,848.92</TableCell>
+              <FormulaResultCell results={results} formulaId="thermsOfNaturalGasEquivalentCO2Emissions" />
+              <TableCell>therms Natural Gas Burned</TableCell>
+              <FormulaResultCell results={results} formulaId="mcfOfNaturalGasEquivalentCO2Emissions" />
               <TableCell>Mcf Natural Gas Burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">26,236,165.99</TableCell>
+              <FormulaResultCell results={results} formulaId="barrelsOfOilConsumedEquivalentCO2Emissions" />
               <TableCell>Barrels of Oil Burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">149,345.40</TableCell>
+              <FormulaResultCell results={results} formulaId="tankerTrucksFilledWithGasolineEquivalentEmissions" />
               <TableCell>Tanker Trucks of Oil Burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2,195,281.45</TableCell>
+              <FormulaResultCell results={results} formulaId="homeYearlyElectricityUseEquivalentEmissions" />
               <TableCell>Household Yearly Electricity Use</TableCell>
-              <TableCell className="text-right font-bold green-cell">1,422,642.04</TableCell>
+              <FormulaResultCell results={results} formulaId="homeYearlyTotalEnergyUseEquivalentEmissions" />
               <TableCell>Household Yearly Energy Use</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">427,331,491.50</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="numberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions"
+              />
               <TableCell>Incandescent Bulbs switched to LEDs Reduction</TableCell>
-              <TableCell className="text-right font-bold green-cell">188,025,856.26</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="numberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation"
+              />
               <TableCell>Urban Tree Seedlings Grown for 10yr Equiv Emission Sequestering</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">2,195,281.45</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="acresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions"
+              />
               <TableCell>Acres prevented from conversion to cropland in year of conversion</TableCell>
-              <TableCell className="text-right font-bold green-cell">13,430,418.30</TableCell>
+              <FormulaResultCell results={results} formulaId="acresOfUSForestsEquivalentCO2SequesteringForOneYear" />
               <TableCell>Average Forestry Acres Per Year Equiv Emission Sequestering</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">512,797,789.80</TableCell>
+              <FormulaResultCell results={results} formulaId="propaneCylindersUsedForHomeBarbecues" />
               <TableCell>Propane cylinders used for home barbecues</TableCell>
-              <TableCell className="text-right font-bold green-cell">62,225.88</TableCell>
+              <FormulaResultCell results={results} formulaId="railcarsOfCoalBurned" />
               <TableCell>Railcars of coal burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1.2633E+10</TableCell>
+              <FormulaResultCell results={results} formulaId="poundsOfCoalBurned" />
               <TableCell>Pounds of coal burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">488,378,847.43</TableCell>
+              <FormulaResultCell results={results} formulaId="trashBagsOfWasteRecycledInsteadOfLandfilled" />
               <TableCell>Trash bags of waste recycled instead of landfilled</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">3,903,651.00</TableCell>
+              <FormulaResultCell results={results} formulaId="tonsOfWasteRecycledInsteadOfLandfilled" />
               <TableCell>Tons of waste recycled instead of landfilled</TableCell>
-              <TableCell className="text-right font-bold green-cell">557,664.43</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="numberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled"
+              />
               <TableCell>Number of garbage trucks of waste recycled instead of landfilled</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">3.02</TableCell>
+              <FormulaResultCell results={results} formulaId="coalFiredPowerPlantEmissionsForOneYear" />
               <TableCell>Coal-fired power plant emissions for one year</TableCell>
-              <TableCell className="text-right font-bold green-cell">28.35</TableCell>
+              <FormulaResultCell results={results} formulaId="naturalGasFiredPowerPlantEmissionsForOneYear" />
               <TableCell>Natural gas-fired power plant emissions for one year</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">3,137.25</TableCell>
+              <FormulaResultCell results={results} formulaId="numberOfWindTurbinesRunningForAYear" />
               <TableCell>Number of wind turbines running for a year</TableCell>
-              <TableCell className="text-right font-bold green-cell">1.3725E+12</TableCell>
+              <FormulaResultCell results={results} formulaId="numberOfSmartPhonesCharged" />
               <TableCell>Number of smart phones charged</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1.4427E-03</TableCell>
+              <FormulaResultCell results={results} formulaId="resultantConcentrationCO2IncreaseInTheAtmosphere" />
               <TableCell>ppm Concentration CO₂ Increase in the Atmosphere</TableCell>
-              <TableCell className="text-right font-bold green-cell">1.44E-05</TableCell>
+              <FormulaResultCell results={results} formulaId="resultantTemperatureRise" />
               <TableCell>°C Additional Temperature Rise</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">14,878</TableCell>
+              <FormulaResultCell results={results} formulaId="additionalPeopleExposedToUnprecedentedHeatIn2070" />
               <TableCell>Additional People Exposed to Unprecedented Heat in 2070 @ UI</TableCell>
-              <TableCell className="text-right font-bold green-cell">12,064</TableCell>
+              <FormulaResultCell results={results} formulaId="additionalPeopleOutsideTheHumanNicheIn2070" />
               <TableCell>Additional People Outside Niche in 2070 (Temp+Demo) @ UI</TableCell>
             </TableRow>
 
@@ -209,7 +234,7 @@ const ResultsTable = () => {
 
             <TableRow>
               <TableCell colSpan={2}>This amount of emissions per year results in</TableCell>
-              <TableCell className="text-right font-bold green-cell">338,446,541.27</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeMetricTonsOfCO2" />
               <TableCell>
                 Total Metric tons Carbon Dioxide (CO₂) by the end of lifetime (assuming constant grid emission rates)
               </TableCell>
@@ -220,100 +245,127 @@ const ResultsTable = () => {
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">7.8835E+11</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeEffectivekWhReduced" />
               <TableCell>kWh-Reduced</TableCell>
-              <TableCell className="text-right font-bold green-cell">9.0644E+11</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeEffectivekWhConsumed" />
               <TableCell>kWh-Consumed</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">3.8083E+10</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeGallonsOfGasolineBurnedEquivalentCO2Emissions" />
               <TableCell>Gallons of Gasoline Burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">3.3246E+10</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeGallonsOfDieselConsumedEquivalentCO2Emissions" />
               <TableCell>Gallons of Diesel Burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">75,377,848.84</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeGasolinePoweredPassengerVehiclesPerYearEquivalentCO2Emissions"
+              />
               <TableCell>Gas Powered Passenger Vehicles Per Year</TableCell>
-              <TableCell className="text-right font-bold green-cell">8.6781E+11</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeMilesDrivenByTheAverageGasolinePoweredPassengerVehicleEquivalentCO2Emissions"
+              />
               <TableCell>Miles Driven by Gas Passenger Vehicles</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">6.3858E+10</TableCell>
-              <TableCell>thems Natural Gas Burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">6.1424E+09</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeThermsOfNaturalGasEquivalentCO2Emissions" />
+              <TableCell>therms Natural Gas Burned</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeMcfOfNaturalGasEquivalentCO2Emissions" />
               <TableCell>Mcf Natural Gas Burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">787,084,979.70</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeBarrelsOfOilConsumedEquivalentCO2Emissions" />
               <TableCell>Barrels of Oil Burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">4,480,361.94</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeTankerTrucksFilledWithGasolineEquivalentEmissions"
+              />
               <TableCell>Tanker Trucks of Oil Burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">65,858,443.52</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeHomeYearlyElectricityUseEquivalentEmissions" />
               <TableCell>Household Yearly Electricity Use</TableCell>
-              <TableCell className="text-right font-bold green-cell">42,679,261.19</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeHomeYearlyTotalEnergyUseEquivalentEmissions" />
               <TableCell>Household Yearly Energy Use</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">12,819,944,745.16</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeNumberOfIncandescentBulbsSwitchedToLightEmittingDiodeBulbsInOperationForAYearEmissionsSavedEquivalentEmissions"
+              />
               <TableCell>Incandescent Bulbs switched to LEDs Reduction</TableCell>
-              <TableCell className="text-right font-bold green-cell">5.6408E+09</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeNumberOfUrbanTreeSeedlingsGrownFor10YearsEquivalentCarbonFixation"
+              />
               <TableCell>Urban Tree Seedlings Grown for 10yr Equiv Emission Sequestering</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">65,858,443.52</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeAcresOfUSForestPreservedFromConversionToCroplandEquivalentEmissions"
+              />
               <TableCell>Acres prevented from conversion to cropland in year of conversion</TableCell>
-              <TableCell className="text-right font-bold green-cell">402,912,549.13</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeAcresOfUSForestsEquivalentCO2SequesteringForOneYear"
+              />
               <TableCell>Average Forestry Acres Per Year Equiv Emission Sequestering</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">1.5384E+10</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimePropaneCylindersUsedForHomeBarbecues" />
               <TableCell>Propane cylinders used for home barbecues</TableCell>
-              <TableCell className="text-right font-bold green-cell">1,866,776.29</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeRailcarsOfCoalBurned" />
               <TableCell>Railcars of coal burned</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">3.7900E+11</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimePoundsOfCoalBurned" />
               <TableCell>Pounds of coal burned</TableCell>
-              <TableCell className="text-right font-bold green-cell">1.4651E+10</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeTrashBagsOfWasteRecycledInsteadOfLandfilled" />
               <TableCell>Trash bags of waste recycled instead of landfilled</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">117,109,529.85</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeTonsOfWasteRecycledInsteadOfLandfilled" />
               <TableCell>Tons of waste recycled instead of landfilled</TableCell>
-              <TableCell className="text-right font-bold green-cell">16,729,932.84</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeNumberOfGarbageTrucksOfWasteRecycledInsteadOfLandfilled"
+              />
               <TableCell>Number of garbage trucks of waste recycled instead of landfilled</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">90.59</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeCoalFiredPowerPlantEmissionsForOneYear" />
               <TableCell>Coal-fired power plant emissions for one year</TableCell>
-              <TableCell className="text-right font-bold green-cell">850.45</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeNaturalGasFiredPowerPlantEmissionsForOneYear" />
               <TableCell>Natural gas-fired power plant emissions for one year</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">94,117.50</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeNumberOfWindTurbinesRunningForAYear" />
               <TableCell>Number of wind turbines running for a year</TableCell>
-              <TableCell className="text-right font-bold green-cell">4.1174E+13</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeNumberOfSmartPhonesCharged" />
               <TableCell>Number of smart phones charged</TableCell>
             </TableRow>
 
             <TableRow>
-              <TableCell className="text-right font-bold green-cell">4.3280E-02</TableCell>
+              <FormulaResultCell
+                results={results}
+                formulaId="lifetimeResultantConcentrationCO2IncreaseInTheAtmosphere"
+              />
               <TableCell>ppm Concentration CO₂ Increase in the Atmosphere</TableCell>
-              <TableCell className="text-right font-bold green-cell">4.3280E-04</TableCell>
+              <FormulaResultCell results={results} formulaId="lifetimeResultantTemperatureRise" />
               <TableCell>°C Additional Temperature Rise</TableCell>
             </TableRow>
 

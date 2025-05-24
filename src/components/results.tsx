@@ -52,7 +52,7 @@ export const Results = (props: ResultsProps) => {
           <DialogHeader>
             <DialogTitle className="text-slate-900">Detailed Impact</DialogTitle>
           </DialogHeader>
-          <ResultsTable />
+          <ResultsTable results={results} />
         </DialogContent>
       </Dialog>
     </div>
