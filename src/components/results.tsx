@@ -8,7 +8,7 @@ import SspFields from "@/components/ssp-fields";
 import { CalculateInput, CalculateResult } from "@/schema/api";
 
 interface ResultsProps {
-  inputs: CalculateInput | null;
+  inputs: CalculateInput;
   results: CalculateResult;
 }
 

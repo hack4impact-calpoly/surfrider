@@ -12,7 +12,7 @@ interface SspFieldsProps {
   // yearOfStudy: string; -> user input
   // yearOfStudyMortality: string; -> hardcoded in mortalityPoints
   // yearOfStudyTemperature: string; -> hardcoded in tempPoints
-  inputs: CalculateInput | null;
+  inputs: CalculateInput;
 }
 
 export default function SspFields(props: SspFieldsProps) {
@@ -21,8 +21,8 @@ export default function SspFields(props: SspFieldsProps) {
   const [hoverMortalityYear, setHoverMortalityYear] = useState<string | null>(null);
   const [hoverTemperatureYear, setHoverTemperatureYear] = useState<string | null>(null);
 
-  const endOfLifeYear = (inputs!.startYear + inputs!.lifeTimeYears).toString();
-  const yearOfStudy = inputs!.yearOfStudy.toString();
+  const endOfLifeYear = (inputs.startYear + inputs.lifeTimeYears).toString();
+  const yearOfStudy = inputs.yearOfStudy.toString();
 
   const buildYearValueMap = (start: number, values: number[]) => {
     return values.reduce(

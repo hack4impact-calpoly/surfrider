@@ -28,7 +28,7 @@ export default function Home() {
   };
 
   const renderResults = () => {
-    if (submitted) {
+    if (submitted && submittedInput) {
       if (loading) return <Spinner />;
       if (error || !data) return <ErrorCard />;
       return <Results results={data} inputs={submittedInput} />;
