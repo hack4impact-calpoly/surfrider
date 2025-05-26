@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import SspFields from "@/components/ssp-fields";
+import SspFields from "@/components/results/ssp/ssp-fields";
 import { MOCK_CALCULATE_INPUT } from "../mocks/api-mocks";
 
 const DEFAULT_PROPS = {

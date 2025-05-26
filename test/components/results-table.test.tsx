@@ -1,8 +1,8 @@
 /** @jest-environment jsdom */
+import ResultsTable from "@/components/results/secondary/results-table";
+import { CalculateResult } from "@/schema/api";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import ResultsTable from "../../src/components/results-table";
-import { CalculateResult } from "@/schema/api";
 import { MOCK_CALCULATE_INPUT } from "../mocks/api-mocks";
 
 describe("ResultsTable", () => {
