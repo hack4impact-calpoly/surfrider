@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { CalculateInput, CalculateResult } from "@/schema/api";
 import { FormulaResultCell } from "./formula-result-cell";
 import { ResultCell } from "./result-cell";
-import { getAdditionalHumanMortalityCell, getBaselineCWarmingCell, SSP } from "../utils/ssp-data";
+import { getAdditionalHumanMortalityCell, getBaselineCWarmingCell, SSP } from "../../../utils/ssp-data";
 
 const SSP_EXPLANATION =
   "CO₂ emissions leads to increased atmospheric concetration of CO₂ which leads to a global temerature rise which leads to increased human mortalities";

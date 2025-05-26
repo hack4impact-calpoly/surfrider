@@ -2,7 +2,7 @@ import { formulaMap } from "@/formulas/formula-collection";
 import { CalculateResult } from "@/schema/api";
 import { FormulaId } from "@/schema/formula-id";
 import { ResultCell } from "./result-cell";
-import { TableCell } from "./ui/table";
+import { TableCell } from "../../ui/table";
 
 interface FormulaResultCellProps {
   results: CalculateResult;

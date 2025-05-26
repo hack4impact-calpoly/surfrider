@@ -2,7 +2,7 @@
 
 import CalculatorForm from "@/components/calculator-form";
 import { ErrorCard } from "@/components/error-card";
-import { Results } from "@/components/results";
+import { Results } from "@/components/results/results";
 import { Spinner } from "@/components/spinner";
 import { useCalculate } from "@/hooks/use-calculate";
 import { cn } from "@/lib/utils";

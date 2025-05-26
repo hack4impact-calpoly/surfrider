@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { RedLineChart, BlueLineChart } from "@/components/ssp-charts";
-import { BlueCard, RedCard } from "@/components/ssp-cards";
+import { RedLineChart, BlueLineChart } from "@/components/results/ssp/ssp-charts";
+import { BlueCard, RedCard } from "@/components/results/ssp/ssp-cards";
 import { CalculateInput } from "@/schema/api";
 import { getAdditionalHumanMortalityColumn, getBaselineCWarmingColumn, SSP } from "@/utils/ssp-data";
 

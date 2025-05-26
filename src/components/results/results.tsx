@@ -1,13 +1,13 @@
 "use client";
 
-import ConsumerImpactFields from "@/components/consumer-impact-fields";
-import { ImpactField } from "@/components/impact-field";
-import SocietalImpactFields from "@/components/societal-impact-fields";
-import SspFields from "@/components/ssp-fields";
+import ConsumerImpactFields from "@/components/results/consumer-impact/consumer-impact-fields";
+import { ImpactField } from "@/components/results/impact-field";
+import SocietalImpactFields from "@/components/results/societal-impact/societal-impact-fields";
+import SspFields from "@/components/results/ssp/ssp-fields";
 import { CalculateInput, CalculateResult } from "@/schema/api";
-import ResultsTable from "./results-table";
-import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import ResultsTable from "./secondary/results-table";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 
 interface ResultsProps {
   inputs: CalculateInput;

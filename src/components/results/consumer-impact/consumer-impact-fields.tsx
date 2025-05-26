@@ -1,6 +1,6 @@
 "use client";
 
-import { MetricCard } from "@/components/metric-card";
+import { MetricCard } from "@/components/results/metric-card";
 import GasPumpIcon from "@/assets/icons/gas_pump.svg";
 import EnergyIcon from "@/assets/icons/energy.svg";
 import GasolineIcon from "@/assets/icons/gasoline.svg";
