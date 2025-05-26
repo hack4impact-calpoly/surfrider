@@ -1,12 +1,12 @@
 import { fetchAndTransformAvertData } from "@/services/avert-fetch";
 import { addAvertRecord } from "@/services/avert-store";
 import { apiErrorHandler } from "@/utils/errors";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
-  const authHeader = request.headers.get("Authorization");
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
 
-  if (authHeader !== process.env.CRON_SECRET) {
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
