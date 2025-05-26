@@ -394,13 +394,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getBaselineCWarmingCell(endOfLife, SSP.SSP1_1_9) ?? undefined}
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP1_1_9)}
                 name="Baseline °C Warming by End of Life SSP1-1.9"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Baseline °C Warming by End of Life SSP1-1.9</TableCell>
               <ResultCell
-                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP1_1_9) ?? undefined}
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP1_1_9)}
                 name="Baseline °C Warming by Year of Study SSP1-1.9"
                 explanation={SSP_EXPLANATION}
               />
@@ -409,13 +409,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getBaselineCWarmingCell(endOfLife, SSP.SSP1_2_6) ?? undefined}
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP1_2_6)}
                 name="Baseline °C Warming by End of Life SSP1-2.6"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Baseline °C Warming by End of Life SSP1-2.6</TableCell>
               <ResultCell
-                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP1_2_6) ?? undefined}
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP1_2_6)}
                 name="Baseline °C Warming by Year of Study SSP1-2.6"
                 explanation={SSP_EXPLANATION}
               />
@@ -424,13 +424,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getBaselineCWarmingCell(endOfLife, SSP.SSP2_4_5) ?? undefined}
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP2_4_5)}
                 name="Baseline °C Warming by End of Life SSP2-4.5"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Baseline °C Warming by End of Life SSP2-4.5</TableCell>
               <ResultCell
-                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP2_4_5) ?? undefined}
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP2_4_5)}
                 name="Baseline °C Warming by Year of Study SSP2-4.5"
                 explanation={SSP_EXPLANATION}
               />
@@ -439,13 +439,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getBaselineCWarmingCell(endOfLife, SSP.SSP3_7_0) ?? undefined}
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP3_7_0)}
                 name="Baseline °C Warming by End of Life SSP3-7.0"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Baseline °C Warming by End of Life SSP3-7.0</TableCell>
               <ResultCell
-                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP3_7_0) ?? undefined}
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP3_7_0)}
                 name="Baseline °C Warming by Year of Study SSP3-7.0"
                 explanation={SSP_EXPLANATION}
               />
@@ -454,13 +454,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getBaselineCWarmingCell(endOfLife, SSP.SSP5_8_5) ?? undefined}
+                value={getBaselineCWarmingCell(endOfLife, SSP.SSP5_8_5)}
                 name="Baseline °C Warming by End of Life SSP5-8.5"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Baseline °C Warming by End of Life SSP5-8.5</TableCell>
               <ResultCell
-                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP5_8_5) ?? undefined}
+                value={getBaselineCWarmingCell(yearOfStudy, SSP.SSP5_8_5)}
                 name="Baseline °C Warming by Year of Study SSP5-8.5"
                 explanation={SSP_EXPLANATION}
               />
@@ -469,13 +469,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP1_1_9) ?? undefined}
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP1_1_9)}
                 name="Additional Human Mortalities by End of Life SSP1-1.9"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Additional Human Mortalities by End of Life SSP1-1.9</TableCell>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP1_1_9) ?? undefined}
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP1_1_9)}
                 name="Additional Human Mortalities by Year of Study SSP1-1.9"
                 explanation={SSP_EXPLANATION}
               />
@@ -484,13 +484,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP1_2_6) ?? undefined}
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP1_2_6)}
                 name="Additional Human Mortalities by End of Life SSP1-2.6"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Additional Human Mortalities by End of Life SSP1-2.6</TableCell>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP1_2_6) ?? undefined}
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP1_2_6)}
                 name="Additional Human Mortalities by Year of Study SSP1-2.6"
                 explanation={SSP_EXPLANATION}
               />
@@ -499,13 +499,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP2_4_5) ?? undefined}
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP2_4_5)}
                 name="Additional Human Mortalities by End of Life SSP2-4.5"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Additional Human Mortalities by End of Life SSP2-4.5</TableCell>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP2_4_5) ?? undefined}
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP2_4_5)}
                 name="Additional Human Mortalities by Year of Study SSP2-4.5"
                 explanation={SSP_EXPLANATION}
               />
@@ -514,13 +514,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP3_7_0) ?? undefined}
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP3_7_0)}
                 name="Additional Human Mortalities by End of Life SSP3-7.0"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Additional Human Mortalities by End of Life SSP3-7.0</TableCell>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP3_7_0) ?? undefined}
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP3_7_0)}
                 name="Additional Human Mortalities by Year of Study SSP3-7.0"
                 explanation={SSP_EXPLANATION}
               />
@@ -529,13 +529,13 @@ const ResultsTable = (props: ResultsTableProps) => {
 
             <TableRow>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP5_8_5) ?? undefined}
+                value={getAdditionalHumanMortalityCell(endOfLife, SSP.SSP5_8_5)}
                 name="Additional Human Mortalities by End of Life SSP5-8.5"
                 explanation={SSP_EXPLANATION}
               />
               <TableCell>Additional Human Mortalities by End of Life SSP5-8.5</TableCell>
               <ResultCell
-                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP5_8_5) ?? undefined}
+                value={getAdditionalHumanMortalityCell(yearOfStudy, SSP.SSP5_8_5)}
                 name="Additional Human Mortalities by Year of Study SSP5-8.5"
                 explanation={SSP_EXPLANATION}
               />

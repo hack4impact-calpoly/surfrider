@@ -182,26 +182,26 @@ const additionalHumanMortalityData: readonly [number, number, number, number, nu
   [12944, 18116, 30471, 43653, 57294],
 ];
 
-export const getBaselineCWarmingCell = (year: number, ssp: SSP): number | null => {
+export const getBaselineCWarmingCell = (year: number, ssp: SSP): number | undefined => {
   if (year < 2015 || year >= 2100) {
-    return null;
+    return undefined;
   }
   const yearIndex = year - 2015;
   const sspIndex = ssp;
-  return baselineCWarmingData[yearIndex][sspIndex] || null;
+  return baselineCWarmingData[yearIndex][sspIndex] || undefined;
 };
 
 export const getBaselineCWarmingColumn = (ssp: SSP): number[] => {
   return baselineCWarmingData.map((row) => row[ssp]);
 };
 
-export const getAdditionalHumanMortalityCell = (year: number, ssp: SSP): number | null => {
+export const getAdditionalHumanMortalityCell = (year: number, ssp: SSP): number | undefined => {
   if (year < 2015 || year >= 2100) {
-    return null;
+    return undefined;
   }
   const yearIndex = year - 2015;
   const sspIndex = ssp;
-  return additionalHumanMortalityData[yearIndex][sspIndex] || null;
+  return additionalHumanMortalityData[yearIndex][sspIndex] || undefined;
 };
 
 export const getAdditionalHumanMortalityColumn = (ssp: SSP): number[] => {
