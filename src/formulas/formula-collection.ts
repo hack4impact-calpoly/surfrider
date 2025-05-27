@@ -1089,18 +1089,18 @@ export const averageOilPlantsInCalifornia: Formula = {
   dependencies: ["annualPowerGeneration", "annualOilNetGenerationMwh"],
 };
 
-// export const averageFossilFuelPlantsInCalifornia: Formula = {
-//   id: "averageFossilFuelPlantsInCalifornia",
-//   name: "Average fossil fuel plants in California",
-//   explanation:
-//     "The average number of fossil fuel plants in California required to provide an equivalent amount of energy as the provided energy source",
-//   assumptions: ["", ""],
-//   sources: [""],
-//   expression: "annualPowerGeneration / annualOtherFossilNetGenerationMwh / 1000",
-//   unit: "number of fossil fuel plants",
-//   setupScope: (() => {}) as (...args: unknown[]) => void,
-//   dependencies: ["annualPowerGeneration", "annualOtherFossilNetGenerationMwh"],
-// };
+export const averageFossilFuelPlantsInCalifornia: Formula = {
+  id: "averageFossilFuelPlantsInCalifornia",
+  name: "Average fossil fuel plants in California",
+  explanation:
+    "The average number of fossil fuel plants in California required to provide an equivalent amount of energy as the provided energy source",
+  assumptions: ["", ""],
+  sources: [""],
+  expression: "annualPowerGeneration / annualOtherFossilNetGenerationMwh / 1000",
+  unit: "number of fossil fuel plants",
+  setupScope: (() => {}) as (...args: unknown[]) => void,
+  dependencies: ["annualPowerGeneration", "annualOtherFossilNetGenerationMwh"],
+};
 
 export const averageAcresOfSolarInCalifornia: Formula = {
   id: "averageAcresOfSolarInCalifornia",
@@ -1238,7 +1238,7 @@ export const formulas: Formula[] = [
   averageOnshoreWindTurbinesInCalifornia,
   averageOffshoreWindTurbinesInCalifornia,
   averageOilPlantsInCalifornia,
-  // averageFossilFuelPlantsInCalifornia,
+  averageFossilFuelPlantsInCalifornia,
   averageAcresOfSolarInCalifornia,
   ...lifetimeFormulas,
   lifetimeMetricTonsOfCO2,
