@@ -19,7 +19,7 @@ export class FormulaParser {
     // initialize input variables in the parser
     Object.keys(inputVariables).forEach((key) => {
       const variable = inputVariables[key as FormulaDependency];
-      if (!!variable) {
+      if (variable !== undefined) {
         this.addVariable(key, variable);
       }
     });
@@ -28,7 +28,13 @@ export class FormulaParser {
   private validateFormulaDependencies(): boolean {
     const inputVariables = this.getAllVariables();
     return Array.from(this.formulas.values()).every((formula) =>
-      formula.dependencies.every((dependency) => this.formulas.has(dependency) || inputVariables.has(dependency)),
+      formula.dependencies.every((dependency) => {
+        const valid = this.formulas.has(dependency) || inputVariables.has(dependency);
+        if (!valid) {
+          console.warn(`Invalid dependency "${dependency}" in formula "${formula.id}"`);
+        }
+        return valid;
+      }),
     );
   }
 
