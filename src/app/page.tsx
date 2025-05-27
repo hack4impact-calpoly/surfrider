@@ -45,7 +45,7 @@ export default function Home() {
         )}
       >
         <h1 className="text-xl font-semibold text-slate-900 text-center col-span-full">
-          Carbon Emission Reduction Impact Calculator
+          Surfrider Carbon Impact Calculator
         </h1>
         <div
           className={cn(
