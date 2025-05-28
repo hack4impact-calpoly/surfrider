@@ -16,11 +16,10 @@ export default function SocietalImpactFields(props: SocietalImpactFieldsProps) {
 
   return (
     <div
-      className="grid gap-20 
-              grid-cols-1 
-              sm:grid-cols-2 
-              lg:grid-cols-3 
-              auto-rows-[380px]"
+      className="
+              grid gap-6 sm:gap-20 
+              grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+              "
     >
       <MetricCard
         value={results.mcfOfNaturalGasEquivalentCO2Emissions ?? 0}

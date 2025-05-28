@@ -13,7 +13,7 @@ export const ImpactField: React.FC<
     <AccordionItem value={title} className="border rounded-lg shadow-lg bg-white">
       <AccordionTrigger className="flex p-5 font-medium text-[24px] text-slate-900">{title}</AccordionTrigger>
 
-      <AccordionContent className="flex justify-center p-10">
+      <AccordionContent className="flex justify-center px-4 sm:px-10 py-10">
         <div className="w-full max-w-7xl">{children}</div>
       </AccordionContent>
     </AccordionItem>

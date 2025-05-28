@@ -18,7 +18,7 @@ export const Results = (props: ResultsProps) => {
   const { inputs, results } = props;
 
   return (
-    <div className="min-w-full mx-auto px-14 pt-6 pb-24 space-y-4 flex flex-col items-center">
+    <div className="min-w-full mx-auto px-4 sm:px-14 pt-6 pb-24 space-y-4 flex flex-col items-center">
       {/* <h1 className="font-bold text-[48px] leading-[48px] px-4 tracking-[-1.2] text-slate-900">
         Surfrider Carbon Emissions Calculator
       </h1>
@@ -39,7 +39,7 @@ export const Results = (props: ResultsProps) => {
           <ConsumerImpactFields results={results} />
         </ImpactField>
 
-        <ImpactField title="Shared Socioeconomic Pathways&nbsp;(SSP) Fields">
+        <ImpactField title="Shared Socioeconomic Pathways Fields">
           <SspFields inputs={inputs} />
         </ImpactField>
       </div>
