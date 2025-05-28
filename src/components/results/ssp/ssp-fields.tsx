@@ -48,7 +48,7 @@ export default function SspFields(props: SspFieldsProps) {
   return (
     <section className="mx-auto max-w-6xl">
       <div className="bg-white shadow-sm">
-        <div className="grid grid-cols-1 gap-y-12 md:grid-cols-3 md:grid-rows-2 md:gap-x-8 md:gap-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-1 md:gap-x-8 mb-12">
           {/* Row 1 */}
           <div className="md:col-span-2 md:row-span-1 flex justify-center">
             <BlueLineChart
@@ -61,7 +61,7 @@ export default function SspFields(props: SspFieldsProps) {
               onHoverYearChange={setHoverMortalityYear}
             />
           </div>
-          <div className="md:col-span-1 md:row-span-1 flex justify-start pl-[10%]">
+          <div className="md:col-span-1 md:row-span-1 flex justify-center md:justify-start pl-[10%] order-first md:order-last">
             <BlueCard
               endOfLifeYear={endOfLifeYear}
               endOfLifeValue={getSafeValue(mortalityData, endOfLifeYear)}
@@ -70,7 +70,9 @@ export default function SspFields(props: SspFieldsProps) {
               hoverYear={hoverMortalityYear}
             />
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-1 md:gap-x-8">
           {/* Row 2 */}
           <div className="md:col-span-2 md:row-span-1 flex justify-center">
             <RedLineChart
@@ -83,7 +85,7 @@ export default function SspFields(props: SspFieldsProps) {
               onHoverYearChange={setHoverTemperatureYear}
             />
           </div>
-          <div className="md:col-span-1 md:row-span-1 flex justify-start pl-[10%]">
+          <div className="md:col-span-1 md:row-span-1 flex justify-center md:justify-start pl-[10%] order-first md:order-last">
             <RedCard
               endOfLifeYear={endOfLifeYear}
               endOfLifeValue={getSafeValue(temperatureData, endOfLifeYear)}
