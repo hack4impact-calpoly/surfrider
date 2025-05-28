@@ -1,4 +1,13 @@
-# Surfrider
+# Surfrider Carbon Impact Calculator
+
+<div align="center">
+  <img src="public/SF-Horizontal-Logo_RGB_Blue.png" alt="Surfrider Logo" width="400"/>
+  <br/>
+  <a href="https://github.com/hack4impact-calpoly/surfrider/actions/workflows/ci.yml">
+    <img src="https://github.com/hack4impact-calpoly/surfrider/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+  </a>
+  <br/><br/>
+</div>
 
 A web app for visualizing the environmental, economic, and societal benefits of renewable energy adoption.
 
