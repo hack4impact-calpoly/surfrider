@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     // fetch eGRID and AVERT records
     // TODO: sync up eGRID and AVERT records to the same year
     const egridRecord = await getEgridRecordByKey(2022, location);
-    // if the powerPlantClass is consumed, we don't an AVERT record
+    // if the powerPlantClass is consumed, we don't have an AVERT record
     // so we can use an arbitrary powerPlantClass
     const avertRecord = await getAvertRecordByKey(
       2023,
