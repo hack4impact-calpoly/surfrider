@@ -37,6 +37,11 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen flex justify-center items-center bg-gray-100">
+      {/* Dimmed background on form expansion */}
+      {submitted && formExpanded && (
+        <div className="fixed inset-0 z-10 bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out" />
+      )}
+
       {/* Calculator form card */}
       <div
         className={cn(
