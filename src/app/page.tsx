@@ -6,7 +6,13 @@ import { Suspense } from "react";
 
 export default function Home() {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center w-full h-screen">
+          <Spinner />
+        </div>
+      }
+    >
       <Calculator />
     </Suspense>
   );
