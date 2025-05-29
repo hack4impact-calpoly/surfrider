@@ -62,7 +62,7 @@ export default function Calculator() {
   };
 
   return (
-    <main className="relative min-h-screen flex justify-center items-center bg-gray-100">
+    <main className="relative min-h-screen flex justify-center items-center">
       {/* Dimmed background on form expansion */}
       <div
         className={cn(
