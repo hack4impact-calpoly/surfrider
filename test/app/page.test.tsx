@@ -115,12 +115,12 @@ describe("Home Component", () => {
     fireEvent.click(screen.getByText("Submit"));
 
     // Form should be collapsed after submission
-    expect(screen.getByTestId("calculator-form").parentElement?.className).toContain("max-h-[0vh]");
+    expect(screen.getByTestId("calculator-form").parentElement?.parentElement?.className).toContain("max-h-[0vh]");
 
     // Toggle form
     fireEvent.click(screen.getByTestId("chevron-up"));
 
     // Form should be expanded
-    expect(screen.getByTestId("calculator-form").parentElement?.className).toContain("max-h-[100vh]");
+    expect(screen.getByTestId("calculator-form").parentElement?.parentElement?.className).toContain("max-h-[100vh]");
   });
 });
