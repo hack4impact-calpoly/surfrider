@@ -4,7 +4,7 @@ import { apiErrorHandler } from "@/utils/errors";
 import { FormulaId } from "@/schema/formula-id";
 import { getEgridRecordByKey } from "@/services/egrid-store";
 import { getAvertRecordByKey } from "@/services/avert-store";
-import { EgridRecordData, powerPlantClassToIndex } from "@/schema/egrid";
+import { EgridRecordData, PowerPlantClass, powerPlantClassToIndex } from "@/schema/egrid";
 import { AvertRecordData, egridToAvertLocations } from "@/schema/avert";
 import { CalculateInput, CalculateResult } from "@/schema/api";
 import { NextRequest, NextResponse } from "next/server";
@@ -42,7 +42,13 @@ export async function POST(req: NextRequest) {
     // fetch eGRID and AVERT records
     // TODO: sync up eGRID and AVERT records to the same year
     const egridRecord = await getEgridRecordByKey(2022, location);
-    const avertRecord = await getAvertRecordByKey(2023, egridToAvertLocations[location], powerPlantClass);
+    // if the powerPlantClass is consumed, we don't have an AVERT record
+    // so we can use an arbitrary powerPlantClass
+    const avertRecord = await getAvertRecordByKey(
+      2023,
+      egridToAvertLocations[location],
+      powerPlantClass === PowerPlantClass.enum.Consumed ? PowerPlantClass.enum.OnshoreWind : powerPlantClass,
+    );
 
     const egridRecordData = extractNumericFields(EgridRecordData.parse(egridRecord));
     const avertRecordData = extractNumericFields(AvertRecordData.parse(avertRecord));

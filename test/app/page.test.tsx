@@ -53,7 +53,7 @@ describe("Home Component", () => {
   it("renders calculator form initially", () => {
     render(<Home />);
     expect(screen.getByTestId("calculator-form")).toBeInTheDocument();
-    expect(screen.getByText("Carbon Emission Reduction Impact Calculator")).toBeInTheDocument();
+    expect(screen.getByText("Surfrider Carbon Impact Calculator")).toBeInTheDocument();
   });
 
   it("submits form and calls getCalculateResult", () => {
