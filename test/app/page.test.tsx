@@ -45,6 +45,14 @@ jest.mock("lucide-react", () => ({
   ChevronUp: () => <svg data-testid="chevron-up" />,
 }));
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+  }),
+  useSearchParams: () => new URLSearchParams(), // or mock specific query strings
+}));
+
 describe("Home Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();

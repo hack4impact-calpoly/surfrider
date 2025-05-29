@@ -16,7 +16,7 @@ import { useCalculate } from "@/hooks/use-calculate";
 import { cn } from "@/lib/utils";
 import { CalculateInput } from "@/schema/api";
 import { ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { EgridLocation, PowerPlantClass } from "@/schema/egrid";
 
@@ -25,27 +25,37 @@ export default function Home() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const query = Object.fromEntries(searchParams.entries());
-  const parsed: CalculateInput = {
-    installedCapacity: parseFloat(query.installedCapacity ?? "0"),
-    powerPlantClass: (query.powerPlantClass ?? DEFAULT_POWER_PLANT_CLASS) as PowerPlantClass,
-    location: (query.location ?? DEFAULT_LOCATION) as EgridLocation,
-    capacityFactor: parseFloat(query.capacityFactor ?? DEFAULT_CAPACITY_FACTOR.toString()),
-    population2070: parseInt(query.population2070 ?? DEFAULT_POPULATION_2070, 10),
-    startYear: parseInt(query.startYear ?? DEFAULT_START_YEAR, 10),
-    lifeTimeYears: parseInt(query.lifeTimeYears ?? DEFAULT_LIFETIME_YEARS, 10),
-    yearOfStudy: parseInt(query.yearOfStudy ?? DEFAULT_YEAR_OF_STUDY, 10),
-  };
+  const [submitted, setSubmitted] = useState(false);
+  const [submittedInput, setSubmittedInput] = useState<CalculateInput | null>(null);
+  const [formExpanded, setFormExpanded] = useState(true);
 
-  const hasParams = Object.keys(query).length > 0;
+  const hasRunRef = useRef(false);
 
-  const [submitted, setSubmitted] = useState(hasParams);
-  const [submittedInput, setSubmittedInput] = useState<CalculateInput | null>(hasParams ? parsed : null);
-  const [formExpanded, setFormExpanded] = useState(!hasParams);
+  useEffect(() => {
+    if (hasRunRef.current) return;
+    hasRunRef.current = true;
 
-  if (hasParams && !data && !loading && submittedInput) {
-    getCalculateResult(submittedInput);
-  }
+    const query = Object.fromEntries(searchParams.entries());
+    try {
+      const parsed: CalculateInput = CalculateInput.parse({
+        installedCapacity: parseFloat(query.installedCapacity ?? "0"),
+        powerPlantClass: (query.powerPlantClass ?? DEFAULT_POWER_PLANT_CLASS) as PowerPlantClass,
+        location: (query.location ?? DEFAULT_LOCATION) as EgridLocation,
+        capacityFactor: parseFloat(query.capacityFactor ?? DEFAULT_CAPACITY_FACTOR.toString()),
+        population2070: parseInt(query.population2070 ?? DEFAULT_POPULATION_2070, 10),
+        startYear: parseInt(query.startYear ?? DEFAULT_START_YEAR, 10),
+        lifeTimeYears: parseInt(query.lifeTimeYears ?? DEFAULT_LIFETIME_YEARS, 10),
+        yearOfStudy: parseInt(query.yearOfStudy ?? DEFAULT_YEAR_OF_STUDY, 10),
+      });
+
+      setSubmittedInput(parsed);
+      setSubmitted(true);
+      setFormExpanded(false);
+      getCalculateResult(parsed);
+    } catch {
+      router.replace("/");
+    }
+  }, [searchParams, getCalculateResult, router]);
 
   const handleSubmit = (values: CalculateInput) => {
     setSubmittedInput(values);
