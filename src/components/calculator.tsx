@@ -1,9 +1,11 @@
 "use client";
 
+import logo from "@/assets/logo.png";
 import { useCalculate } from "@/hooks/use-calculate";
 import { cn } from "@/lib/utils";
 import { CalculateInput } from "@/schema/api";
 import { ChevronUp } from "lucide-react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import CalculatorForm from "./calculator-form";
@@ -109,8 +111,11 @@ export default function Calculator() {
             formExpanded ? "max-h-[100vh]" : "max-h-[0vh]",
           )}
         >
-          <div className="max-h-[calc(100vh-6rem)] overflow-y-auto px-1 sm:px-0">
+          <div className="flex flex-col items-center w-full max-h-[calc(100vh-6rem)] overflow-y-auto px-1 sm:px-0">
             <CalculatorForm onSubmit={handleSubmit} />
+            <a href="https://www.surfrider.org" target="_blank" rel="noopener noreferrer">
+              <Image src={logo} alt="Surfrider Logo" width={1501} height={647} placeholder="blur" className="w-36" />
+            </a>
           </div>
         </div>
       </div>
