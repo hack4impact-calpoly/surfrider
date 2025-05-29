@@ -30,7 +30,7 @@ export const Results = (props: ResultsProps) => {
 
       <h2 className="font-semibold px-4 text-[40px] leading-[48px] tracking-[-1.2] text-slate-900">Your Impact</h2>
 
-      <div className="min-w-full space-y-8">
+      <div className="w-full space-y-8 max-w-[1600px]">
         <ImpactField title="Societal Impact">
           <SocietalImpactFields results={results} />
         </ImpactField>
