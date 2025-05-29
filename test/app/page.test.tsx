@@ -5,8 +5,22 @@ import { CalculateInput, CalculateResult } from "@/schema/api";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { mocked } from "jest-mock";
+import { useRouter, useSearchParams } from "next/navigation";
+import { MOCK_CALCULATE_INPUT } from "../mocks/api-mocks";
 
 // Mock dependencies
+jest.mock("next/navigation");
+const mockRouter = {
+  push: jest.fn(),
+  replace: jest.fn(),
+};
+mocked(useRouter).mockReturnValue(mockRouter as unknown as ReturnType<typeof useRouter>);
+const mockSearchParams = {
+  size: 0,
+  entries: jest.fn().mockReturnValue([]),
+};
+mocked(useSearchParams).mockReturnValue(mockSearchParams as unknown as ReturnType<typeof useSearchParams>);
+
 jest.mock("@/hooks/use-calculate");
 const mockUseCalculate = mocked(useCalculate);
 const mockGetCalculateResult = jest.fn().mockResolvedValue(undefined);
@@ -60,6 +74,7 @@ describe("Home Component", () => {
     render(<Home />);
     fireEvent.click(screen.getByText("Submit"));
     expect(mockGetCalculateResult).toHaveBeenCalledWith({ installedCapacity: 1000 });
+    expect(mockRouter.push).toHaveBeenCalledWith("/?installedCapacity=1000");
   });
 
   it("displays spinner when loading", () => {
@@ -122,5 +137,34 @@ describe("Home Component", () => {
 
     // Form should be expanded
     expect(screen.getByTestId("calculator-form").parentElement?.parentElement?.className).toContain("max-h-[100vh]");
+  });
+
+  it("handles URL parameters on initial load", () => {
+    mockSearchParams.size = 1;
+    mockSearchParams.entries.mockReturnValueOnce([
+      ["installedCapacity", "5882000"],
+      ["powerPlantClass", "OnshoreWind"],
+      ["location", "CA"],
+      ["capacityFactor", "0.51"],
+      ["population2070", "8325000000"],
+      ["startYear", "2028"],
+      ["lifeTimeYears", "30"],
+      ["yearOfStudy", "2099"],
+    ]);
+
+    render(<Home />);
+    expect(mockGetCalculateResult).toHaveBeenCalledWith(MOCK_CALCULATE_INPUT);
+    expect(mockRouter.push).toHaveBeenCalledWith(
+      "/?installedCapacity=5882000&powerPlantClass=OnshoreWind&location=CA&capacityFactor=0.51&population2070=8325000000&startYear=2028&lifeTimeYears=30&yearOfStudy=2099",
+    );
+  });
+
+  it("handles invalid URL parameters gracefully", () => {
+    mockSearchParams.size = 1;
+    mockSearchParams.entries.mockReturnValueOnce([["invalidParam", "invalidValue"]]);
+
+    render(<Home />);
+    expect(mockRouter.replace).toHaveBeenCalledWith("/");
+    expect(mockGetCalculateResult).not.toHaveBeenCalled();
   });
 });
