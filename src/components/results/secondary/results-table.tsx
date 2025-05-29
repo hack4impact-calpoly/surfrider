@@ -38,7 +38,7 @@ const ResultsTable = (props: ResultsTableProps) => {
         }
       `}</style>
 
-      <div className="w-full mx-auto">
+      <div className="w-full h-full overflow-auto mx-auto">
         <Table className="text-white compact-table">
           <TableHeader>
             <TableRow>

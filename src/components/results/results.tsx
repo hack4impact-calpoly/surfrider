@@ -48,7 +48,7 @@ export const Results = (props: ResultsProps) => {
         <DialogTrigger asChild>
           <Button variant="link">View Detailed Impact</Button>
         </DialogTrigger>
-        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto flex flex-col items-center">
+        <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col items-center">
           <DialogHeader>
             <DialogTitle className="text-slate-900">Detailed Impact</DialogTitle>
           </DialogHeader>

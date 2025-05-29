@@ -77,7 +77,12 @@ export default function Home() {
           )}
         </div>
 
-        <div className={cn("transition-all duration-500 ease-in-out", formExpanded ? "max-h-[100vh]" : "max-h-[0vh]")}>
+        <div
+          className={cn(
+            "transition-all duration-500 ease-in-out overflow-hidden",
+            formExpanded ? "max-h-[100vh]" : "max-h-[0vh]",
+          )}
+        >
           <div className="max-h-[calc(100vh-6rem)] overflow-y-auto px-1 sm:px-0">
             <CalculatorForm onSubmit={handleSubmit} />
           </div>
