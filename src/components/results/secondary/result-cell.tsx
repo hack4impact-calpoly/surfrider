@@ -2,6 +2,13 @@ import { TableCell } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 
+const formatNumber = (value: number) => {
+  if (Math.abs(value) >= 1_000_000_000 || Math.abs(value) < 0.0001) {
+    return value.toExponential(4);
+  }
+  return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+};
+
 interface ResultCellProps {
   value?: number;
   name: string;
@@ -21,7 +28,7 @@ export const ResultCell = (props: ResultCellProps) => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <span>{value.toLocaleString()}</span>
+            <span>{formatNumber(value)}</span>
           </TooltipTrigger>
           <TooltipPortal>
             <TooltipContent className="max-w-sm flex flex-col items-start text-start text-slate-900 space-y-1">

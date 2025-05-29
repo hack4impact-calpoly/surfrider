@@ -1,6 +1,10 @@
+import { formulas } from "@/formulas/formula-collection";
 import { FormulaParser } from "@/formulas/formula-parser";
 import { mocked } from "jest-mock";
 import { Parser, parser } from "mathjs";
+import { MOCK_CALCULATE_INPUT } from "../mocks/api-mocks";
+import { MOCK_AVERT_RECORD_DATA } from "../mocks/avert-mocks";
+import { MOCK_EGRID_RECORD_DATA } from "../mocks/egrid-mocks";
 import {
   MOCK_FORMULAS,
   MOCK_FORMULAS_EXTENDED,
@@ -17,6 +21,10 @@ const testParserSet = jest.spyOn(testParser, "set");
 jest.mock("mathjs");
 const mockedParser = mocked(parser);
 mockedParser.mockReturnValue(testParser as unknown as Parser);
+
+const convertNullToUndefined = (obj: Record<string, number | null>): Record<string, number | undefined> => {
+  return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, value === null ? undefined : value]));
+};
 
 describe("Formula parser", () => {
   beforeEach(() => {
@@ -165,5 +173,24 @@ describe("Formula parser", () => {
 
       expect(() => parser.evaluate()).toThrow();
     });
+  });
+
+  describe("formula collection evaluation", () => {
+    it.each(Array.from({ length: 7 }, (_, i) => i))(
+      "should succeed with real input data - powerPlantClass %d",
+      (powerPlantClass) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { location: _, powerPlantClass: __, ...inputVariables } = MOCK_CALCULATE_INPUT;
+        const parser = new FormulaParser({
+          ...inputVariables,
+          ...convertNullToUndefined(MOCK_EGRID_RECORD_DATA),
+          ...convertNullToUndefined(MOCK_AVERT_RECORD_DATA),
+          powerPlantClass,
+        });
+        formulas.forEach((formula) => parser.addFormula(formula));
+
+        expect(() => parser.evaluate()).not.toThrow();
+      },
+    );
   });
 });

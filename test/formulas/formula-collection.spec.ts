@@ -49,6 +49,7 @@ import {
   lifetimeFormulas,
   lifetimeMetricTonsOfCO2,
   lbsCO2MWhEmissionRate,
+  averageFossilFuelPlantsInCalifornia,
 } from "@/formulas/formula-collection";
 import { Formula, FormulaDependency } from "@/schema/formula";
 
@@ -980,18 +981,18 @@ describe("result average oil plants evaluation", () => {
   });
 });
 
-// describe("result average fossil fuel plants evaluation", () => {
-//   it("should evaluate average fossil fuel plants result", () => {
-//     const parser = new FormulaParser(TEST_INPUT);
-//     parser.addFormula(annualPowerGeneration);
-//     parser.addFormula(averageFossilFuelPlantsInCalifornia);
-//
-//     const result = parser.evaluate();
-//
-//     // Updated expected value to match actual calculation more closely
-//     expectPercentError(result, 95.91, 0.0001); // Using a tighter tolerance
-//   });
-// });
+describe("result average fossil fuel plants evaluation", () => {
+  it("should evaluate average fossil fuel plants result", () => {
+    const parser = new FormulaParser(TEST_INPUT);
+    parser.addFormula(annualPowerGeneration);
+    parser.addFormula(averageFossilFuelPlantsInCalifornia);
+
+    const result = parser.evaluate();
+
+    // Updated expected value to match actual calculation more closely
+    expectPercentError(result, 95.91, 0.0001); // Using a tighter tolerance
+  });
+});
 
 describe("result average acres of solar evaluation", () => {
   it("should evaluate average acres of solar result", () => {

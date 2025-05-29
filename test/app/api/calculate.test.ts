@@ -1,4 +1,6 @@
 import { CalculateResult } from "@/schema/api";
+import { AvertLocation } from "@/schema/avert";
+import { EgridLocation, PowerPlantClass } from "@/schema/egrid";
 import { getAvertRecordByKey } from "@/services/avert-store";
 import { getEgridRecordByKey } from "@/services/egrid-store";
 import { mocked } from "jest-mock";
@@ -9,10 +11,10 @@ import { MOCK_AVERT_RECORD } from "../../mocks/avert-mocks";
 import { MOCK_EGRID_RECORD } from "../../mocks/egrid-mocks";
 
 jest.mock("@/services/egrid-store");
-mocked(getEgridRecordByKey).mockResolvedValue(MOCK_EGRID_RECORD);
+const mockGetEgridRecordByKey = mocked(getEgridRecordByKey).mockResolvedValue(MOCK_EGRID_RECORD);
 
 jest.mock("@/services/avert-store");
-mocked(getAvertRecordByKey).mockResolvedValue(MOCK_AVERT_RECORD);
+const mockGetAvertRecordByKey = mocked(getAvertRecordByKey).mockResolvedValue(MOCK_AVERT_RECORD);
 
 class FakeNextRequest {
   private body: unknown;
@@ -31,6 +33,18 @@ describe("/api/calculate route", () => {
 
     const jsonResponse = await res.json();
     expect(() => CalculateResult.parse(jsonResponse)).not.toThrow();
+    expect(mockGetEgridRecordByKey).toHaveBeenCalledWith(2022, EgridLocation.enum.CA);
+    expect(mockGetAvertRecordByKey).toHaveBeenCalledWith(2023, AvertLocation.enum.California, "OnshoreWind");
+  });
+
+  it("should fetch OnshoreWind AVERT record for consumed power plant class", async () => {
+    const inputWithConsumedClass = { ...MOCK_CALCULATE_INPUT, powerPlantClass: PowerPlantClass.enum.Consumed };
+    const req = new FakeNextRequest(inputWithConsumedClass);
+    const res = await POST(req as unknown as NextRequest);
+
+    const jsonResponse = await res.json();
+    expect(() => CalculateResult.parse(jsonResponse)).not.toThrow();
+    expect(mockGetAvertRecordByKey).toHaveBeenCalledWith(2023, AvertLocation.enum.California, "OnshoreWind");
   });
 
   it("should throw error for invalid input", async () => {

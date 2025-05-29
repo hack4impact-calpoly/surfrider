@@ -48,7 +48,7 @@ export const FormulaId = z.enum([
   "averageOnshoreWindTurbinesInCalifornia",
   "averageOffshoreWindTurbinesInCalifornia",
   "averageOilPlantsInCalifornia",
-  // "averageFossilFuelPlantsInCalifornia",
+  "averageFossilFuelPlantsInCalifornia",
   "averageAcresOfSolarInCalifornia",
   "lifetimeEffectivekWhReduced",
   "lifetimeEffectivekWhConsumed",

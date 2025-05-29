@@ -71,7 +71,7 @@ const ResultsTable = (props: ResultsTableProps) => {
             <TableRow>
               <FormulaResultCell results={results} formulaId="averageNaturalGasPlantsInCalifornia" />
               <TableCell>Average natural gas plants in California</TableCell>
-              <FormulaResultCell results={results} formulaId={null} />
+              <FormulaResultCell results={results} formulaId={"averageFossilFuelPlantsInCalifornia"} />
               <TableCell>Average fossil fuel plants in California</TableCell>
             </TableRow>
 
