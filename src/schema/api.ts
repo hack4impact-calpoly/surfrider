@@ -8,9 +8,9 @@ export const CalculateInput = z.object({
   location: EgridLocation,
   capacityFactor: z.coerce
     .number()
-    .min(0, { message: "Capacity factor must be at least 0" })
+    .gt(0, { message: "Capacity factor must be greater than 0" })
     .max(1, { message: "Capacity factor cannot exceed 1" }),
-  population2070: z.coerce.number().min(0, { message: "Population must be at least 0" }),
+  population2070: z.coerce.number().gt(0, { message: "Population must be greater than 0" }),
   startYear: z.coerce
     .number()
     .min(2015, { message: "Start year must be at least 2015" })
