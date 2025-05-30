@@ -10,14 +10,22 @@ export const CalculateInput = z.object({
     .number()
     .gt(0, { message: "Capacity factor must be greater than 0" })
     .max(1, { message: "Capacity factor cannot exceed 1" }),
-  population2070: z.coerce.number().gt(0, { message: "Population must be greater than 0" }),
+  population2070: z.coerce
+    .number()
+    .int({ message: "Population must be a whole number" })
+    .gt(0, { message: "Population must be greater than 0" }),
   startYear: z.coerce
     .number()
+    .int({ message: "Start year must be a whole number" })
     .min(2015, { message: "Start year must be at least 2015" })
     .max(2099, { message: "Start year cannot exceed 2099" }),
-  lifeTimeYears: z.coerce.number().min(1, { message: "Lifetime must be at least 1 year" }),
+  lifeTimeYears: z.coerce
+    .number()
+    .int({ message: "Lifetime must be a whole number" })
+    .min(1, { message: "Lifetime must be at least 1 year" }),
   yearOfStudy: z.coerce
     .number()
+    .int({ message: "Year of study must be a whole number" })
     .min(2015, { message: "Year of study must be at least 2015" })
     .max(2099, { message: "Year of study cannot exceed 2099" }),
 });
