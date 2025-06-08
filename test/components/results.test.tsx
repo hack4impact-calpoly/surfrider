@@ -41,7 +41,7 @@ describe("Results", () => {
     render(<Results inputs={MOCK_CALCULATE_INPUT} results={MOCK_RESULTS} />);
 
     expect(screen.getByText("Your Impact")).toBeInTheDocument();
-    expect(screen.getByText("Societal Impact")).toBeInTheDocument();
+    expect(screen.getByText("Equivalent Emissions")).toBeInTheDocument();
     expect(screen.getByText("Consumer Impact")).toBeInTheDocument();
     expect(screen.getByText(/Shared Socioeconomic Pathways/)).toBeInTheDocument();
   });

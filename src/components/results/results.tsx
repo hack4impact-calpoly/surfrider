@@ -31,7 +31,7 @@ export const Results = (props: ResultsProps) => {
       <h2 className="font-semibold px-4 text-[40px] leading-[48px] tracking-[-1.2] text-slate-900">Your Impact</h2>
 
       <div className="w-full space-y-8 max-w-[1600px]">
-        <ImpactField title="Societal Impact">
+        <ImpactField title="Equivalent Emissions">
           <SocietalImpactFields results={results} />
         </ImpactField>
 
@@ -41,6 +41,10 @@ export const Results = (props: ResultsProps) => {
 
         <ImpactField title="Shared Socioeconomic Pathways Fields">
           <SspFields inputs={inputs} />
+        </ImpactField>
+
+        <ImpactField title="Emissions Equivalencies">
+          <SocietalImpactFields results={results} />
         </ImpactField>
       </div>
 
